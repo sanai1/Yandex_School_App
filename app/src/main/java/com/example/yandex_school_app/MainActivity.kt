@@ -30,8 +30,15 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.runtime.*
+import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +48,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Yandex_School_AppTheme {
-                MainScreen()
+                val showSplash = remember { mutableStateOf(true) }
+                if (showSplash.value) {
+                    SplashScreen {
+                        showSplash.value = false
+                    }
+                } else {
+                    MainScreen()
+                }
             }
         }
     }
@@ -141,5 +155,37 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 4 -> SettingsScreen(modifier)
             }
         }
+    }
+}
+
+@Composable
+fun SplashScreen(onEnd: () -> Unit) {
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.splash_animation)
+    )
+
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = 1,
+        isPlaying = true,
+        speed = 1f,
+        restartOnPlay = false
+    )
+
+    LaunchedEffect(progress) {
+        if (progress >= 0.99f) {
+            onEnd()
+        }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }

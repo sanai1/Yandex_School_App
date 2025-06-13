@@ -43,7 +43,7 @@ fun ListItem(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = modifier
-                        .size(20.dp)
+                        .size(30.dp)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surface)
                 ) {
