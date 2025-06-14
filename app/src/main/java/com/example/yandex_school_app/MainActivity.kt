@@ -12,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.yandex_school_app.category.presentation.CategoryScreen
@@ -35,6 +34,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.*
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -44,7 +48,6 @@ import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         enableEdgeToEdge()
         setContent {
             Yandex_School_AppTheme {
@@ -54,40 +57,54 @@ class MainActivity : ComponentActivity() {
                         showSplash.value = false
                     }
                 } else {
-                    MainScreen()
+                    App()
                 }
             }
         }
     }
 }
 
+val items = mapOf(
+    "expense" to NavigationCustomItem.Expense(),
+    "income" to NavigationCustomItem.Income(),
+    "cash_account" to NavigationCustomItem.CashAccount(),
+    "category" to NavigationCustomItem.Category(),
+    "settings" to NavigationCustomItem.Settings()
+)
+
+@Composable
+fun App() {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "expense"
+    ) {
+        composable("expense") {
+            MainScreen(navController, items["expense"]!!)
+        }
+        composable("income") {
+            MainScreen(navController, items["income"]!!)
+        }
+        composable("cash_account") {
+            MainScreen(navController, items["cash_account"]!!)
+        }
+        composable("category") {
+            MainScreen(navController, items["category"]!!)
+        }
+        composable("settings") {
+            MainScreen(navController, items["settings"]!!)
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
-    val items = listOf(
-        NavigationItemCustom(
-            title = "Расходы",
-            icon = painterResource(R.drawable.expense_selected),
-        ),
-        NavigationItemCustom(
-            title = "Доходы",
-            icon = painterResource(R.drawable.income_selected),
-        ),
-        NavigationItemCustom(
-            title = "Счет",
-            icon = painterResource(R.drawable.cash_account_selected),
-        ),
-        NavigationItemCustom(
-            title = "Статьи",
-            icon = painterResource(R.drawable.articles_selected),
-        ),
-        NavigationItemCustom(
-            title = "Настройки",
-            icon = painterResource(R.drawable.settings_selected),
-        )
-    )
-    var selectedItem = remember { mutableIntStateOf(0) }
+fun MainScreen(
+    navController: NavController,
+    selectedItem: NavigationCustomItem,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -95,13 +112,12 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 title = {
                     Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         Text(
-                            when (selectedItem.intValue) {
-                                0 -> "Расходы сегодня"
-                                1 -> "Доходы сегодня"
-                                2 -> "Мой счет"
-                                3 -> "Мои статьи"
-                                4 -> "Настройки"
-                                else -> ""
+                            when (selectedItem) {
+                                is NavigationCustomItem.Expense -> "Расходы сегодня"
+                                is NavigationCustomItem.Income -> "Доходы сегодня"
+                                is NavigationCustomItem.CashAccount -> "Мой счет"
+                                is NavigationCustomItem.Category -> "Мои статьи"
+                                is NavigationCustomItem.Settings -> "Настройки"
                             }
                         )
                     }
@@ -110,32 +126,38 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
                 actions = {
-                    when (selectedItem.intValue) {
-                        0, 1 -> IconButton(onClick = {}) {
+                    when (selectedItem) {
+                        is NavigationCustomItem.Expense, is NavigationCustomItem.Income -> IconButton(
+                            onClick = {}) {
                             Icon(Icons.Default.Refresh, contentDescription = "")
                         }
 
-                        2 -> IconButton(onClick = {}) {
+                        is NavigationCustomItem.CashAccount -> IconButton(onClick = {}) {
                             Icon(Icons.Default.Create, contentDescription = "")
                         }
+
+                        else -> {}
                     }
                 },
             )
         },
         bottomBar = {
             NavigationBar {
-                items.forEachIndexed { index, item ->
+                items.forEach { element ->
+                    val item = element.value
                     NavigationBarItem(
                         icon = {
                             Icon(
-                                item.icon,
-                                contentDescription = item.title,
-                                tint = if (selectedItem.intValue == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+                                painter = painterResource(item.icon),
+                                contentDescription = stringResource(item.title),
+                                tint = if (selectedItem == item) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
                             )
                         },
-                        label = { Text(item.title) },
-                        selected = selectedItem.intValue == index,
-                        onClick = { selectedItem.intValue = index },
+                        label = { Text(stringResource(item.title)) },
+                        selected = selectedItem == item,
+                        onClick = {
+                            navController.navigate(element.key)
+                        },
                         alwaysShowLabel = true
                     )
                 }
@@ -147,12 +169,28 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            when (selectedItem.intValue) {
-                0 -> ExpenseScreen(listTransactionDomain = Mok.transactionExpense, modifier)
-                1 -> IncomeScreen(listTransactionDomain = Mok.transactionIncome, modifier)
-                2 -> CashAccountScreen(accountDomain = Mok.account, modifier)
-                3 -> CategoryScreen(listCategory = Mok.categories, modifier)
-                4 -> SettingsScreen(modifier)
+            when (selectedItem) {
+                is NavigationCustomItem.Expense -> ExpenseScreen(
+                    listTransactionDomain = Mok.transactionExpense,
+                    modifier
+                )
+
+                is NavigationCustomItem.Income -> IncomeScreen(
+                    listTransactionDomain = Mok.transactionIncome,
+                    modifier
+                )
+
+                is NavigationCustomItem.CashAccount -> CashAccountScreen(
+                    accountDomain = Mok.account,
+                    modifier
+                )
+
+                is NavigationCustomItem.Category -> CategoryScreen(
+                    listCategory = Mok.categories,
+                    modifier
+                )
+
+                is NavigationCustomItem.Settings -> SettingsScreen(modifier)
             }
         }
     }

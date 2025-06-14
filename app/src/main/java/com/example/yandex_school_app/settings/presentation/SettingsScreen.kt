@@ -28,7 +28,7 @@ fun SettingsScreen(modifier: Modifier) {
                     title = it,
                     description = null,
                     info = null,
-                    typeListItem = TypeListItem.ARROW
+                    typeListItem = if (it == "Тёмная тема") TypeListItem.SWITCH else TypeListItem.ARROW
                 ),
                 modifier = modifier,
             )
