@@ -10,7 +10,17 @@ sealed class NavigationCustomItem(
         icon = R.drawable.expense_selected
     )
 
+    class HistoryExpense : NavigationCustomItem(
+        title = R.string.menu_expense,
+        icon = R.drawable.expense_selected
+    )
+
     class Income : NavigationCustomItem(
+        title = R.string.menu_income,
+        icon = R.drawable.income_selected
+    )
+
+    class HistoryIncome : NavigationCustomItem(
         title = R.string.menu_income,
         icon = R.drawable.income_selected
     )
@@ -32,9 +42,14 @@ sealed class NavigationCustomItem(
 }
 
 val items = mapOf(
-    "expense" to NavigationCustomItem.Expense(),
-    "income" to NavigationCustomItem.Income(),
-    "cash_account" to NavigationCustomItem.CashAccount(),
-    "category" to NavigationCustomItem.Category(),
-    "settings" to NavigationCustomItem.Settings()
+    ScreenName.EXPENSE to NavigationCustomItem.Expense(),
+    ScreenName.INCOME to NavigationCustomItem.Income(),
+    ScreenName.CASH_ACCOUNT to NavigationCustomItem.CashAccount(),
+    ScreenName.CATEGORIES to NavigationCustomItem.Category(),
+    ScreenName.SETTINGS to NavigationCustomItem.Settings()
+)
+
+val secondaryItems = mapOf(
+    ScreenName.HISTORY_EXPENSE to NavigationCustomItem.HistoryExpense(),
+    ScreenName.HISTORY_INCOME to NavigationCustomItem.HistoryIncome()
 )

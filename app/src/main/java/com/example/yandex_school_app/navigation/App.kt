@@ -11,22 +11,28 @@ fun App() {
 
     NavHost(
         navController = navController,
-        startDestination = "expense"
+        startDestination = ScreenName.EXPENSE
     ) {
-        composable("expense") {
-            MainScreen(navController, items["expense"]!!)
+        composable(ScreenName.EXPENSE) {
+            MainScreen(navController, items[ScreenName.EXPENSE]!!)
         }
-        composable("income") {
-            MainScreen(navController, items["income"]!!)
+        composable(ScreenName.INCOME) {
+            MainScreen(navController, items[ScreenName.INCOME]!!)
         }
-        composable("cash_account") {
-            MainScreen(navController, items["cash_account"]!!)
+        composable(ScreenName.CASH_ACCOUNT) {
+            MainScreen(navController, items[ScreenName.CASH_ACCOUNT]!!)
         }
-        composable("category") {
-            MainScreen(navController, items["category"]!!)
+        composable(ScreenName.CATEGORIES) {
+            MainScreen(navController, items[ScreenName.CATEGORIES]!!)
         }
-        composable("settings") {
-            MainScreen(navController, items["settings"]!!)
+        composable(ScreenName.SETTINGS) {
+            MainScreen(navController, items[ScreenName.SETTINGS]!!)
+        }
+        composable(ScreenName.HISTORY_EXPENSE) {
+            MainScreen(navController, secondaryItems[ScreenName.HISTORY_EXPENSE]!!)
+        }
+        composable(ScreenName.HISTORY_INCOME) {
+            MainScreen(navController, secondaryItems[ScreenName.HISTORY_INCOME]!!)
         }
     }
 }
