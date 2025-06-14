@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.income.presentation
+package com.example.yandex_school_app.features.income.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

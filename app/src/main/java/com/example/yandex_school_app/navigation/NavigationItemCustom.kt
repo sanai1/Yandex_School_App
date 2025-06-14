@@ -1,4 +1,6 @@
-package com.example.yandex_school_app
+package com.example.yandex_school_app.navigation
+
+import com.example.yandex_school_app.R
 
 sealed class NavigationCustomItem(
     val title: Int, val icon: Int
@@ -28,3 +30,11 @@ sealed class NavigationCustomItem(
         icon = R.drawable.settings_selected
     )
 }
+
+val items = mapOf(
+    "expense" to NavigationCustomItem.Expense(),
+    "income" to NavigationCustomItem.Income(),
+    "cash_account" to NavigationCustomItem.CashAccount(),
+    "category" to NavigationCustomItem.Category(),
+    "settings" to NavigationCustomItem.Settings()
+)

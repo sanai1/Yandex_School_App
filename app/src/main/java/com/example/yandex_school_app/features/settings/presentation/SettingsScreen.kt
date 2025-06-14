@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.settings.presentation
+package com.example.yandex_school_app.features.settings.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
