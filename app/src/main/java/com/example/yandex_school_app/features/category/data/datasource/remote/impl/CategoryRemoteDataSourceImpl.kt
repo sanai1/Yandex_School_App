@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CategoryRemoteDataSourceImpl @Inject constructor(
     private val categoryMapper: CategoryMapper
 ) : CategoryRemoteDataSource {
-    override fun getCategories(): ResponseTemplate<List<CategoryDomain>> {
+    override suspend fun getCategories(): ResponseTemplate<List<CategoryDomain>> {
         val response = CategoryApiClient.categoryApiService.getCategories().execute()
         return when (response.code()) {
             200, 201, 204 -> ResponseTemplate(

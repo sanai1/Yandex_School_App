@@ -6,5 +6,5 @@ import javax.inject.Inject
 class CategoryUseCase @Inject constructor(
     private val categoriesRepository: CategoryRepository
 ) {
-    fun getCategories() = categoriesRepository.getCategories()
+    suspend fun getCategories() = categoriesRepository.getCategories()
 }

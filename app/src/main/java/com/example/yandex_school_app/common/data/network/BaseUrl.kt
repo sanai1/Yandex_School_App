@@ -6,7 +6,7 @@ object BaseUrl {
 
     init {
         BASE_URL = "https://shmr-finance.ru/api/v1/"
-        API_TOKEN = token
+        API_TOKEN = "Bearer $token"
     }
 
     fun getUrl() = BASE_URL!!

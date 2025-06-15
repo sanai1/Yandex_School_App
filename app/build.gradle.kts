@@ -55,9 +55,10 @@ dependencies {
     implementation(libs.airbnb.android.lottie.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.google.dagger.core)
-    implementation(libs.google.dagger.compiler)
+    ksp(libs.google.dagger.compiler)
     implementation(libs.squareup.retrofit2)
     implementation(libs.squareup.retrofit2.gson)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
