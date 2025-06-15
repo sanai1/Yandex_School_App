@@ -1,7 +1,7 @@
 package com.example.yandex_school_app
 
 import com.example.yandex_school_app.features.cash_account.domain.AccountDomain
-import com.example.yandex_school_app.features.category.domain.CategoryDomain
+import com.example.yandex_school_app.features.category.domain.entity.CategoryDomain
 import com.example.yandex_school_app.common.domain.TransactionDomain
 
 object Mok {

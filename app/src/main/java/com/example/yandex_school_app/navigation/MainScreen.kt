@@ -62,9 +62,9 @@ fun MainScreen(
 
                 is NavigationCustomItem.Settings -> SettingsScreen(modifier)
 
-                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(navController)
+                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(modifier)
 
-                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(navController)
+                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(modifier)
             }
         }
     }
