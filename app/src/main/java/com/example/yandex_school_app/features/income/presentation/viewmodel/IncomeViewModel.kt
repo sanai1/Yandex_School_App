@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.expense.presentation.viewmodel
+package com.example.yandex_school_app.features.income.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ExpenseViewModel @Inject constructor(
+class IncomeViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val accountManager: AccountManager
 ) : ViewModel() {
-    private val _expensesToday = MutableStateFlow<List<TransactionDomain>>(emptyList())
-    val expensesToday: StateFlow<List<TransactionDomain>> = _expensesToday.asStateFlow()
+    private val _incomeToday = MutableStateFlow<List<TransactionDomain>>(emptyList())
+    val incomeToday: StateFlow<List<TransactionDomain>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch {
         val response = withContext(Dispatchers.IO) {
@@ -28,15 +28,15 @@ class ExpenseViewModel @Inject constructor(
             )
         }
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _expensesToday.value =
-                response.body!!.filter { it.categoryDomain.isIncome.not() }
+            ResponseTemplate.TypeResponse.SUCCESS -> _incomeToday.value =
+                response.body!!.filter { it.categoryDomain.isIncome }
 
             else -> {}
         }
     }
 
-    private val _expensesByPeriod = MutableStateFlow<List<TransactionDomain>>(emptyList())
-    val expensesByPeriod: StateFlow<List<TransactionDomain>> = _expensesByPeriod.asStateFlow()
+    private val _incomeByPeriod = MutableStateFlow<List<TransactionDomain>>(emptyList())
+    val incomeByPeriod: StateFlow<List<TransactionDomain>> = _incomeByPeriod.asStateFlow()
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch {
         val response = withContext(Dispatchers.IO) {
@@ -46,8 +46,8 @@ class ExpenseViewModel @Inject constructor(
             )
         }
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _expensesByPeriod.value =
-                response.body!!.filter { it.categoryDomain.isIncome.not() }
+            ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value =
+                response.body!!.filter { it.categoryDomain.isIncome }
 
             else -> {}
         }

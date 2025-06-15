@@ -13,8 +13,8 @@ import com.example.yandex_school_app.features.cash_account.presentation.CashAcco
 import com.example.yandex_school_app.features.category.presentation.CategoryScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.ExpenseScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.HistoryExpenseScreen
-import com.example.yandex_school_app.features.income.presentation.HistoryIncomeScreen
-import com.example.yandex_school_app.features.income.presentation.IncomeScreen
+import com.example.yandex_school_app.features.income.presentation.ui.HistoryIncomeScreen
+import com.example.yandex_school_app.features.income.presentation.ui.IncomeScreen
 import com.example.yandex_school_app.features.settings.presentation.SettingsScreen
 
 
@@ -40,15 +40,9 @@ fun MainScreen(
                 .padding(innerPadding)
         ) {
             when (selectedItem) {
-                is NavigationCustomItem.Expense -> ExpenseScreen(
-                    listTransactionDomain = Mok.transactionExpense,
-                    modifier
-                )
+                is NavigationCustomItem.Expense -> ExpenseScreen(modifier)
 
-                is NavigationCustomItem.Income -> IncomeScreen(
-                    listTransactionDomain = Mok.transactionIncome,
-                    modifier
-                )
+                is NavigationCustomItem.Income -> IncomeScreen(modifier)
 
                 is NavigationCustomItem.CashAccount -> CashAccountScreen(
                     accountDomain = Mok.account,
