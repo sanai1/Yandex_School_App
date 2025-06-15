@@ -44,10 +44,7 @@ fun MainScreen(
 
                 is NavigationCustomItem.Income -> IncomeScreen(modifier)
 
-                is NavigationCustomItem.CashAccount -> CashAccountScreen(
-                    accountDomain = Mok.account,
-                    modifier
-                )
+                is NavigationCustomItem.CashAccount -> CashAccountScreen(modifier)
 
                 is NavigationCustomItem.Category -> CategoryScreen(modifier)
 
