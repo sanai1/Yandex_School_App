@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.data
+package com.example.yandex_school_app.features.cash_account.data.network.model
 
 /**
  * Данная модель необходима для построения графика -> маппер для нее буду делать когда будет ясна структура графика

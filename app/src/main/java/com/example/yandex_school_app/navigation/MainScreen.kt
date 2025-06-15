@@ -11,8 +11,8 @@ import androidx.navigation.NavController
 import com.example.yandex_school_app.Mok
 import com.example.yandex_school_app.features.cash_account.presentation.CashAccountScreen
 import com.example.yandex_school_app.features.category.presentation.CategoryScreen
-import com.example.yandex_school_app.features.expense.presentation.ExpenseScreen
-import com.example.yandex_school_app.features.expense.presentation.HistoryExpenseScreen
+import com.example.yandex_school_app.features.expense.presentation.ui.ExpenseScreen
+import com.example.yandex_school_app.features.expense.presentation.ui.HistoryExpenseScreen
 import com.example.yandex_school_app.features.income.presentation.HistoryIncomeScreen
 import com.example.yandex_school_app.features.income.presentation.IncomeScreen
 import com.example.yandex_school_app.features.settings.presentation.SettingsScreen
@@ -55,10 +55,7 @@ fun MainScreen(
                     modifier
                 )
 
-                is NavigationCustomItem.Category -> CategoryScreen(
-                    listCategory = Mok.categories,
-                    modifier
-                )
+                is NavigationCustomItem.Category -> CategoryScreen(modifier)
 
                 is NavigationCustomItem.Settings -> SettingsScreen(modifier)
 

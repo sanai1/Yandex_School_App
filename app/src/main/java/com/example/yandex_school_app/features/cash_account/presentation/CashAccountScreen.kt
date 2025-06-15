@@ -10,8 +10,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.yandex_school_app.R
-import com.example.yandex_school_app.features.cash_account.domain.AccountDomain
-import com.example.yandex_school_app.common.domain.ListItemModelUI
+import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
 

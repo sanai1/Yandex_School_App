@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.data
+package com.example.yandex_school_app.features.cash_account.data.network.model
 
 data class AccountNetwork(
     val id: Long,

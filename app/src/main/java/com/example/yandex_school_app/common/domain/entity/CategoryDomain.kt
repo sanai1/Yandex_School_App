@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.category.domain.entity
+package com.example.yandex_school_app.common.domain.entity
 
 data class CategoryDomain(
     val name: String,

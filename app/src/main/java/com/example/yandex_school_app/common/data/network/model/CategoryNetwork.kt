@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.common.data
+package com.example.yandex_school_app.common.data.network.model
 
 data class CategoryNetwork(
     val id: Long,

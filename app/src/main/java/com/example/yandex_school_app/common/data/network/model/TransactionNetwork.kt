@@ -1,8 +1,8 @@
-package com.example.yandex_school_app.common.data
+package com.example.yandex_school_app.common.data.network.model
 
 data class TransactionNetwork(
     val id: Long,
-    val account: String,
+    val account: Account,
     val category: CategoryNetwork,
     val amount: String,
     val transactionDate: String,

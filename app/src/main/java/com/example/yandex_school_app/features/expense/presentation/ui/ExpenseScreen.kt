@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.expense.presentation
+package com.example.yandex_school_app.features.expense.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -7,13 +7,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.yandex_school_app.common.domain.ListItemModelUI
-import com.example.yandex_school_app.common.domain.TransactionDomain
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.yandex_school_app.MainActivity
+import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
+import com.example.yandex_school_app.common.domain.entity.TransactionDomain
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
+import com.example.yandex_school_app.features.expense.presentation.viewmodel.ExpenseViewModel
 
 @Composable
-fun ExpenseScreen(listTransactionDomain: List<TransactionDomain>, modifier: Modifier) {
+fun ExpenseScreen(
+    listTransactionDomain: List<TransactionDomain>,
+    modifier: Modifier,
+    viewModel: ExpenseViewModel = viewModel(
+        factory = (LocalContext.current as MainActivity).viewModelFactory
+    )
+) {
+    viewModel.updateToday()
     val transactions = remember { mutableStateOf(listTransactionDomain) }
     Column {
         ListItem(

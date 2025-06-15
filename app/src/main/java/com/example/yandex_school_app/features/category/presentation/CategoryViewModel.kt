@@ -3,7 +3,7 @@ package com.example.yandex_school_app.features.category.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandex_school_app.common.data.network.ResponseTemplate
-import com.example.yandex_school_app.features.category.domain.entity.CategoryDomain
+import com.example.yandex_school_app.common.domain.entity.CategoryDomain
 import com.example.yandex_school_app.features.category.domain.usecase.CategoryUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

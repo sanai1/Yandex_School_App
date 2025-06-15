@@ -22,14 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
-import com.example.yandex_school_app.features.category.domain.entity.CategoryDomain
-import com.example.yandex_school_app.common.domain.ListItemModelUI
+import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
 
 @Composable
 fun CategoryScreen(
-    listCategory: List<CategoryDomain>,
     modifier: Modifier,
     viewModel: CategoryViewModel = viewModel(
         factory = (LocalContext.current as MainActivity).viewModelFactory

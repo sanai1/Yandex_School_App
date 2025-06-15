@@ -1,11 +1,11 @@
-package com.example.yandex_school_app.features.expense.presentation
+package com.example.yandex_school_app.features.expense.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.yandex_school_app.common.domain.ListItemModelUI
+import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
 

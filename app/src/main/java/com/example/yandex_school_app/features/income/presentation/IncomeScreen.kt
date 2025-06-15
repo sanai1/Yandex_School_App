@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.yandex_school_app.common.domain.ListItemModelUI
-import com.example.yandex_school_app.common.domain.TransactionDomain
+import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
+import com.example.yandex_school_app.common.domain.entity.TransactionDomain
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
 

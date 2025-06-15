@@ -1,8 +1,8 @@
 package com.example.yandex_school_app
 
-import com.example.yandex_school_app.features.cash_account.domain.AccountDomain
-import com.example.yandex_school_app.features.category.domain.entity.CategoryDomain
-import com.example.yandex_school_app.common.domain.TransactionDomain
+import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.yandex_school_app.common.domain.entity.CategoryDomain
+import com.example.yandex_school_app.common.domain.entity.TransactionDomain
 
 object Mok {
     val categories = listOf(
@@ -40,6 +40,7 @@ object Mok {
         )
     )
     val account = AccountDomain(
+        id = 0,
         balance = "-670 000 ₽",
         currency = "₽"
     )

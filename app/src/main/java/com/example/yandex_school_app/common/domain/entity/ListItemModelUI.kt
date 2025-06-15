@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.common.domain
+package com.example.yandex_school_app.common.domain.entity
 
 import com.example.yandex_school_app.common.presentation.TypeListItem
 
