@@ -32,4 +32,20 @@ class ExpenseViewModel @Inject constructor(
             else -> {}
         }
     }
+
+    private val _expensesByPeriod = MutableStateFlow<List<TransactionDomain>>(emptyList())
+    val expensesByPeriod: StateFlow<List<TransactionDomain>> = _expensesByPeriod.asStateFlow()
+
+    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch {
+        val response = withContext(Dispatchers.IO) {
+            transactionUseCase.getTransactionsByPeriod(
+                accountManager.getAccounts().firstOrNull()?.id ?: 209,
+                startDate, endDate
+            )
+        }
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> _expensesByPeriod.value = response.body!!
+            else -> {}
+        }
+    }
 }

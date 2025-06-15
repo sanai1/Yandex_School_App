@@ -5,38 +5,46 @@ import com.example.yandex_school_app.common.domain.entity.CategoryDomain
 import com.example.yandex_school_app.common.domain.entity.TransactionDomain
 
 object Mok {
-    val categories = listOf(
-        CategoryDomain(
-            name = "Аренда квартиры",
-            emoji = "\uD83C\uDFE1"
+    val transactions = listOf(
+        TransactionDomain(
+            categoryDomain = CategoryDomain(
+                name = "Ремонт квартиры",
+                emoji = "РК"
+            ),
+            comment = "Ремонт - фурнитура для дверей",
+            amount = "100 000 P"
         ),
-        CategoryDomain(
-            name = "Одежда",
-            emoji = "\uD83D\uDC57"
+        TransactionDomain(
+            categoryDomain = CategoryDomain(
+                name = "На собачку",
+                emoji = "\uD83D\uDC36"
+            ),
+            comment = null,
+            amount = "100 000 P"
         ),
-        CategoryDomain(
-            name = "На собачку",
-            emoji = "\uD83D\uDC36"
+        TransactionDomain(
+            categoryDomain = CategoryDomain(
+                name = "На собачку",
+                emoji = "\uD83D\uDC36"
+            ),
+            comment = null,
+            amount = "100 000 P"
         ),
-        CategoryDomain(
-            name = "На собачку",
-            emoji = "\uD83D\uDC36"
+        TransactionDomain(
+            categoryDomain = CategoryDomain(
+                name = "На собачку",
+                emoji = "\uD83D\uDC36"
+            ),
+            comment = null,
+            amount = "100 000 P"
         ),
-        CategoryDomain(
-            name = "Ремонт квартиры",
-            emoji = "РК"
-        ),
-        CategoryDomain(
-            name = "Продукты",
-            emoji = "\uD83C\uDF6D"
-        ),
-        CategoryDomain(
-            name = "Спортзал",
-            emoji = "\uD83C\uDFCB\uFE0F\u200D♂\uFE0F"
-        ),
-        CategoryDomain(
-            name = "Медицина",
-            emoji = "\uD83D\uDC8A"
+        TransactionDomain(
+            categoryDomain = CategoryDomain(
+                name = "На собачку",
+                emoji = "\uD83D\uDC36"
+            ),
+            comment = null,
+            amount = "100 000 P"
         )
     )
     val account = AccountDomain(

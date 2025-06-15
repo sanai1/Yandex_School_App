@@ -13,24 +13,37 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListItem(
     itemModelUI: ListItemModelUI,
     modifier: Modifier,
+    onClickDate: ((String) -> Unit)? = null
 ) {
     Column {
         Row(
@@ -69,7 +82,42 @@ fun ListItem(
             }
             Spacer(modifier = modifier.weight(1f))
             itemModelUI.info?.let {
-                Text(it)
+                val info = remember { mutableStateOf(it) }
+                val showDatePicker = remember { mutableStateOf(false) }
+                TextButton(onClick = {
+                    onClickDate?.run { showDatePicker.value = true }
+                }) {
+                    Text(info.value, color = MaterialTheme.colorScheme.onSurface)
+                }
+                if (showDatePicker.value) {
+                    val datePickerState = rememberDatePickerState()
+                    val dateFormatter = remember {
+                        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                    }
+                    DatePickerDialog(
+                        onDismissRequest = { showDatePicker.value = false },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    datePickerState.selectedDateMillis?.let { millis ->
+                                        info.value = dateFormatter.format(Date(millis))
+                                        onClickDate?.invoke(info.value)
+                                    }
+                                    showDatePicker.value = false
+                                }
+                            ) {
+                                Text("ОК")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showDatePicker.value = false }) {
+                                Text("Отмена")
+                            }
+                        }
+                    ) {
+                        DatePicker(state = datePickerState)
+                    }
+                }
             }
             when (itemModelUI.typeListItem) {
                 TypeListItem.ARROW -> Icon(

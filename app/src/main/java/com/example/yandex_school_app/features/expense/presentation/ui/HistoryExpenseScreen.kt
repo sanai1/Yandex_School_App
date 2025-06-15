@@ -4,44 +4,71 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
-import com.example.yandex_school_app.common.presentation.ListItem
-import com.example.yandex_school_app.common.presentation.TypeListItem
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.yandex_school_app.MainActivity
+import com.example.yandex_school_app.Mok
+import com.example.yandex_school_app.common.presentation.history.AmountItem
+import com.example.yandex_school_app.common.presentation.history.EndDateItem
+import com.example.yandex_school_app.common.presentation.history.ListTransaction
+import com.example.yandex_school_app.common.presentation.history.StartDateItem
+import com.example.yandex_school_app.features.expense.presentation.viewmodel.ExpenseViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 @Composable
-fun HistoryExpenseScreen(modifier: Modifier = Modifier) {
+fun HistoryExpenseScreen(
+    modifier: Modifier = Modifier, viewModel: ExpenseViewModel = viewModel(
+        factory = (LocalContext.current as MainActivity).viewModelFactory
+    )
+) {
     Column {
-        ListItem(
-            itemModelUI = ListItemModelUI(
-                picture = null,
-                title = "Начало",
-                description = null,
-                info = "Февраль 2025",
-                typeListItem = TypeListItem.USUAL
-            ),
+        val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val startDate = remember {
+            mutableStateOf(dateFormatter.format(Calendar.getInstance().let {
+                it.set(
+                    Calendar.DAY_OF_MONTH, 1
+                )
+                it
+            }.time))
+        }
+        val endDate = remember { mutableStateOf("сегодня") }
+        fun updateList() {
+            viewModel.updateByPeriod(
+                startDate.value,
+                if (endDate.value == "сегодня") dateFormatter.format(Date()) else endDate.value
+            )
+        }
+        StartDateItem(
+            startDate.value,
+            modifier = modifier.background(MaterialTheme.colorScheme.surface)
+        ) { newStartDate ->
+            startDate.value = newStartDate
+            updateList()
+        }
+        EndDateItem(
+            endDate.value,
+            modifier = modifier.background(MaterialTheme.colorScheme.surface)
+        ) { newEndDate ->
+            endDate.value = newEndDate
+            updateList()
+        }
+        val transactions = viewModel.expensesByPeriod.collectAsState()
+        updateList()
+        AmountItem(
+            amount = "${
+                transactions.value.sumOf {
+                    it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
+                }.toString().reversed().chunked(3).joinToString(" ").reversed()
+            } ₽",
             modifier = modifier.background(MaterialTheme.colorScheme.surface)
         )
-        ListItem(
-            itemModelUI = ListItemModelUI(
-                picture = null,
-                title = "Конец",
-                description = null,
-                info = "23:41",
-                typeListItem = TypeListItem.USUAL
-            ),
-            modifier = modifier.background(MaterialTheme.colorScheme.surface)
-        )
-        ListItem(
-            itemModelUI = ListItemModelUI(
-                picture = null,
-                title = "Сумма",
-                description = null,
-                info = "125 686 P",
-                typeListItem = TypeListItem.USUAL
-            ),
-            modifier = modifier.background(MaterialTheme.colorScheme.surface)
-        )
+        ListTransaction(Mok.transactions, modifier) // TODO: убрать моковые данные
     }
-
 }
