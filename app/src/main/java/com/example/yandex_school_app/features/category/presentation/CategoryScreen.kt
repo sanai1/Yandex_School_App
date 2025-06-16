@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
@@ -33,7 +33,7 @@ fun CategoryScreen(
         factory = (LocalContext.current as MainActivity).viewModelFactory
     )
 ) {
-    val categories = viewModel.categories.collectAsState()
+    val categories = viewModel.categories.collectAsStateWithLifecycle()
     viewModel.updateCategory()
     Column {
         Row(

@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.R
@@ -23,7 +23,7 @@ fun CashAccountScreen(
         factory = (LocalContext.current as MainActivity).viewModelFactory
     )
 ) {
-    val account = viewModel.allAccount.collectAsState()
+    val account = viewModel.allAccount.collectAsStateWithLifecycle()
     viewModel.updateAllAccount()
     Column {
         ListItem(

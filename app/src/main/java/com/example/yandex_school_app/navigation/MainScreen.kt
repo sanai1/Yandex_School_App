@@ -12,6 +12,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -36,10 +38,11 @@ fun MainScreen(
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier
 ) {
+    val isAddAccountClicked = remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBarCustom(navController, selectedItem)
+            TopBarCustom(navController, selectedItem, isAddAccountClicked = isAddAccountClicked)
         },
         floatingActionButton = {
             when (selectedItem) {
@@ -91,7 +94,13 @@ fun MainScreen(
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(modifier)
 
-                is NavigationCustomItem.CrateAccount -> CreateCashAccount(modifier)
+                is NavigationCustomItem.CrateAccount -> CreateCashAccount(
+                    navController,
+                    modifier,
+                    isAddAccountClicked = isAddAccountClicked,
+                    callback = {
+                        isAddAccountClicked.value = false
+                    })
             }
         }
     }

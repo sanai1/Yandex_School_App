@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Done
@@ -19,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -34,7 +33,8 @@ import com.example.yandex_school_app.R
 fun TopBarCustom(
     navController: NavController,
     selectedItem: NavigationCustomItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isAddAccountClicked: MutableState<Boolean>
 ) {
     @Composable
     fun TextOnTopBar(text: String, modifier: Modifier = Modifier) {
@@ -127,7 +127,9 @@ fun TopBarCustom(
                     is NavigationCustomItem.CrateAccount -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Создание счета", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        IconButtonOnTopBar(Icons.Default.Done) {
+                            isAddAccountClicked.value = true
+                        }
                         Spacer(modifier = modifier.width(15.dp))
                     }
                 }

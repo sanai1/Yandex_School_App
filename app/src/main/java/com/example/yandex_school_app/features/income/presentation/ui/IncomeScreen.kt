@@ -4,9 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
@@ -20,7 +20,7 @@ fun IncomeScreen(
         factory = (LocalContext.current as MainActivity).viewModelFactory
     )
 ) {
-    val transactions = viewModel.incomeToday.collectAsState()
+    val transactions = viewModel.incomeToday.collectAsStateWithLifecycle()
     viewModel.updateToday()
     Column {
         ListItem(
