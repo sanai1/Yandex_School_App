@@ -15,6 +15,11 @@ sealed class NavigationCustomItem(
         icon = R.drawable.expense_selected
     )
 
+    class DetailsExpense : NavigationCustomItem(
+        title = R.string.menu_expense,
+        icon = R.drawable.expense_selected
+    )
+
     class Income : NavigationCustomItem(
         title = R.string.menu_income,
         icon = R.drawable.income_selected
@@ -25,7 +30,17 @@ sealed class NavigationCustomItem(
         icon = R.drawable.income_selected
     )
 
+    class DetailsIncome : NavigationCustomItem(
+        title = R.string.menu_income,
+        icon = R.drawable.income_selected
+    )
+
     class CashAccount : NavigationCustomItem(
+        title = R.string.menu_cash_account,
+        icon = R.drawable.cash_account_selected
+    )
+
+    class DetailsAccount : NavigationCustomItem(
         title = R.string.menu_cash_account,
         icon = R.drawable.cash_account_selected
     )
@@ -51,5 +66,8 @@ val items = mapOf(
 
 val secondaryItems = mapOf(
     ScreenName.HISTORY_EXPENSE to NavigationCustomItem.HistoryExpense(),
-    ScreenName.HISTORY_INCOME to NavigationCustomItem.HistoryIncome()
+    ScreenName.HISTORY_INCOME to NavigationCustomItem.HistoryIncome(),
+    ScreenName.DETAILS_EXPENSE to NavigationCustomItem.DetailsExpense(),
+    ScreenName.DETAILS_INCOME to NavigationCustomItem.DetailsIncome(),
+    ScreenName.DETAILS_ACCOUNT to NavigationCustomItem.DetailsAccount()
 )

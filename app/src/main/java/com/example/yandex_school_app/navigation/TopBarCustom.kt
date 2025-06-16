@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -95,6 +97,24 @@ fun TopBarCustom(
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.analitics) { }
+                    }
+
+                    is NavigationCustomItem.DetailsExpense -> {
+                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        TextOnTopBar("Мои расходы", modifier.weight(1f))
+                        IconButtonOnTopBar(Icons.Default.Check) { }
+                    }
+
+                    is NavigationCustomItem.DetailsIncome -> {
+                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        TextOnTopBar("Мои доходы", modifier.weight(1f))
+                        IconButtonOnTopBar(Icons.Default.Check) { }
+                    }
+
+                    is NavigationCustomItem.DetailsAccount -> {
+                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        TextOnTopBar("Мой счет", modifier.weight(1f))
+                        IconButtonOnTopBar(Icons.Default.Check) { }
                     }
                 }
             }

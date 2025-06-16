@@ -8,4 +8,7 @@ object ScreenName {
     const val SETTINGS = "settings"
     const val HISTORY_EXPENSE = "history_expense"
     const val HISTORY_INCOME = "history_income"
+    const val DETAILS_EXPENSE = "details_expense"
+    const val DETAILS_INCOME = "details_income"
+    const val DETAILS_ACCOUNT = "details_account"
 }

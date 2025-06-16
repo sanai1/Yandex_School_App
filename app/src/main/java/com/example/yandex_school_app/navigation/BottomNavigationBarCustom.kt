@@ -26,6 +26,9 @@ fun BottomNavigationBarCustom(navController: NavController, selectedItem: Naviga
                             when (selectedItem) {
                                 secondaryItems[ScreenName.HISTORY_EXPENSE] -> if (item == items[ScreenName.EXPENSE]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
                                 secondaryItems[ScreenName.HISTORY_INCOME] -> if (item == items[ScreenName.INCOME]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+                                secondaryItems[ScreenName.DETAILS_EXPENSE] -> if (item == items[ScreenName.EXPENSE]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+                                secondaryItems[ScreenName.DETAILS_INCOME] -> if (item == items[ScreenName.INCOME]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+                                secondaryItems[ScreenName.DETAILS_ACCOUNT] -> if (item == items[ScreenName.CASH_ACCOUNT]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
                                 else -> MaterialTheme.colorScheme.secondary
                             }
                         },
@@ -36,6 +39,9 @@ fun BottomNavigationBarCustom(navController: NavController, selectedItem: Naviga
                     when (selectedItem) {
                         secondaryItems[ScreenName.HISTORY_EXPENSE] -> item == items[ScreenName.EXPENSE]
                         secondaryItems[ScreenName.HISTORY_INCOME] -> item == items[ScreenName.INCOME]
+                        secondaryItems[ScreenName.DETAILS_EXPENSE] -> item == items[ScreenName.EXPENSE]
+                        secondaryItems[ScreenName.DETAILS_INCOME] -> item == items[ScreenName.INCOME]
+                        secondaryItems[ScreenName.DETAILS_ACCOUNT] -> item == items[ScreenName.CASH_ACCOUNT]
                         else -> false
                     }
                 },

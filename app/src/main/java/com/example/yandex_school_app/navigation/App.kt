@@ -35,6 +35,15 @@ fun App() {
         composable(ScreenName.HISTORY_INCOME) {
             MainScreen(navController, secondaryItems[ScreenName.HISTORY_INCOME]!!)
         }
+        composable(ScreenName.DETAILS_EXPENSE) {
+            MainScreen(navController, secondaryItems[ScreenName.DETAILS_EXPENSE]!!)
+        }
+        composable(ScreenName.DETAILS_INCOME) {
+            MainScreen(navController, secondaryItems[ScreenName.DETAILS_INCOME]!!)
+        }
+        composable(ScreenName.DETAILS_ACCOUNT) {
+            MainScreen(navController, secondaryItems[ScreenName.DETAILS_ACCOUNT]!!)
+        }
     }
     ToastMessage()
 }

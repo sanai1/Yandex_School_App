@@ -66,7 +66,8 @@ object Mok {
     val account = AccountDomain(
         id = 0,
         balance = "-670 000 ₽",
-        currency = "₽"
+        currency = "₽",
+        name = "Баланс"
     )
     val transactionExpense = listOf(
         TransactionDomain(

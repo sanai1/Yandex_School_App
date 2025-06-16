@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation
+package com.example.yandex_school_app.features.cash_account.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,6 +15,7 @@ import com.example.yandex_school_app.R
 import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
 import com.example.yandex_school_app.common.presentation.ListItem
 import com.example.yandex_school_app.common.presentation.TypeListItem
+import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
 
 @Composable
 fun CashAccountScreen(
@@ -28,8 +29,7 @@ fun CashAccountScreen(
         ListItem(
             itemModelUI = ListItemModelUI(
                 picture = "\uD83D\uDCB0",
-                title = "Баланс",
-                description = null,
+                title = account.value.getOrNull(0)?.name ?: "Баланс",
                 info = "${
                     account.value.getOrNull(0)?.balance ?: "0"
                 } ₽",
@@ -39,9 +39,7 @@ fun CashAccountScreen(
         )
         ListItem(
             itemModelUI = ListItemModelUI(
-                picture = null,
                 title = "Валюта",
-                description = null,
                 info = account.value.getOrNull(0)?.currency,
                 typeListItem = TypeListItem.ARROW
             ),
