@@ -12,13 +12,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.Mok
+import com.example.yandex_school_app.common.presentation.ToastController
 import com.example.yandex_school_app.common.presentation.history.AmountItem
 import com.example.yandex_school_app.common.presentation.history.EndDateItem
 import com.example.yandex_school_app.common.presentation.history.ListTransaction
 import com.example.yandex_school_app.common.presentation.history.StartDateItem
 import com.example.yandex_school_app.features.expense.presentation.viewmodel.ExpenseViewModel
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -31,33 +33,39 @@ fun HistoryExpenseScreen(
     Column {
         val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val startDate = remember {
-            mutableStateOf(dateFormatter.format(Calendar.getInstance().let {
-                it.set(
-                    Calendar.DAY_OF_MONTH, 1
-                )
-                it
-            }.time))
+            mutableStateOf(LocalDate.now().withDayOfMonth(1))
         }
-        val endDate = remember { mutableStateOf("сегодня") }
+        val endDate = remember { mutableStateOf(LocalDate.now()) }
         fun updateList() {
             viewModel.updateByPeriod(
-                startDate.value,
-                if (endDate.value == "сегодня") dateFormatter.format(Date()) else endDate.value
+                startDate.value.toString().split("-").reversed().joinToString("."),
+                if (endDate.value == LocalDate.now()) dateFormatter.format(Date()) else endDate.value.toString()
+                    .split("-").reversed().joinToString(".")
             )
         }
         StartDateItem(
             startDate.value,
             modifier = modifier.background(MaterialTheme.colorScheme.surface)
         ) { newStartDate ->
-            startDate.value = newStartDate
-            updateList()
+            val newDate = LocalDate.parse(newStartDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            if (newDate.isBefore(endDate.value) || newDate == endDate.value) {
+                startDate.value = newDate
+                updateList()
+            } else {
+                ToastController.showToast("Начало периода должно быть до его конца")
+            }
         }
         EndDateItem(
             endDate.value,
             modifier = modifier.background(MaterialTheme.colorScheme.surface)
         ) { newEndDate ->
-            endDate.value = newEndDate
-            updateList()
+            val newDate = LocalDate.parse(newEndDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            if (newDate.isAfter(startDate.value) || newDate == startDate.value) {
+                endDate.value = newDate
+                updateList()
+            } else {
+                ToastController.showToast("Конец периода должен быть после начала")
+            }
         }
         val transactions = viewModel.expensesByPeriod.collectAsState()
         updateList()

@@ -82,12 +82,11 @@ fun ListItem(
             }
             Spacer(modifier = modifier.weight(1f))
             itemModelUI.info?.let {
-                val info = remember { mutableStateOf(it) }
                 val showDatePicker = remember { mutableStateOf(false) }
                 TextButton(onClick = {
                     onClickDate?.run { showDatePicker.value = true }
                 }) {
-                    Text(info.value, color = MaterialTheme.colorScheme.onSurface)
+                    Text(it, color = MaterialTheme.colorScheme.onSurface)
                 }
                 if (showDatePicker.value) {
                     val datePickerState = rememberDatePickerState()
@@ -100,8 +99,7 @@ fun ListItem(
                             TextButton(
                                 onClick = {
                                     datePickerState.selectedDateMillis?.let { millis ->
-                                        info.value = dateFormatter.format(Date(millis))
-                                        onClickDate?.invoke(info.value)
+                                        onClickDate?.invoke(dateFormatter.format(Date(millis)))
                                     }
                                     showDatePicker.value = false
                                 }
