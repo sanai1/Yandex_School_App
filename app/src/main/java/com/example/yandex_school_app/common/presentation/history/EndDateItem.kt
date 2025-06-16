@@ -12,7 +12,8 @@ fun EndDateItem(endDate: LocalDate, modifier: Modifier, updateDate: (String) -> 
     ListItem(
         itemModelUI = ListItemModelUI(
             title = "Конец",
-            info = endDate.toString().split("-").reversed().joinToString("."),
+            info = if (endDate == LocalDate.now()) "сегодня" else endDate.toString().split("-")
+                .reversed().joinToString("."),
             typeListItem = TypeListItem.USUAL
         ),
         modifier = modifier,

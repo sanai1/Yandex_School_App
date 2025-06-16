@@ -48,6 +48,7 @@ class ExpenseViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _expensesByPeriod.value =
                 response.body!!.filter { it.categoryDomain.isIncome.not() }
+                    .sortedByDescending { it.transactionDate }
 
             else -> {}
         }

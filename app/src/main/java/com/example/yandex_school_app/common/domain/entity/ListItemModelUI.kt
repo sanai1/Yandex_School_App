@@ -7,5 +7,6 @@ data class ListItemModelUI(
     val title: String,
     val description: String? = null,
     val info: String? = null,
+    val infoDescription: String? = null,
     val typeListItem: TypeListItem,
 )

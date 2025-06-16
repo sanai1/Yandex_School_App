@@ -3,6 +3,7 @@ package com.example.yandex_school_app
 import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
 import com.example.yandex_school_app.common.domain.entity.CategoryDomain
 import com.example.yandex_school_app.common.domain.entity.TransactionDomain
+import java.time.LocalDateTime
 
 object Mok {
     val transactions = listOf(
@@ -13,7 +14,9 @@ object Mok {
                 isIncome = false
             ),
             comment = "Ремонт - фурнитура для дверей",
-            amount = "100 000 P"
+            amount = "100 000 P",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -22,7 +25,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P"
+            amount = "100 000 P",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -31,7 +36,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P"
+            amount = "100 000 P",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -40,7 +47,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P"
+            amount = "100 000 P",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -49,33 +58,15 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P"
+            amount = "100 000 P",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         )
     )
     val account = AccountDomain(
         id = 0,
         balance = "-670 000 ₽",
         currency = "₽"
-    )
-    val transactionIncome = listOf(
-        TransactionDomain(
-            categoryDomain = CategoryDomain(
-                name = "Зарплата",
-                emoji = null,
-                isIncome = true
-            ),
-            comment = null,
-            amount = "500 000 ₽"
-        ),
-        TransactionDomain(
-            categoryDomain = CategoryDomain(
-                name = "Подработка",
-                emoji = null,
-                isIncome = true
-            ),
-            comment = null,
-            amount = "100 000 ₽"
-        )
     )
     val transactionExpense = listOf(
         TransactionDomain(
@@ -85,7 +76,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -94,7 +87,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -103,7 +98,9 @@ object Mok {
                 isIncome = false
             ),
             comment = "Джек",
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -112,7 +109,9 @@ object Mok {
                 isIncome = false
             ),
             comment = "Энни",
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -121,7 +120,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -130,7 +131,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -139,7 +142,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         ),
         TransactionDomain(
             categoryDomain = CategoryDomain(
@@ -148,7 +153,9 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽"
+            amount = "100 000 ₽",
+            id = 0,
+            transactionDate = LocalDateTime.now()
         )
     )
 }

@@ -22,6 +22,9 @@ fun ListTransaction(transactions: List<TransactionDomain>, modifier: Modifier) {
                     title = item.categoryDomain.name,
                     description = item.comment,
                     info = item.amount,
+                    infoDescription = item.transactionDate.let {
+                        "${it.hour.let { if (it in 0..9) "0$it" else it }}:${it.minute.let { if (it in 0..9) "0$it" else it }}"
+                    },
                     typeListItem = TypeListItem.ARROW
                 ),
                 modifier = modifier

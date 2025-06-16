@@ -50,7 +50,7 @@ fun ListItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(65.dp)
                 .padding(horizontal = 15.dp)
         ) {
             itemModelUI.picture?.let {
@@ -81,40 +81,18 @@ fun ListItem(
                 }
             }
             Spacer(modifier = modifier.weight(1f))
-            itemModelUI.info?.let {
-                val showDatePicker = remember { mutableStateOf(false) }
-                TextButton(onClick = {
-                    onClickDate?.run { showDatePicker.value = true }
-                }) {
-                    Text(it, color = MaterialTheme.colorScheme.onSurface)
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                itemModelUI.info?.let {
+                    if (onClickDate == null) {
+                        Text(it)
+                    } else {
+                        TextButtonDate(it, onClickDate)
+                    }
                 }
-                if (showDatePicker.value) {
-                    val datePickerState = rememberDatePickerState()
-                    val dateFormatter = remember {
-                        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                    }
-                    DatePickerDialog(
-                        onDismissRequest = { showDatePicker.value = false },
-                        confirmButton = {
-                            TextButton(
-                                onClick = {
-                                    datePickerState.selectedDateMillis?.let { millis ->
-                                        onClickDate?.invoke(dateFormatter.format(Date(millis)))
-                                    }
-                                    showDatePicker.value = false
-                                }
-                            ) {
-                                Text("ОК")
-                            }
-                        },
-                        dismissButton = {
-                            TextButton(onClick = { showDatePicker.value = false }) {
-                                Text("Отмена")
-                            }
-                        }
-                    ) {
-                        DatePicker(state = datePickerState)
-                    }
+                itemModelUI.infoDescription?.let {
+                    Text(it)
                 }
             }
             when (itemModelUI.typeListItem) {
@@ -138,5 +116,44 @@ fun ListItem(
                 .height(1.dp)
                 .background(Color.Gray)
         ) {}
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
+    val showDatePicker = remember { mutableStateOf(false) }
+    TextButton(onClick = {
+        onClickDate?.run { showDatePicker.value = true }
+    }) {
+        Text(info, color = MaterialTheme.colorScheme.onSurface)
+    }
+    if (showDatePicker.value) {
+        val datePickerState = rememberDatePickerState()
+        val dateFormatter = remember {
+            SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        }
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker.value = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            onClickDate?.invoke(dateFormatter.format(Date(millis)))
+                        }
+                        showDatePicker.value = false
+                    }
+                ) {
+                    Text("ОК")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker.value = false }) {
+                    Text("Отмена")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
     }
 }

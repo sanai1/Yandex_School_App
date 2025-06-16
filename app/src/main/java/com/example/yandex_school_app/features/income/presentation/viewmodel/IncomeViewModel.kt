@@ -48,6 +48,7 @@ class IncomeViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value =
                 response.body!!.filter { it.categoryDomain.isIncome }
+                    .sortedByDescending { it.transactionDate }
 
             else -> {}
         }

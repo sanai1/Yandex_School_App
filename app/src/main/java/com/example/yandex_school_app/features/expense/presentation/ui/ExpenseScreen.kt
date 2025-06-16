@@ -24,7 +24,8 @@ fun ExpenseScreen(
     )
 ) {
     viewModel.updateToday()
-    val transactions = remember { mutableStateOf(Mok.transactions) } // TODO: убрать моковые данные
+    val transactions =
+        remember { mutableStateOf(Mok.transactionExpense) } // TODO: убрать моковые данные
     Column {
         ListItem(
             itemModelUI = ListItemModelUI(

@@ -24,7 +24,9 @@ class CategoryViewModel @Inject constructor(
             categoryUseCase.getCategories()
         }
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _categories.value = response.body!!
+            ResponseTemplate.TypeResponse.SUCCESS -> _categories.value =
+                response.body!!.sortedBy { it.name }
+
             else -> {}
         }
     }
