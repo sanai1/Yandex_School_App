@@ -1,6 +1,6 @@
-package com.example.yandex_school_app.features.cash_account.data.network.model
+package com.example.yandex_school_app.features.cash_account.data.network.model.response
 
-data class AccountNetwork(
+data class AccountResponseNetwork(
     val id: Long,
     val userId: Long,
     val name: String,

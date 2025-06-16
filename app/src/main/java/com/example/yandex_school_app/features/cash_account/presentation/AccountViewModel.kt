@@ -34,4 +34,14 @@ class AccountViewModel @Inject constructor(
             else -> {}
         }
     }
+
+    fun createCashAccount(accountDomain: AccountDomain) = viewModelScope.launch {
+        val response = withContext(Dispatchers.IO) {
+            accountUseCase.createCashAccount(accountDomain)
+        }
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> updateAllAccount()
+            else -> {}
+        }
+    }
 }
