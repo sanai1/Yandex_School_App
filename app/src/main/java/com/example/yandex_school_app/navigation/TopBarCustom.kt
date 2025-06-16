@@ -8,7 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -91,30 +93,42 @@ fun TopBarCustom(
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.analitics) { }
+                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.HistoryIncome -> {
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.analitics) { }
+                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsExpense -> {
-                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои расходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Check) { }
+                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsIncome -> {
-                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои доходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Check) { }
+                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsAccount -> {
-                        IconButtonOnTopBar(Icons.Default.Clear) { navController.popBackStack() }
+                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мой счет", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Check) { }
+                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        Spacer(modifier = modifier.width(15.dp))
+                    }
+
+                    is NavigationCustomItem.CrateAccount -> {
+                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
+                        TextOnTopBar("Создание счета", modifier.weight(1f))
+                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        Spacer(modifier = modifier.width(15.dp))
                     }
                 }
             }

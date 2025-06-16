@@ -44,6 +44,9 @@ fun App() {
         composable(ScreenName.DETAILS_ACCOUNT) {
             MainScreen(navController, secondaryItems[ScreenName.DETAILS_ACCOUNT]!!)
         }
+        composable(ScreenName.CREATE_ACCOUNT) {
+            MainScreen(navController, secondaryItems[ScreenName.CREATE_ACCOUNT]!!)
+        }
     }
     ToastMessage()
 }

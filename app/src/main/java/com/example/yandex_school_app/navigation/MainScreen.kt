@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.yandex_school_app.features.cash_account.presentation.ui.CashAccountScreen
+import com.example.yandex_school_app.features.cash_account.presentation.ui.CreateCashAccount
 import com.example.yandex_school_app.features.cash_account.presentation.ui.DetailsCashAccountScreen
 import com.example.yandex_school_app.features.category.presentation.CategoryScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.DetailsExpenseScreen
@@ -47,7 +48,7 @@ fun MainScreen(
                         when (selectedItem) {
                             is NavigationCustomItem.Expense -> navController.navigate(ScreenName.DETAILS_EXPENSE)
                             is NavigationCustomItem.Income -> navController.navigate(ScreenName.DETAILS_INCOME)
-                            is NavigationCustomItem.CashAccount -> navController.navigate(ScreenName.DETAILS_ACCOUNT)
+                            is NavigationCustomItem.CashAccount -> navController.navigate(ScreenName.CREATE_ACCOUNT)
                             else -> {}
                         }
                     },
@@ -89,6 +90,8 @@ fun MainScreen(
                 is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(modifier)
+
+                is NavigationCustomItem.CrateAccount -> CreateCashAccount(modifier)
             }
         }
     }

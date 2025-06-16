@@ -45,6 +45,11 @@ sealed class NavigationCustomItem(
         icon = R.drawable.cash_account_selected
     )
 
+    class CrateAccount: NavigationCustomItem(
+        title = R.string.menu_cash_account,
+        icon = R.drawable.cash_account_selected
+    )
+
     class Category : NavigationCustomItem(
         title = R.string.menu_category,
         icon = R.drawable.articles_selected
@@ -69,5 +74,6 @@ val secondaryItems = mapOf(
     ScreenName.HISTORY_INCOME to NavigationCustomItem.HistoryIncome(),
     ScreenName.DETAILS_EXPENSE to NavigationCustomItem.DetailsExpense(),
     ScreenName.DETAILS_INCOME to NavigationCustomItem.DetailsIncome(),
-    ScreenName.DETAILS_ACCOUNT to NavigationCustomItem.DetailsAccount()
+    ScreenName.DETAILS_ACCOUNT to NavigationCustomItem.DetailsAccount(),
+    ScreenName.CREATE_ACCOUNT to NavigationCustomItem.CrateAccount()
 )
