@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandex_school_app.common.data.network.ResponseTemplate
 import com.example.yandex_school_app.common.domain.entity.CategoryDomain
+import com.example.yandex_school_app.common.presentation.ToastController
 import com.example.yandex_school_app.features.category.domain.usecase.CategoryUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,9 @@ class CategoryViewModel @Inject constructor(
             ResponseTemplate.TypeResponse.SUCCESS -> _categories.value =
                 response.body!!.sortedBy { it.name }
 
-            else -> {}
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.yandex_school_app.common.data.network.ResponseTemplate
 import com.example.yandex_school_app.common.domain.entity.TransactionDomain
 import com.example.yandex_school_app.common.domain.usecase.TransactionUseCase
+import com.example.yandex_school_app.common.presentation.ToastController
 import com.example.yandex_school_app.di.AccountManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +32,10 @@ class ExpenseViewModel @Inject constructor(
             ResponseTemplate.TypeResponse.SUCCESS -> _expensesToday.value =
                 response.body!!.filter { it.categoryDomain.isIncome.not() }
 
-            else -> {}
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Неверный формат дат или ID счета")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
 
@@ -50,7 +54,10 @@ class ExpenseViewModel @Inject constructor(
                 response.body!!.filter { it.categoryDomain.isIncome.not() }
                     .sortedByDescending { it.transactionDate }
 
-            else -> {}
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Неверный формат дат или ID счета")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
 }

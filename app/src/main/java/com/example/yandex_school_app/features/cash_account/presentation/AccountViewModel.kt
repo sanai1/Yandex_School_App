@@ -3,6 +3,7 @@ package com.example.yandex_school_app.features.cash_account.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yandex_school_app.common.data.network.ResponseTemplate
+import com.example.yandex_school_app.common.presentation.ToastController
 import com.example.yandex_school_app.di.AccountManager
 import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
 import com.example.yandex_school_app.features.cash_account.domain.usecase.AccountUseCase
@@ -31,7 +32,9 @@ class AccountViewModel @Inject constructor(
                 accountManager.setAccounts(response.body)
             }
 
-            else -> {}
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
 
@@ -41,7 +44,10 @@ class AccountViewModel @Inject constructor(
         }
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> updateAllAccount()
-            else -> {}
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Некорректные данные были отправлены на сервер")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
 }
