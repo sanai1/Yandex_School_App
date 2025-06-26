@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.navigation
+package com.example.yandex_school_app
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +29,10 @@ import com.example.yandex_school_app.features.income.presentation.ui.DetailsInco
 import com.example.yandex_school_app.features.income.presentation.ui.HistoryIncomeScreen
 import com.example.yandex_school_app.features.income.presentation.ui.IncomeScreen
 import com.example.yandex_school_app.features.settings.presentation.SettingsScreen
+import com.example.yandex_school_app.navigation.BottomNavigationBarCustom
+import com.example.yandex_school_app.navigation.NavigationCustomItem
+import com.example.yandex_school_app.navigation.ScreenName
+import com.example.yandex_school_app.navigation.TopBarCustom
 
 
 @OptIn(ExperimentalMaterial3Api::class)
