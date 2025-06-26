@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Yandex_School_App</string>
+    <string name="menu_expense">Расходы</string>
+    <string name="menu_income">Доходы</string>
+    <string name="menu_cash_account">Счет</string>
+    <string name="menu_category">Статьи</string>
+    <string name="menu_settings">Настройки</string>
 </resources>

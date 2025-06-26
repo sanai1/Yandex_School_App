@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.1"
-kotlin = "2.0.21"
+kotlin = "2.0.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -8,7 +8,13 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
+
 lottie = "6.3.0"
+navigation = "2.7.7"
+dagger = "2.51.1"
+ksp = "2.0.0-1.0.21"
+retrofit = "2.9.0"
+viewmodel = "2.8.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,10 +31,18 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 airbnb-android-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+google-dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+squareup-retrofit2-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodel" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
