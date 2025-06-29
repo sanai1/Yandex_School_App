@@ -93,6 +93,8 @@ fun HistoryIncomeScreen(
             )
         }
 
-        is VisibleData.Error -> ErrorVisible((transactions.value as VisibleData.Error<List<TransactionDomain>>).type)
+        is VisibleData.Error -> (transactions.value as VisibleData.Error<List<TransactionDomain>>).let {
+            ErrorVisible(it.type, it.message)
+        }
     }
 }
