@@ -5,13 +5,20 @@ import com.example.common.domain.entity.AccountDomain
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.cash_account.data.mapper.AccountMapper
 import com.example.cash_account.data.network.client.AccountApiClient
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AccountRemoteDataSourceImpl @Inject constructor(
     private val accountMapper: AccountMapper
 ) : AccountRemoteDataSource {
     override suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>> {
-        val response = AccountApiClient.accountApiService.getAllCashAccount().execute()
+        var response = networkAllCashAccount()
+        repeat(3) {
+            if (response.code() == 500) {
+                delay(2000)
+                response = networkAllCashAccount()
+            } else return@repeat
+        }
         return when (response.code()) {
             200, 201, 204 -> ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
@@ -36,9 +43,13 @@ class AccountRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun createAccount(accountDomain: AccountDomain): ResponseTemplate<AccountDomain> {
-        val response = AccountApiClient.accountApiService.createAccount(
-            account = accountMapper.toAccountRequest(accountDomain)
-        ).execute()
+        var response = networkCreateAccount(accountDomain)
+        repeat(3) {
+            if (response.code() == 500) {
+                delay(2000)
+                response = networkCreateAccount(accountDomain)
+            } else return@repeat
+        }
         return when (response.code()) {
             201 -> ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
@@ -66,4 +77,12 @@ class AccountRemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    private fun networkAllCashAccount() =
+        AccountApiClient.accountApiService.getAllCashAccount().execute()
+
+    private fun networkCreateAccount(accountDomain: AccountDomain) =
+        AccountApiClient.accountApiService.createAccount(
+            account = accountMapper.toAccountRequest(accountDomain)
+        ).execute()
 }

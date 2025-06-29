@@ -5,6 +5,7 @@ import com.example.common.data.mapper.TransactionMapper
 import com.example.common.data.network.ResponseTemplate
 import com.example.common.data.network.client.TransactionApiClient
 import com.example.common.domain.entity.TransactionDomain
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class TransactionRemoteDataSourceImpl @Inject constructor(
@@ -15,11 +16,13 @@ class TransactionRemoteDataSourceImpl @Inject constructor(
         startDate: String,
         finishDate: String
     ): ResponseTemplate<List<TransactionDomain>> {
-        val response = TransactionApiClient.transactionApiService.getTransactionsByPeriod(
-            accountId = accountId,
-            startDate = startDate,
-            endDate = finishDate
-        ).execute()
+        var response = networkTransactionsByPeriod(accountId, startDate, finishDate)
+        repeat(3) {
+            if (response.code() == 500) {
+                delay(2000)
+                response = networkTransactionsByPeriod(accountId, startDate, finishDate)
+            } else return@repeat
+        }
         return when (response.code()) {
             200, 201, 204 -> ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
@@ -52,4 +55,14 @@ class TransactionRemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    private fun networkTransactionsByPeriod(
+        accountId: Int,
+        startDate: String,
+        finishDate: String
+    ) = TransactionApiClient.transactionApiService.getTransactionsByPeriod(
+        accountId = accountId,
+        startDate = startDate,
+        endDate = finishDate
+    ).execute()
 }

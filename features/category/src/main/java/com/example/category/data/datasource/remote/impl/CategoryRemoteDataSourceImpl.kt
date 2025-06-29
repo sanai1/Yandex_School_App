@@ -5,13 +5,20 @@ import com.example.common.data.network.ResponseTemplate
 import com.example.category.data.datasource.remote.CategoryRemoteDataSource
 import com.example.category.data.network.CategoryApiClient
 import com.example.common.domain.entity.CategoryDomain
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class CategoryRemoteDataSourceImpl @Inject constructor(
     private val categoryMapper: CategoryMapper
 ) : CategoryRemoteDataSource {
     override suspend fun getCategories(): ResponseTemplate<List<CategoryDomain>> {
-        val response = CategoryApiClient.categoryApiService.getCategories().execute()
+        var response = networkCategories()
+        repeat(3) {
+            if (response.code() == 500) {
+                delay(2000)
+                response = networkCategories()
+            } else return@repeat
+        }
         return when (response.code()) {
             200, 201, 204 -> ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
@@ -44,4 +51,6 @@ class CategoryRemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    private fun networkCategories() = CategoryApiClient.categoryApiService.getCategories().execute()
 }
