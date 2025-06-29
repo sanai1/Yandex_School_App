@@ -39,27 +39,27 @@ fun CategoryScreen(
 ) {
     val categories = viewModel.categories.collectAsStateWithLifecycle()
     viewModel.updateCategory()
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .background(Color.LightGray)
-                .padding(horizontal = 20.dp, vertical = 15.dp)
-        ) {
-            Text(
-                "Найти статью", style = TextStyle(
-                    fontSize = 17.sp
+    when (categories.value) {
+        is VisibleData.Loading -> LoadingVisible(modifier)
+        is VisibleData.Success -> Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .background(Color.LightGray)
+                    .padding(horizontal = 20.dp, vertical = 15.dp)
+            ) {
+                Text(
+                    "Найти статью", style = TextStyle(
+                        fontSize = 17.sp
+                    )
                 )
-            )
-            Spacer(modifier = modifier.weight(1f))
-            Icon(Icons.Default.Search, contentDescription = "")
-        }
-        Column(
-            modifier = modifier.verticalScroll(rememberScrollState())
-        ) {
-            when (categories.value) {
-                is VisibleData.Loading -> LoadingVisible(modifier)
-                is VisibleData.Success -> (categories.value as VisibleData.Success<List<CategoryDomain>>).data.forEach { item ->
+                Spacer(modifier = modifier.weight(1f))
+                Icon(Icons.Default.Search, contentDescription = "")
+            }
+            Column(
+                modifier = modifier.verticalScroll(rememberScrollState())
+            ) {
+                (categories.value as VisibleData.Success<List<CategoryDomain>>).data.forEach { item ->
                     ListItem(
                         itemModelUI = ListItemModelUI(
                             picture = item.emoji,
@@ -71,10 +71,9 @@ fun CategoryScreen(
                         modifier = modifier,
                     )
                 }
-
-                is VisibleData.Error -> ErrorVisible((categories.value as VisibleData.Error<List<CategoryDomain>>).type)
             }
-
         }
+
+        is VisibleData.Error -> ErrorVisible((categories.value as VisibleData.Error<List<CategoryDomain>>).type)
     }
 }
