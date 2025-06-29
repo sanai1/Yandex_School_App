@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.data.network.ResponseTemplate
 import com.example.common.domain.entity.TransactionDomain
 import com.example.common.domain.usecase.TransactionUseCase
-import com.example.common.presentation.toast.ToastController
 import com.example.common.manager.AccountManager
+import com.example.common.presentation.base_visible.VisibleData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +19,9 @@ class IncomeViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val accountManager: AccountManager
 ) : ViewModel() {
-    private val _incomeToday = MutableStateFlow<List<TransactionDomain>>(emptyList())
-    val incomeToday: StateFlow<List<TransactionDomain>> = _incomeToday.asStateFlow()
+    private val _incomeToday =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch {
         val response = withContext(Dispatchers.IO) {
@@ -30,17 +31,19 @@ class IncomeViewModel @Inject constructor(
         }
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _incomeToday.value =
-                response.body!!.filter { it.categoryDomain.isIncome }
+                VisibleData.Success(response.body!!.filter { it.categoryDomain.isIncome })
 
-            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Неверный формат дат или ID счета")
-            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
-            else -> ToastController.showToast("Неизвестная ошибка")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeToday.value =
+                VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
+
+            else -> _incomeToday.value = VisibleData.Error(response.typeResponse)
         }
     }
 
-    private val _incomeByPeriod = MutableStateFlow<List<TransactionDomain>>(emptyList())
-    val incomeByPeriod: StateFlow<List<TransactionDomain>> = _incomeByPeriod.asStateFlow()
+    private val _incomeByPeriod =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    val incomeByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
+        _incomeByPeriod.asStateFlow()
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch {
         val response = withContext(Dispatchers.IO) {
@@ -50,14 +53,14 @@ class IncomeViewModel @Inject constructor(
             )
         }
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value =
+            ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value = VisibleData.Success(
                 response.body!!.filter { it.categoryDomain.isIncome }
-                    .sortedByDescending { it.transactionDate }
+                    .sortedByDescending { it.transactionDate })
 
-            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Неверный формат дат или ID счета")
-            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
-            else -> ToastController.showToast("Неизвестная ошибка")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeByPeriod.value =
+                VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
+
+            else -> _incomeByPeriod.value = VisibleData.Error(response.typeResponse)
         }
     }
 }

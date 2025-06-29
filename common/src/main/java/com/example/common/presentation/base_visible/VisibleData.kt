@@ -9,6 +9,7 @@ sealed class VisibleData<T> {
     ) : VisibleData<T>()
 
     data class Error<T>(
-        val type: ResponseTemplate.TypeResponse
+        val type: ResponseTemplate.TypeResponse,
+        val message: String? = null
     ) : VisibleData<T>()
 }

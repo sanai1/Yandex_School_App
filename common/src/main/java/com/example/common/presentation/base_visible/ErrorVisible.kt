@@ -10,18 +10,23 @@ import com.example.common.data.network.ResponseTemplate
 
 @Composable
 fun ErrorVisible(
-    type: ResponseTemplate.TypeResponse
+    type: ResponseTemplate.TypeResponse,
+    message: String? = null
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        when (type) {
-            ResponseTemplate.TypeResponse.UNAUTHORIZED -> Text("Ошибка авторизации")
-            ResponseTemplate.TypeResponse.NOT_FOUND -> Text("Ошибка в данных")
-            ResponseTemplate.TypeResponse.ERROR_SERVER -> Text("Внутренняя ошибка сервера")
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> Text("Внутренняя ошибка приложения")
-            else -> Text("Неизвесная ошибка")
+        if (message != null) {
+            Text(message)
+        } else {
+            when (type) {
+                ResponseTemplate.TypeResponse.UNAUTHORIZED -> Text("Ошибка авторизации")
+                ResponseTemplate.TypeResponse.NOT_FOUND -> Text("Ошибка в данных")
+                ResponseTemplate.TypeResponse.ERROR_SERVER -> Text("Внутренняя ошибка сервера")
+                ResponseTemplate.TypeResponse.ERROR_CLIENT -> Text("Внутренняя ошибка приложения")
+                else -> Text("Неизвесная ошибка")
+            }
         }
     }
 }

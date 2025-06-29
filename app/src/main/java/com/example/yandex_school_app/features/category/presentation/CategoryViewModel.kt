@@ -24,7 +24,6 @@ class CategoryViewModel @Inject constructor(
     fun updateCategory() = viewModelScope.launch {
         val response = withContext(Dispatchers.IO) {
             categoryUseCase.getCategories()
-                .copy(typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER)
         }
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS ->
