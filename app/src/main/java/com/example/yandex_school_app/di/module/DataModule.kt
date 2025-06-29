@@ -2,11 +2,11 @@ package com.example.yandex_school_app.di.module
 
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.common.data.datasource.remote.impl.TransactionRemoteDataSourceImpl
-import com.example.yandex_school_app.di.ApplicationScope
+import com.example.common.di.ApplicationScope
 import com.example.yandex_school_app.features.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.yandex_school_app.features.cash_account.data.datasource.remote.impl.AccountRemoteDataSourceImpl
-import com.example.yandex_school_app.features.category.data.datasource.remote.CategoryRemoteDataSource
-import com.example.yandex_school_app.features.category.data.datasource.remote.impl.CategoryRemoteDataSourceImpl
+import com.example.category.data.datasource.remote.CategoryRemoteDataSource
+import com.example.category.data.datasource.remote.impl.CategoryRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
 

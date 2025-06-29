@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.data.network.ResponseTemplate
 import com.example.common.presentation.ToastController
-import com.example.yandex_school_app.di.AccountManager
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.common.manager.AccountManager
+import com.example.common.domain.entity.AccountDomain
 import com.example.yandex_school_app.features.cash_account.domain.usecase.AccountUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

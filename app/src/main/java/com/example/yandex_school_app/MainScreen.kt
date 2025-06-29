@@ -28,7 +28,7 @@ import com.example.yandex_school_app.features.expense.presentation.ui.HistoryExp
 import com.example.yandex_school_app.features.income.presentation.ui.DetailsIncomeScreen
 import com.example.yandex_school_app.features.income.presentation.ui.HistoryIncomeScreen
 import com.example.yandex_school_app.features.income.presentation.ui.IncomeScreen
-import com.example.yandex_school_app.features.settings.presentation.SettingsScreen
+import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
 import com.example.navigation.ScreenName

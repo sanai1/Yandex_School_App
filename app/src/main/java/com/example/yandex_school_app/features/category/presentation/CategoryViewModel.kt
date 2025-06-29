@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.data.network.ResponseTemplate
 import com.example.common.domain.entity.CategoryDomain
 import com.example.common.presentation.ToastController
-import com.example.yandex_school_app.features.category.domain.usecase.CategoryUseCase
+import com.example.category.domain.usecase.CategoryUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

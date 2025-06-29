@@ -2,7 +2,7 @@ package com.example.yandex_school_app.features.cash_account.data.repository
 
 import com.example.common.data.network.ResponseTemplate
 import com.example.yandex_school_app.features.cash_account.data.datasource.remote.AccountRemoteDataSource
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.common.domain.entity.AccountDomain
 import com.example.yandex_school_app.features.cash_account.domain.repository.AccountRepository
 import javax.inject.Inject
 

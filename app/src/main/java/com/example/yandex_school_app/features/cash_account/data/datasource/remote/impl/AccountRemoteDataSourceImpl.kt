@@ -4,7 +4,7 @@ import com.example.common.data.network.ResponseTemplate
 import com.example.yandex_school_app.features.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.yandex_school_app.features.cash_account.data.mapper.AccountMapper
 import com.example.yandex_school_app.features.cash_account.data.network.client.AccountApiClient
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.common.domain.entity.AccountDomain
 import javax.inject.Inject
 
 class AccountRemoteDataSourceImpl @Inject constructor(

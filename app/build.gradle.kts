@@ -44,6 +44,8 @@ android {
 dependencies {
     implementation(project(":navigation"))
     implementation(project(":common"))
+    implementation(project(":features:settings"))
+    implementation(project(":features:category"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

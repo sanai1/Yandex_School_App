@@ -2,7 +2,7 @@ package com.example.yandex_school_app.features.cash_account.data.mapper
 
 import com.example.yandex_school_app.features.cash_account.data.network.model.request.AccountRequestNetwork
 import com.example.yandex_school_app.features.cash_account.data.network.model.response.AccountResponseNetwork
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.common.domain.entity.AccountDomain
 import javax.inject.Inject
 
 class AccountMapper @Inject constructor() {

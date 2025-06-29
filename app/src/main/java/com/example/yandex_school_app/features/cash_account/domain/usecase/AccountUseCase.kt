@@ -1,6 +1,6 @@
 package com.example.yandex_school_app.features.cash_account.domain.usecase
 
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
+import com.example.common.domain.entity.AccountDomain
 import com.example.yandex_school_app.features.cash_account.domain.repository.AccountRepository
 import javax.inject.Inject
 
