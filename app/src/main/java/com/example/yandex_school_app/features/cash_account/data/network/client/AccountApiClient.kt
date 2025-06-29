@@ -1,6 +1,6 @@
 package com.example.yandex_school_app.features.cash_account.data.network.client
 
-import com.example.yandex_school_app.common.data.network.BaseUrl
+import com.example.common.data.network.BaseUrl
 import com.example.yandex_school_app.features.cash_account.data.network.service.AccountApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

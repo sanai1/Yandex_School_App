@@ -12,11 +12,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.Mok
-import com.example.yandex_school_app.common.presentation.ToastController
-import com.example.yandex_school_app.common.presentation.history.AmountItem
-import com.example.yandex_school_app.common.presentation.history.EndDateItem
-import com.example.yandex_school_app.common.presentation.history.ListTransaction
-import com.example.yandex_school_app.common.presentation.history.StartDateItem
+import com.example.common.presentation.ToastController
+import com.example.common.presentation.history.AmountItem
+import com.example.common.presentation.history.EndDateItem
+import com.example.common.presentation.history.ListTransaction
+import com.example.common.presentation.history.StartDateItem
 import com.example.yandex_school_app.features.expense.presentation.viewmodel.ExpenseViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate

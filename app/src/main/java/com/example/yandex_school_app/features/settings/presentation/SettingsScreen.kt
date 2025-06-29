@@ -3,9 +3,9 @@ package com.example.yandex_school_app.features.settings.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
-import com.example.yandex_school_app.common.presentation.ListItem
-import com.example.yandex_school_app.common.presentation.TypeListItem
+import com.example.common.domain.entity.ListItemModelUI
+import com.example.common.presentation.ListItem
+import com.example.common.presentation.TypeListItem
 
 
 @Composable

@@ -1,6 +1,6 @@
 package com.example.yandex_school_app.features.cash_account.data.network.service
 
-import com.example.yandex_school_app.common.data.network.BaseUrl
+import com.example.common.data.network.BaseUrl
 import com.example.yandex_school_app.features.cash_account.data.network.model.request.AccountRequestNetwork
 import com.example.yandex_school_app.features.cash_account.data.network.model.response.AccountResponseNetwork
 import retrofit2.Call

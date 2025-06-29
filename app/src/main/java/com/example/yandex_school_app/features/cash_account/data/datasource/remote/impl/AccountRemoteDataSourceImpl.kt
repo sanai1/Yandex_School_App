@@ -1,6 +1,6 @@
 package com.example.yandex_school_app.features.cash_account.data.datasource.remote.impl
 
-import com.example.yandex_school_app.common.data.network.ResponseTemplate
+import com.example.common.data.network.ResponseTemplate
 import com.example.yandex_school_app.features.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.yandex_school_app.features.cash_account.data.mapper.AccountMapper
 import com.example.yandex_school_app.features.cash_account.data.network.client.AccountApiClient

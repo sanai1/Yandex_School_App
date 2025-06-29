@@ -2,10 +2,10 @@ package com.example.yandex_school_app.features.expense.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandex_school_app.common.data.network.ResponseTemplate
-import com.example.yandex_school_app.common.domain.entity.TransactionDomain
-import com.example.yandex_school_app.common.domain.usecase.TransactionUseCase
-import com.example.yandex_school_app.common.presentation.ToastController
+import com.example.common.data.network.ResponseTemplate
+import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.usecase.TransactionUseCase
+import com.example.common.presentation.ToastController
 import com.example.yandex_school_app.di.AccountManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

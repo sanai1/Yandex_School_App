@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Yandex_School_App"
 include(":app")
 include(":navigation")
+include(":common")

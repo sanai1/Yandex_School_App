@@ -1,7 +1,7 @@
 package com.example.yandex_school_app.features.category.data.network
 
-import com.example.yandex_school_app.common.data.network.model.CategoryNetwork
-import com.example.yandex_school_app.common.data.network.BaseUrl
+import com.example.common.data.network.model.CategoryNetwork
+import com.example.common.data.network.BaseUrl
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

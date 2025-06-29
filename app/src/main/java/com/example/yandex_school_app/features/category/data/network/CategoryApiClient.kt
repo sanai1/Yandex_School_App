@@ -1,6 +1,6 @@
 package com.example.yandex_school_app.features.category.data.network
 
-import com.example.yandex_school_app.common.data.network.BaseUrl
+import com.example.common.data.network.BaseUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
