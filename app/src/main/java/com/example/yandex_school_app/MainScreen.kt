@@ -29,13 +29,12 @@ import com.example.yandex_school_app.features.income.presentation.ui.DetailsInco
 import com.example.yandex_school_app.features.income.presentation.ui.HistoryIncomeScreen
 import com.example.yandex_school_app.features.income.presentation.ui.IncomeScreen
 import com.example.yandex_school_app.features.settings.presentation.SettingsScreen
-import com.example.yandex_school_app.navigation.BottomNavigationBarCustom
-import com.example.yandex_school_app.navigation.NavigationCustomItem
-import com.example.yandex_school_app.navigation.ScreenName
-import com.example.yandex_school_app.navigation.TopBarCustom
+import com.example.navigation.BottomNavigationBarCustom
+import com.example.navigation.NavigationCustomItem
+import com.example.navigation.ScreenName
+import com.example.navigation.TopBarCustom
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,

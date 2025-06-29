@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.navigation
+package com.example.navigation
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.yandex_school_app.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)

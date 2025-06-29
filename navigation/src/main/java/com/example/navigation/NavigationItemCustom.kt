@@ -1,6 +1,4 @@
-package com.example.yandex_school_app.navigation
-
-import com.example.yandex_school_app.R
+package com.example.navigation
 
 sealed class NavigationCustomItem(
     val title: Int, val icon: Int

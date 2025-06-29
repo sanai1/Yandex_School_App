@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_expense">Расходы</string>
+    <string name="menu_income">Доходы</string>
+    <string name="menu_cash_account">Счет</string>
+    <string name="menu_category">Статьи</string>
+    <string name="menu_settings">Настройки</string>
+</resources>

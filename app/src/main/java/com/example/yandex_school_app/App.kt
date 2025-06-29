@@ -1,10 +1,12 @@
-package com.example.yandex_school_app.navigation
+package com.example.yandex_school_app
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.yandex_school_app.MainScreen
+import com.example.navigation.ScreenName
+import com.example.navigation.items
+import com.example.navigation.secondaryItems
 import com.example.yandex_school_app.common.presentation.ToastMessage
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.navigation
+package com.example.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

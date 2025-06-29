@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.navigation
+package com.example.navigation
 
 object ScreenName {
     const val EXPENSE = "expense"
