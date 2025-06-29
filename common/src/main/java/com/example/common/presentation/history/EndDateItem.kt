@@ -3,8 +3,8 @@ package com.example.common.presentation.history
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.presentation.ListItem
-import com.example.common.presentation.TypeListItem
+import com.example.common.presentation.list.ListItem
+import com.example.common.presentation.list.TypeListItem
 import java.time.LocalDate
 
 @Composable

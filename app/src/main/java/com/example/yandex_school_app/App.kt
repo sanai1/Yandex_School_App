@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.navigation.ScreenName
 import com.example.navigation.items
 import com.example.navigation.secondaryItems
-import com.example.common.presentation.ToastMessage
+import com.example.common.presentation.toast.ToastMessage
 
 @Composable
 fun App() {

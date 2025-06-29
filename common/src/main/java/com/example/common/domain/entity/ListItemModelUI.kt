@@ -1,6 +1,6 @@
 package com.example.common.domain.entity
 
-import com.example.common.presentation.TypeListItem
+import com.example.common.presentation.list.TypeListItem
 
 
 data class ListItemModelUI(

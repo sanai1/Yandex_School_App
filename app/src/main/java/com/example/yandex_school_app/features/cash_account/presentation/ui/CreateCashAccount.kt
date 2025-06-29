@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandex_school_app.MainActivity
-import com.example.common.presentation.ToastController
+import com.example.common.presentation.toast.ToastController
 import com.example.common.domain.entity.AccountDomain
 import com.example.cash_account.domain.entity.Currency
 import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel

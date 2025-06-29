@@ -13,8 +13,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.R
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.presentation.ListItem
-import com.example.common.presentation.TypeListItem
+import com.example.common.presentation.list.ListItem
+import com.example.common.presentation.list.TypeListItem
 import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
 
 @Composable

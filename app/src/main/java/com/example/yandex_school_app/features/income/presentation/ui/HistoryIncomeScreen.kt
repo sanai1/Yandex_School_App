@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
-import com.example.common.presentation.ToastController
+import com.example.common.presentation.toast.ToastController
 import com.example.common.presentation.history.AmountItem
 import com.example.common.presentation.history.EndDateItem
 import com.example.common.presentation.history.ListTransaction

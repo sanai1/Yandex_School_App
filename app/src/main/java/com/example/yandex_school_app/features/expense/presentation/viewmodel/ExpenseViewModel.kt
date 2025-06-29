@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.data.network.ResponseTemplate
 import com.example.common.domain.entity.TransactionDomain
 import com.example.common.domain.usecase.TransactionUseCase
-import com.example.common.presentation.ToastController
+import com.example.common.presentation.toast.ToastController
 import com.example.common.manager.AccountManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.example.common.presentation
+package com.example.common.presentation.toast
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures

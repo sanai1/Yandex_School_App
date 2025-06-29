@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.domain.entity.TransactionDomain
-import com.example.common.presentation.ListItem
-import com.example.common.presentation.TypeListItem
+import com.example.common.presentation.list.ListItem
+import com.example.common.presentation.list.TypeListItem
 
 @Composable
 fun ListTransaction(transactions: List<TransactionDomain>, modifier: Modifier) {
