@@ -1,8 +1,7 @@
 package com.example.yandex_school_app
 
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
-import com.example.yandex_school_app.common.domain.entity.CategoryDomain
-import com.example.yandex_school_app.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.CategoryDomain
+import com.example.common.domain.entity.TransactionDomain
 import java.time.LocalDateTime
 
 object Mok {
@@ -62,12 +61,6 @@ object Mok {
             id = 0,
             transactionDate = LocalDateTime.now()
         )
-    )
-    val account = AccountDomain(
-        id = 0,
-        balance = "-670 000 ₽",
-        currency = "₽",
-        name = "Баланс"
     )
     val transactionExpense = listOf(
         TransactionDomain(

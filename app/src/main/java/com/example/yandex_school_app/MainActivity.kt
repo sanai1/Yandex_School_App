@@ -11,7 +11,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.di.AppMain
 import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
-import com.example.yandex_school_app.navigation.App
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 import javax.inject.Inject
 

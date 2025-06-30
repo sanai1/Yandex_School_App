@@ -2,11 +2,11 @@ package com.example.yandex_school_app.features.cash_account.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yandex_school_app.common.data.network.ResponseTemplate
-import com.example.yandex_school_app.common.presentation.ToastController
-import com.example.yandex_school_app.di.AccountManager
-import com.example.yandex_school_app.features.cash_account.domain.entity.AccountDomain
-import com.example.yandex_school_app.features.cash_account.domain.usecase.AccountUseCase
+import com.example.network.ResponseTemplate
+import com.example.common.presentation.toast.ToastController
+import com.example.common.manager.AccountManager
+import com.example.common.domain.entity.AccountDomain
+import com.example.cash_account.domain.usecase.AccountUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +29,7 @@ class AccountViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
                 _allAccount.value = response.body!!
-                accountManager.setAccounts(response.body)
+                accountManager.setAccounts(response.body as List<AccountDomain>)
             }
 
             ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")

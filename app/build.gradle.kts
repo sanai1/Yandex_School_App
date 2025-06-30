@@ -42,6 +42,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":navigation"))
+    implementation(project(":common"))
+    implementation(project(":network"))
+    implementation(project(":features:settings"))
+    implementation(project(":features:category"))
+    implementation(project(":features:cash_account"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

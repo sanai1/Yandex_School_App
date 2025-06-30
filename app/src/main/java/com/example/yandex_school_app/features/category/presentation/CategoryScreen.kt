@@ -21,10 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.common.domain.entity.CategoryDomain
 import com.example.yandex_school_app.MainActivity
-import com.example.yandex_school_app.common.domain.entity.ListItemModelUI
-import com.example.yandex_school_app.common.presentation.ListItem
-import com.example.yandex_school_app.common.presentation.TypeListItem
+import com.example.common.domain.entity.ListItemModelUI
+import com.example.common.presentation.base_visible.ErrorVisible
+import com.example.common.presentation.base_visible.LoadingVisible
+import com.example.common.presentation.base_visible.VisibleData
+import com.example.common.presentation.list.ListItem
+import com.example.common.presentation.list.TypeListItem
 
 @Composable
 fun CategoryScreen(
@@ -35,36 +39,41 @@ fun CategoryScreen(
 ) {
     val categories = viewModel.categories.collectAsStateWithLifecycle()
     viewModel.updateCategory()
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .background(Color.LightGray)
-                .padding(horizontal = 20.dp, vertical = 15.dp)
-        ) {
-            Text(
-                "Найти статью", style = TextStyle(
-                    fontSize = 17.sp
+    when (categories.value) {
+        is VisibleData.Loading -> LoadingVisible(modifier)
+        is VisibleData.Success -> Column {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .background(Color.LightGray)
+                    .padding(horizontal = 20.dp, vertical = 15.dp)
+            ) {
+                Text(
+                    "Найти статью", style = TextStyle(
+                        fontSize = 17.sp
+                    )
                 )
-            )
-            Spacer(modifier = modifier.weight(1f))
-            Icon(Icons.Default.Search, contentDescription = "")
-        }
-        Column(
-            modifier = modifier.verticalScroll(rememberScrollState())
-        ) {
-            categories.value.forEachIndexed { index, item ->
-                ListItem(
-                    itemModelUI = ListItemModelUI(
-                        picture = item.emoji,
-                        title = item.name,
-                        description = null,
-                        info = null,
-                        typeListItem = TypeListItem.USUAL
-                    ),
-                    modifier = modifier,
-                )
+                Spacer(modifier = modifier.weight(1f))
+                Icon(Icons.Default.Search, contentDescription = "")
+            }
+            Column(
+                modifier = modifier.verticalScroll(rememberScrollState())
+            ) {
+                (categories.value as VisibleData.Success<List<CategoryDomain>>).data.forEach { item ->
+                    ListItem(
+                        itemModelUI = ListItemModelUI(
+                            picture = item.emoji,
+                            title = item.name,
+                            description = null,
+                            info = null,
+                            typeListItem = TypeListItem.USUAL
+                        ),
+                        modifier = modifier,
+                    )
+                }
             }
         }
+
+        is VisibleData.Error -> ErrorVisible((categories.value as VisibleData.Error<List<CategoryDomain>>).type)
     }
 }

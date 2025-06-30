@@ -10,12 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.common.domain.entity.TransactionDomain
+import com.example.common.presentation.base_visible.ErrorVisible
+import com.example.common.presentation.base_visible.LoadingVisible
+import com.example.common.presentation.base_visible.VisibleData
 import com.example.yandex_school_app.MainActivity
-import com.example.yandex_school_app.common.presentation.ToastController
-import com.example.yandex_school_app.common.presentation.history.AmountItem
-import com.example.yandex_school_app.common.presentation.history.EndDateItem
-import com.example.yandex_school_app.common.presentation.history.ListTransaction
-import com.example.yandex_school_app.common.presentation.history.StartDateItem
+import com.example.common.presentation.toast.ToastController
+import com.example.common.presentation.history.AmountItem
+import com.example.common.presentation.history.EndDateItem
+import com.example.common.presentation.history.ListTransaction
+import com.example.common.presentation.history.StartDateItem
 import com.example.yandex_school_app.features.income.presentation.viewmodel.IncomeViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,53 +33,68 @@ fun HistoryIncomeScreen(
         factory = (LocalContext.current as MainActivity).viewModelFactory
     )
 ) {
-    Column {
-        val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        val startDate = remember {
-            mutableStateOf(LocalDate.now().withDayOfMonth(1))
-        }
-        val endDate = remember { mutableStateOf(LocalDate.now()) }
-        fun updateList() {
-            viewModel.updateByPeriod(
-                startDate.value.toString().split("-").reversed().joinToString("."),
-                if (endDate.value == LocalDate.now()) dateFormatter.format(Date()) else endDate.value.toString()
-                    .split("-").reversed().joinToString(".")
+    val transactions = viewModel.incomeByPeriod.collectAsStateWithLifecycle()
+    val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    val startDate = remember {
+        mutableStateOf(LocalDate.now().withDayOfMonth(1))
+    }
+    val endDate = remember { mutableStateOf(LocalDate.now()) }
+    fun updateList() {
+        viewModel.updateByPeriod(
+            startDate.value.toString().split("-").reversed().joinToString("."),
+            if (endDate.value == LocalDate.now()) dateFormatter.format(Date()) else endDate.value.toString()
+                .split("-").reversed().joinToString(".")
+        )
+    }
+    updateList()
+    when (transactions.value) {
+        is VisibleData.Loading -> LoadingVisible()
+        is VisibleData.Success -> {
+            Column {
+                StartDateItem(
+                    startDate.value,
+                    modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                ) { newStartDate ->
+                    val newDate =
+                        LocalDate.parse(newStartDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    if (newDate.isBefore(endDate.value) || newDate == endDate.value) {
+                        startDate.value = newDate
+                        updateList()
+                    } else {
+                        ToastController.showToast("Начало периода должно быть до его конца")
+                    }
+                }
+                EndDateItem(
+                    endDate.value,
+                    modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                ) { newEndDate ->
+                    val newDate =
+                        LocalDate.parse(newEndDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    if (newDate.isAfter(startDate.value) || newDate == startDate.value) {
+                        endDate.value = newDate
+                        updateList()
+                    } else {
+                        ToastController.showToast("Конец периода должен быть после начала")
+                    }
+                }
+                updateList()
+            }
+            AmountItem(
+                amount = "${
+                    (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
+                        it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
+                    }.toString().reversed().chunked(3).joinToString(" ").reversed()
+                } ₽",
+                modifier = modifier.background(MaterialTheme.colorScheme.surface)
+            )
+            ListTransaction(
+                (transactions.value as VisibleData.Success<List<TransactionDomain>>).data,
+                modifier
             )
         }
-        StartDateItem(
-            startDate.value,
-            modifier = modifier.background(MaterialTheme.colorScheme.surface)
-        ) { newStartDate ->
-            val newDate = LocalDate.parse(newStartDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            if (newDate.isBefore(endDate.value) || newDate == endDate.value) {
-                startDate.value = newDate
-                updateList()
-            } else {
-                ToastController.showToast("Начало периода должно быть до его конца")
-            }
+
+        is VisibleData.Error -> (transactions.value as VisibleData.Error<List<TransactionDomain>>).let {
+            ErrorVisible(it.type, it.message)
         }
-        EndDateItem(
-            endDate.value,
-            modifier = modifier.background(MaterialTheme.colorScheme.surface)
-        ) { newEndDate ->
-            val newDate = LocalDate.parse(newEndDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            if (newDate.isAfter(startDate.value) || newDate == startDate.value) {
-                endDate.value = newDate
-                updateList()
-            } else {
-                ToastController.showToast("Конец периода должен быть после начала")
-            }
-        }
-        val transactions = viewModel.incomeByPeriod.collectAsStateWithLifecycle()
-        updateList()
-        AmountItem(
-            amount = "${
-                transactions.value.sumOf {
-                    it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
-                }.toString().reversed().chunked(3).joinToString(" ").reversed()
-            } ₽",
-            modifier = modifier.background(MaterialTheme.colorScheme.surface)
-        )
-        ListTransaction(transactions.value, modifier)
     }
 }
