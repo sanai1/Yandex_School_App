@@ -1,6 +1,6 @@
 package com.example.category.data.network
 
-import com.example.common.data.network.BaseUrl
+import com.example.network.BaseUrl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

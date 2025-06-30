@@ -1,6 +1,6 @@
 package com.example.common.manager
 
-import com.example.common.di.ApplicationScope
+import com.example.network.di.ApplicationScope
 import com.example.common.domain.entity.AccountDomain
 import javax.inject.Inject
 

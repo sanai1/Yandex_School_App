@@ -1,4 +1,4 @@
-package com.example.common.data.network.model
+package com.example.network.model
 
 data class TransactionNetwork(
     val id: Long,

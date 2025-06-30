@@ -3,13 +3,14 @@ package com.example.common.data.datasource.remote.impl
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.common.data.mapper.TransactionMapper
 import com.example.common.data.network.ResponseTemplate
-import com.example.common.data.network.client.TransactionApiClient
 import com.example.common.domain.entity.TransactionDomain
+import com.example.network.service.TransactionApiService
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class TransactionRemoteDataSourceImpl @Inject constructor(
-    private val transactionMapper: TransactionMapper
+    private val transactionMapper: TransactionMapper,
+    private val transactionApiService: TransactionApiService
 ) : TransactionRemoteDataSource {
     override suspend fun getTransactionsByPeriod(
         accountId: Int,
@@ -60,7 +61,7 @@ class TransactionRemoteDataSourceImpl @Inject constructor(
         accountId: Int,
         startDate: String,
         finishDate: String
-    ) = TransactionApiClient.transactionApiService.getTransactionsByPeriod(
+    ) = transactionApiService.getTransactionsByPeriod(
         accountId = accountId,
         startDate = startDate,
         endDate = finishDate

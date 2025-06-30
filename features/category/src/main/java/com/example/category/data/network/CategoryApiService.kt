@@ -1,7 +1,7 @@
 package com.example.category.data.network
 
-import com.example.common.data.network.model.CategoryNetwork
-import com.example.common.data.network.BaseUrl
+import com.example.network.model.CategoryNetwork
+import com.example.network.BaseUrl
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

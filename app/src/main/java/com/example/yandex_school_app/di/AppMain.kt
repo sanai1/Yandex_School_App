@@ -4,6 +4,6 @@ import android.app.Application
 
 class AppMain : Application() {
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create()
+        DaggerAppComponent.factory().create(applicationContext)
     }
 }

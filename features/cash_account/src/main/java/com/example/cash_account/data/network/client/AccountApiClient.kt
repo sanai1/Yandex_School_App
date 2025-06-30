@@ -1,6 +1,6 @@
 package com.example.cash_account.data.network.client
 
-import com.example.common.data.network.BaseUrl
+import com.example.network.BaseUrl
 import com.example.cash_account.data.network.service.AccountApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

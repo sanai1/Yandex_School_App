@@ -1,4 +1,4 @@
-package com.example.common.data.network
+package com.example.network
 
 object BaseUrl {
     private var BASE_URL: String? = null
