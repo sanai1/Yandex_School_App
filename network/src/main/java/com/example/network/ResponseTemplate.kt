@@ -10,6 +10,7 @@ data class ResponseTemplate<T>(
         ERROR_CLIENT,
         NOT_FOUND,
         ERROR_SERVER,
+        NETWORK_PROBLEM,
         ALL_BAD
     }
 }

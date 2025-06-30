@@ -2,7 +2,7 @@ package com.example.network.di
 
 import android.content.Context
 import com.example.network.BaseUrl
-import com.example.network.NetworkConnectionInterceptor
+import com.example.network.check.NetworkConnectionInterceptor
 import com.example.network.service.AccountApiService
 import com.example.network.service.CategoryApiService
 import com.example.network.service.TransactionApiService
