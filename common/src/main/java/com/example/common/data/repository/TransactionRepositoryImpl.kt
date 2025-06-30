@@ -1,7 +1,7 @@
 package com.example.common.data.repository
 
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.TransactionDomain
 import com.example.common.domain.repository.TransactionRepository
 import javax.inject.Inject

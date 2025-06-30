@@ -1,15 +1,16 @@
 package com.example.category.data.datasource.remote.impl
 
 import com.example.common.data.mapper.CategoryMapper
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.category.data.datasource.remote.CategoryRemoteDataSource
-import com.example.category.data.network.CategoryApiClient
 import com.example.common.domain.entity.CategoryDomain
+import com.example.network.service.CategoryApiService
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class CategoryRemoteDataSourceImpl @Inject constructor(
-    private val categoryMapper: CategoryMapper
+    private val categoryMapper: CategoryMapper,
+    private val categoryApiService: CategoryApiService
 ) : CategoryRemoteDataSource {
     override suspend fun getCategories(): ResponseTemplate<List<CategoryDomain>> {
         var response = networkCategories()
@@ -52,5 +53,5 @@ class CategoryRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    private fun networkCategories() = CategoryApiClient.categoryApiService.getCategories().execute()
+    private fun networkCategories() = categoryApiService.getCategories().execute()
 }

@@ -1,8 +1,8 @@
-package com.example.cash_account.data.network.service
+package com.example.network.service
 
 import com.example.network.BaseUrl
-import com.example.cash_account.data.network.model.request.AccountRequestNetwork
-import com.example.cash_account.data.network.model.response.AccountResponseNetwork
+import com.example.network.model.cash_account.request.AccountRequestNetwork
+import com.example.network.model.cash_account.response.AccountResponseNetwork
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

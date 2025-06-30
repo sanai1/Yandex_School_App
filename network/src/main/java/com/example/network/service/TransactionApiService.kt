@@ -1,7 +1,7 @@
 package com.example.network.service
 
 import com.example.network.BaseUrl
-import com.example.network.model.TransactionNetwork
+import com.example.network.model.transaction.TransactionNetwork
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

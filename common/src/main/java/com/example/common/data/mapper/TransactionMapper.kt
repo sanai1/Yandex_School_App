@@ -1,6 +1,6 @@
 package com.example.common.data.mapper
 
-import com.example.network.model.TransactionNetwork
+import com.example.network.model.transaction.TransactionNetwork
 import com.example.common.domain.entity.TransactionDomain
 import java.time.ZoneId
 import java.time.ZonedDateTime

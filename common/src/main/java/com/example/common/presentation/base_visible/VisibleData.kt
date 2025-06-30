@@ -1,6 +1,6 @@
 package com.example.common.presentation.base_visible
 
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 
 sealed class VisibleData<T> {
     class Loading<T> : VisibleData<T>()

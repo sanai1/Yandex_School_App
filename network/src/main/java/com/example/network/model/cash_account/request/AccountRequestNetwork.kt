@@ -1,4 +1,4 @@
-package com.example.cash_account.data.network.model.request
+package com.example.network.model.cash_account.request
 
 data class AccountRequestNetwork(
     val name: String,

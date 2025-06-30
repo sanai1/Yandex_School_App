@@ -1,7 +1,7 @@
 package com.example.common.data.mapper
 
 import com.example.common.domain.entity.CategoryDomain
-import com.example.network.model.CategoryNetwork
+import com.example.network.model.category.CategoryNetwork
 import javax.inject.Inject
 
 class CategoryMapper @Inject constructor() {

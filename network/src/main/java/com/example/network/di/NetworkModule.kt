@@ -3,6 +3,8 @@ package com.example.network.di
 import android.content.Context
 import com.example.network.BaseUrl
 import com.example.network.NetworkConnectionInterceptor
+import com.example.network.service.AccountApiService
+import com.example.network.service.CategoryApiService
 import com.example.network.service.TransactionApiService
 import dagger.Module
 import dagger.Provides
@@ -34,5 +36,17 @@ object NetworkModule {
     @ApplicationScope
     fun bindTransactionApiService(retrofit: Retrofit): TransactionApiService {
         return retrofit.create(TransactionApiService::class.java)
+    }
+
+    @Provides
+    @ApplicationScope
+    fun bindCategoryApiService(retrofit: Retrofit): CategoryApiService {
+        return retrofit.create(CategoryApiService::class.java)
+    }
+
+    @Provides
+    @ApplicationScope
+    fun bindAccountApiService(retrofit: Retrofit): AccountApiService {
+        return retrofit.create(AccountApiService::class.java)
     }
 }

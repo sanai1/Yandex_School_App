@@ -1,4 +1,6 @@
-package com.example.network.model
+package com.example.network.model.transaction
+
+import com.example.network.model.category.CategoryNetwork
 
 data class TransactionNetwork(
     val id: Long,

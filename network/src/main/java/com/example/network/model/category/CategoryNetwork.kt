@@ -1,4 +1,4 @@
-package com.example.network.model
+package com.example.network.model.category
 
 data class CategoryNetwork(
     val id: Long,

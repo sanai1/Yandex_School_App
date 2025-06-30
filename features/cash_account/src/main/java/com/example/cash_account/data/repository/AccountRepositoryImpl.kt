@@ -1,7 +1,7 @@
 package com.example.cash_account.data.repository
 
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.AccountDomain
 import com.example.cash_account.domain.repository.AccountRepository
 import javax.inject.Inject

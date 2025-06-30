@@ -1,15 +1,16 @@
 package com.example.cash_account.data.datasource.remote.impl
 
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.AccountDomain
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.cash_account.data.mapper.AccountMapper
-import com.example.cash_account.data.network.client.AccountApiClient
+import com.example.network.service.AccountApiService
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AccountRemoteDataSourceImpl @Inject constructor(
-    private val accountMapper: AccountMapper
+    private val accountMapper: AccountMapper,
+    private val accountApiService: AccountApiService
 ) : AccountRemoteDataSource {
     override suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>> {
         var response = networkAllCashAccount()
@@ -78,11 +79,10 @@ class AccountRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    private fun networkAllCashAccount() =
-        AccountApiClient.accountApiService.getAllCashAccount().execute()
+    private fun networkAllCashAccount() = accountApiService.getAllCashAccount().execute()
 
     private fun networkCreateAccount(accountDomain: AccountDomain) =
-        AccountApiClient.accountApiService.createAccount(
+        accountApiService.createAccount(
             account = accountMapper.toAccountRequest(accountDomain)
         ).execute()
 }

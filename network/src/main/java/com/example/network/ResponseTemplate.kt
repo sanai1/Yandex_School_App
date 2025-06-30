@@ -1,4 +1,4 @@
-package com.example.common.data.network
+package com.example.network
 
 data class ResponseTemplate<T>(
     val typeResponse: TypeResponse,

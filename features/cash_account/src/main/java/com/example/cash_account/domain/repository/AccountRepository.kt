@@ -1,6 +1,6 @@
 package com.example.cash_account.domain.repository
 
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.AccountDomain
 
 interface AccountRepository {

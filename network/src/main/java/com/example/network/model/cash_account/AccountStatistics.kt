@@ -1,4 +1,4 @@
-package com.example.cash_account.data.network.model
+package com.example.network.model.cash_account
 
 /**
  * Данная модель необходима для построения графика -> маппер для нее буду делать когда будет ясна структура графика

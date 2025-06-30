@@ -2,7 +2,7 @@ package com.example.yandex_school_app.features.cash_account.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.presentation.toast.ToastController
 import com.example.common.manager.AccountManager
 import com.example.common.domain.entity.AccountDomain

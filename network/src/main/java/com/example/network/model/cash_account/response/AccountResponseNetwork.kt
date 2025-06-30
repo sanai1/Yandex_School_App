@@ -1,4 +1,4 @@
-package com.example.cash_account.data.network.model.response
+package com.example.network.model.cash_account.response
 
 data class AccountResponseNetwork(
     val id: Long,

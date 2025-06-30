@@ -2,7 +2,7 @@ package com.example.yandex_school_app.features.category.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.data.network.ResponseTemplate
+import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.CategoryDomain
 import com.example.category.domain.usecase.CategoryUseCase
 import com.example.common.presentation.base_visible.VisibleData
