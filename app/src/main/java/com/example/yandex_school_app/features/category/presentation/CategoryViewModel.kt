@@ -20,13 +20,35 @@ class CategoryViewModel @Inject constructor(
         MutableStateFlow<VisibleData<List<CategoryDomain>>>(VisibleData.Loading())
     val categories: StateFlow<VisibleData<List<CategoryDomain>>> = _categories.asStateFlow()
 
+    @Volatile
+    private var allCategories = listOf<CategoryDomain>()
+
     fun updateCategory() = viewModelScope.launch(Dispatchers.IO) {
         val response = categoryUseCase.getCategories()
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS ->
-                _categories.value = VisibleData.Success(response.body!!.sortedBy { it.name })
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                VisibleData.Success(response.body!!.sortedBy { it.name }).let {
+                    _categories.value = it
+                    allCategories = it.data
+                }
+            }
 
             else -> _categories.value = VisibleData.Error(response.typeResponse)
         }
+    }
+
+    fun searchCategory(query: String) = viewModelScope.launch(Dispatchers.IO) {
+        if ((_categories.value is VisibleData.Success).not()) {
+            return@launch
+        }
+        _categories.value = VisibleData.Success(
+            allCategories.filter {
+                it.name.lowercase().contains(query.lowercase())
+            }.sortedWith(
+                compareBy {
+                    !it.name.lowercase().startsWith(query.lowercase())
+                }
+            )
+        )
     }
 }
