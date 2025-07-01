@@ -41,7 +41,7 @@ fun IncomeScreen(
                             (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
                                 it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
                             }.toString().reversed().chunked(3).joinToString(" ").reversed()
-                        } ₽",
+                        } ${viewModel.getSelectedAccount().value.currency.symbol}",
                         typeListItem = TypeListItem.USUAL
                     ),
                     modifier = modifier
@@ -54,7 +54,7 @@ fun IncomeScreen(
                             picture = item.categoryDomain.emoji,
                             title = item.categoryDomain.name,
                             description = null,
-                            info = item.amount,
+                            info = "${item.amount} ${viewModel.getSelectedAccount().value.currency.symbol}",
                             typeListItem = TypeListItem.ARROW
                         ),
                         modifier = modifier.height(70.dp)

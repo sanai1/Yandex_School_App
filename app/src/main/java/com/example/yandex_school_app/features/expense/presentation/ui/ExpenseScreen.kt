@@ -41,7 +41,7 @@ fun ExpenseScreen(
                         (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
                             it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
                         }.toString().reversed().chunked(3).joinToString(" ").reversed()
-                    } ₽",
+                    } ${viewModel.getSelectedAccount().value.currency.symbol}",
                     typeListItem = TypeListItem.USUAL
                 ),
                 modifier = modifier
@@ -54,7 +54,7 @@ fun ExpenseScreen(
                         picture = it.categoryDomain.emoji,
                         title = it.categoryDomain.name,
                         description = it.comment,
-                        info = it.amount,
+                        info = "${it.amount} ${viewModel.getSelectedAccount().value.currency.symbol}",
                         typeListItem = TypeListItem.ARROW
                     ),
                     modifier = modifier.height(70.dp)

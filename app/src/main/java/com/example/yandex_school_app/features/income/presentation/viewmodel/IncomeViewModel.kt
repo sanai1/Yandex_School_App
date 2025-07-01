@@ -37,6 +37,8 @@ class IncomeViewModel @Inject constructor(
         }
     }
 
+    fun getSelectedAccount() = accountManager.selectedAccount
+
     private val _incomeByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
     val incomeByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =

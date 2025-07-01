@@ -7,13 +7,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.common.domain.entity.Currency
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.domain.entity.TransactionDomain
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 
 @Composable
-fun ListTransaction(transactions: List<TransactionDomain>, modifier: Modifier) {
+fun ListTransaction(transactions: List<TransactionDomain>, currency: Currency, modifier: Modifier) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
     ) {
@@ -23,7 +24,7 @@ fun ListTransaction(transactions: List<TransactionDomain>, modifier: Modifier) {
                     picture = item.categoryDomain.emoji,
                     title = item.categoryDomain.name,
                     description = item.comment,
-                    info = item.amount,
+                    info = "${item.amount} ${currency.symbol}",
                     infoDescription = item.transactionDate.let { it ->
                         "${it.hour.let { if (it in 0..9) "0$it" else it }}:${it.minute.let { if (it in 0..9) "0$it" else it }}"
                     },

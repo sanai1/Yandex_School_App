@@ -83,11 +83,12 @@ fun HistoryIncomeScreen(
                     (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
                         it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
                     }.toString().reversed().chunked(3).joinToString(" ").reversed()
-                } ₽",
+                } ${viewModel.getSelectedAccount().value.currency.symbol}",
                 modifier = modifier.background(MaterialTheme.colorScheme.surface)
             )
             ListTransaction(
                 (transactions.value as VisibleData.Success<List<TransactionDomain>>).data,
+                viewModel.getSelectedAccount().value.currency,
                 modifier
             )
         }

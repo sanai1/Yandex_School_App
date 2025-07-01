@@ -39,6 +39,8 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
+    fun getSelectedAccount() = accountManager.selectedAccount
+
     private val _expensesByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
     val expensesByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =

@@ -80,10 +80,14 @@ fun HistoryExpenseScreen(
                     (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
                         it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
                     }.toString().reversed().chunked(3).joinToString(" ").reversed()
-                } ₽",
+                } ${viewModel.getSelectedAccount().value.currency.symbol}",
                 modifier = modifier.background(MaterialTheme.colorScheme.surface)
             )
-            ListTransaction(Mok.transactions, modifier) // TODO: убрать моковые данные
+            ListTransaction(
+                Mok.transactions,
+                viewModel.getSelectedAccount().value.currency,
+                modifier
+            ) // TODO: убрать моковые данные
         }
 
         is VisibleData.Error -> (transactions.value as VisibleData.Error<List<TransactionDomain>>).let {

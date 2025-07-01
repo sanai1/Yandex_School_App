@@ -13,7 +13,7 @@ object Mok {
                 isIncome = false
             ),
             comment = "Ремонт - фурнитура для дверей",
-            amount = "100 000 P",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -24,7 +24,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -35,7 +35,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -46,7 +46,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -57,7 +57,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 P",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         )
@@ -70,7 +70,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -81,7 +81,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -92,7 +92,7 @@ object Mok {
                 isIncome = false
             ),
             comment = "Джек",
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -103,7 +103,7 @@ object Mok {
                 isIncome = false
             ),
             comment = "Энни",
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -114,7 +114,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -125,7 +125,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -136,7 +136,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         ),
@@ -147,7 +147,7 @@ object Mok {
                 isIncome = false
             ),
             comment = null,
-            amount = "100 000 ₽",
+            amount = "100 000",
             id = 0,
             transactionDate = LocalDateTime.now()
         )
