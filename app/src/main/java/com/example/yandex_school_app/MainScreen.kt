@@ -42,10 +42,16 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
+    val isUpdateAccountClicked = remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBarCustom(navController, selectedItem, isAddAccountClicked = isAddAccountClicked)
+            TopBarCustom(
+                navController,
+                selectedItem,
+                isAddAccountClicked = isAddAccountClicked,
+                isUpdateAccountClicked = isUpdateAccountClicked
+            )
         },
         floatingActionButton = {
             when (selectedItem) {
@@ -95,7 +101,14 @@ fun MainScreen(
 
                 is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
 
-                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(modifier)
+                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
+                    navController,
+                    modifier,
+                    isUpdateAccountClicked = isUpdateAccountClicked,
+                    callback = {
+                        isUpdateAccountClicked.value = false
+                    }
+                )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
                     navController,
