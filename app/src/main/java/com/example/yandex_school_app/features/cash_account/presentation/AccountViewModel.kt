@@ -33,6 +33,8 @@ class AccountViewModel @Inject constructor(
                 _allAccount.value = response.body!!.sortedBy { it.name }
                 if (accountManager.checkAccount().not()) {
                     accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
+                } else if (accountManager.selectedAccount.value.id in allAccount.value.map { it.id }) {
+                    accountManager.setSelectedAccount(allAccount.value.find { it.id == accountManager.selectedAccount.value.id }!!)
                 }
             }
 
@@ -45,7 +47,7 @@ class AccountViewModel @Inject constructor(
     fun getSelectedAccount() = accountManager.selectedAccount
 
     fun setSelectedAccountById(newIdAccount: String) {
-        _allAccount.value.find { it.id.toString() == newIdAccount }?.let {
+        allAccount.value.find { it.id.toString() == newIdAccount }?.let {
             accountManager.setSelectedAccount(it)
         }
     }
@@ -102,6 +104,9 @@ class AccountViewModel @Inject constructor(
     }
 
     fun deleteCashAccount(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        if (accountManager.selectedAccount.value.id == id) {
+            accountManager.setSelectedAccount(allAccount.value.first())
+        }
         val response = accountUseCase.deleteCashAccount(id)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> updateAllAccount()

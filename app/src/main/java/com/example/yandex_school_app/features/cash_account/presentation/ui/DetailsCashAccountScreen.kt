@@ -72,17 +72,15 @@ private fun SwipeActionsExample(
 ) {
     var showConfirmationDialog by remember { mutableStateOf(false) }
     var showUpdateDialog by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
     val state = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
             if (value == SwipeToDismissBoxValue.EndToStart) {
                 showConfirmationDialog = true
-                true
-            } else {
-                false
             }
+            false
         }
     )
-    val coroutineScope = rememberCoroutineScope()
     if (showConfirmationDialog) {
         ConfirmationDeleteDialog(
             onConfirm = {
@@ -111,8 +109,8 @@ private fun SwipeActionsExample(
     SwipeToDismissBox(
         state = state,
         backgroundContent = {
-            val color = when (state.dismissDirection) {
-                SwipeToDismissBoxValue.EndToStart -> Color.Red
+            val color = when {
+                showConfirmationDialog || state.dismissDirection == SwipeToDismissBoxValue.EndToStart -> Color.LightGray
                 else -> Color.Transparent
             }
 

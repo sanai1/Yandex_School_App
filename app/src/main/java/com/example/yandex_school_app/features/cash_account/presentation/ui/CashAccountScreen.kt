@@ -11,19 +11,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.common.domain.entity.Currency
-import com.example.yandex_school_app.MainActivity
 import com.example.yandex_school_app.R
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
@@ -33,12 +31,13 @@ import com.example.yandex_school_app.features.cash_account.presentation.AccountV
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CashAccountScreen(
-    modifier: Modifier, viewModel: AccountViewModel = viewModel(
-        factory = (LocalContext.current as MainActivity).viewModelFactory
-    )
+    modifier: Modifier, viewModel: AccountViewModel
 ) {
     val selectedAccount = viewModel.getSelectedAccount().collectAsStateWithLifecycle()
-    val accounts = viewModel.allAccount.collectAsStateWithLifecycle()
+    val accounts by viewModel.allAccount.collectAsStateWithLifecycle()
+    LaunchedEffect(accounts) {
+        println("Accounts updated: ${accounts.size} items")
+    }
     Column {
         var visibleBottomSheet by remember { mutableStateOf(TypeModalBottomSheet.NONE) }
         ListItem(
@@ -80,7 +79,7 @@ fun CashAccountScreen(
                     Column(
                         modifier = Modifier.verticalScroll(rememberScrollState())
                     ) {
-                        accounts.value.forEach { account ->
+                        accounts.forEach { account ->
                             ListItem(
                                 itemModelUI = ListItemModelUI(
                                     title = account.name,
@@ -119,7 +118,9 @@ fun CashAccountScreen(
                                 title = "Отмена",
                                 typeListItem = TypeListItem.USUAL,
                             ),
-                            modifier = modifier.background(Color.Red).height(70.dp),
+                            modifier = modifier
+                                .background(Color.Red)
+                                .height(70.dp),
                             onClickContainer = {
                                 visibleBottomSheet = TypeModalBottomSheet.NONE
                             },

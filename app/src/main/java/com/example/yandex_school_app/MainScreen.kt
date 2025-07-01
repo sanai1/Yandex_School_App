@@ -17,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.yandex_school_app.features.cash_account.presentation.ui.CashAccountScreen
 import com.example.yandex_school_app.features.cash_account.presentation.ui.CreateCashAccount
@@ -85,7 +87,11 @@ fun MainScreen(
 
                 is NavigationCustomItem.Income -> IncomeScreen(modifier)
 
-                is NavigationCustomItem.CashAccount -> CashAccountScreen(modifier)
+                is NavigationCustomItem.CashAccount -> CashAccountScreen(
+                    modifier, viewModel(
+                        factory = (LocalContext.current as MainActivity).viewModelFactory
+                    )
+                )
 
                 is NavigationCustomItem.Category -> CategoryScreen(modifier)
 
