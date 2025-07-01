@@ -34,16 +34,15 @@ fun HistoryIncomeScreen(
     )
 ) {
     val transactions = viewModel.incomeByPeriod.collectAsStateWithLifecycle()
-    val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val startDate = remember {
         mutableStateOf(LocalDate.now().withDayOfMonth(1))
     }
     val endDate = remember { mutableStateOf(LocalDate.now()) }
     fun updateList() {
         viewModel.updateByPeriod(
-            startDate.value.toString().split("-").reversed().joinToString("."),
+            startDate.value.toString(),
             if (endDate.value == LocalDate.now()) dateFormatter.format(Date()) else endDate.value.toString()
-                .split("-").reversed().joinToString(".")
         )
     }
     updateList()
