@@ -70,6 +70,22 @@ class AccountViewModel @Inject constructor(
             }
         }
 
+    fun updateNameAndBalanceAccount(accountDomain: AccountDomain) = viewModelScope.launch(
+        Dispatchers.IO
+    ) {
+        val response = accountUseCase.updateCashAccount(accountDomain)
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                updateAllAccount()
+            }
+
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Некорректные данные были отправлены на сервер")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
+        }
+    }
+
     fun createCashAccount(accountDomain: AccountDomain) = viewModelScope.launch(Dispatchers.IO) {
         val response = accountUseCase.createCashAccount(accountDomain)
         when (response.typeResponse) {
@@ -83,5 +99,9 @@ class AccountViewModel @Inject constructor(
             ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
             else -> ToastController.showToast("Неизвестная ошибка")
         }
+    }
+
+    fun deleteCashAccount(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+        ToastController.showToast("Удалили счет с id = $id")
     }
 }

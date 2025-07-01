@@ -34,7 +34,6 @@ fun TopBarCustom(
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
     isAddAccountClicked: MutableState<Boolean>,
-    isUpdateAccountClicked: MutableState<Boolean>
 ) {
     @Composable
     fun TextOnTopBar(text: String, modifier: Modifier = Modifier) {
@@ -122,9 +121,6 @@ fun TopBarCustom(
                     is NavigationCustomItem.DetailsAccount -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мой счет", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) {
-                            isUpdateAccountClicked.value = true
-                        }
                         Spacer(modifier = modifier.width(15.dp))
                     }
 
