@@ -8,6 +8,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface AccountApiService {
     @GET("accounts")
@@ -18,6 +20,13 @@ interface AccountApiService {
     @POST("accounts")
     fun createAccount(
         @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Body account: AccountRequestNetwork
+    ): Call<AccountResponseNetwork>
+
+    @PUT("accounts/{id}")
+    fun updateAccountById(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Path("id") accountId: Int,
         @Body account: AccountRequestNetwork
     ): Call<AccountResponseNetwork>
 }

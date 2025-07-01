@@ -16,4 +16,8 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun createAccount(accountDomain: AccountDomain): ResponseTemplate<AccountDomain> {
         return accountRemoteDataSource.createAccount(accountDomain)
     }
+
+    override suspend fun updateAccountById(accountDomain: AccountDomain): ResponseTemplate<AccountDomain> {
+        return accountRemoteDataSource.updateAccountById(accountDomain)
+    }
 }

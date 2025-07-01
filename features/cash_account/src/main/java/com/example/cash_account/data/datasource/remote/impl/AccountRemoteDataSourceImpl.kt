@@ -86,7 +86,55 @@ class AccountRemoteDataSourceImpl @Inject constructor(
                     body = null
                 )
             }
-        } catch (e: NoConnectivityException) {
+        } catch (_: NoConnectivityException) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.NETWORK_PROBLEM,
+                body = null
+            )
+        }
+    }
+
+    override suspend fun updateAccountById(accountDomain: AccountDomain): ResponseTemplate<AccountDomain> {
+        try {
+            var response = networkUpdateAccount(accountDomain)
+            repeat(3) {
+                if (response.code() == 500) {
+                    delay(2000)
+                    response = networkUpdateAccount(accountDomain)
+                } else return@repeat
+            }
+            return when (response.code()) {
+                200 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
+                    body = response.body()?.let { accountMapper.toAccountDomain(it) }
+                )
+
+                400 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ERROR_CLIENT,
+                    body = null
+                )
+
+                401 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.UNAUTHORIZED,
+                    body = null
+                )
+
+                404 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.NOT_FOUND,
+                    body = null
+                )
+
+                500 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER,
+                    body = null
+                )
+
+                else -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ALL_BAD,
+                    body = null
+                )
+            }
+        } catch (_: NoConnectivityException) {
             return ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.NETWORK_PROBLEM,
                 body = null
@@ -98,6 +146,12 @@ class AccountRemoteDataSourceImpl @Inject constructor(
 
     private fun networkCreateAccount(accountDomain: AccountDomain) =
         accountApiService.createAccount(
+            account = accountMapper.toAccountRequest(accountDomain)
+        ).execute()
+
+    private fun networkUpdateAccount(accountDomain: AccountDomain) =
+        accountApiService.updateAccountById(
+            accountId = accountDomain.id,
             account = accountMapper.toAccountRequest(accountDomain)
         ).execute()
 }
