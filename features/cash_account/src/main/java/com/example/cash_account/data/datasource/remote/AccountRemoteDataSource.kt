@@ -7,4 +7,5 @@ interface AccountRemoteDataSource {
     suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>>
     suspend fun createAccount(accountDomain: AccountDomain): ResponseTemplate<AccountDomain>
     suspend fun updateAccountById(accountDomain: AccountDomain): ResponseTemplate<AccountDomain>
+    suspend fun deleteAccountById(accountId: Int): ResponseTemplate<Unit>
 }

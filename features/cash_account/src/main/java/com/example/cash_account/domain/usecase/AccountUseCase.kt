@@ -13,4 +13,6 @@ class AccountUseCase @Inject constructor(
 
     suspend fun updateCashAccount(accountDomain: AccountDomain) =
         accountRepository.updateAccountById(accountDomain)
+
+    suspend fun deleteCashAccount(accountId: Int) = accountRepository.deleteAccountById(accountId)
 }

@@ -20,4 +20,8 @@ class AccountRepositoryImpl @Inject constructor(
     override suspend fun updateAccountById(accountDomain: AccountDomain): ResponseTemplate<AccountDomain> {
         return accountRemoteDataSource.updateAccountById(accountDomain)
     }
+
+    override suspend fun deleteAccountById(accountId: Int): ResponseTemplate<Unit> {
+        return accountRemoteDataSource.deleteAccountById(accountId)
+    }
 }

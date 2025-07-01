@@ -102,6 +102,13 @@ class AccountViewModel @Inject constructor(
     }
 
     fun deleteCashAccount(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        ToastController.showToast("Удалили счет с id = $id")
+        val response = accountUseCase.deleteCashAccount(id)
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> updateAllAccount()
+            ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> ToastController.showToast("Некорректные данные были отправлены на сервер")
+            ResponseTemplate.TypeResponse.ERROR_SERVER -> ToastController.showToast("Ошибка сервера")
+            else -> ToastController.showToast("Неизвестная ошибка")
+        }
     }
 }

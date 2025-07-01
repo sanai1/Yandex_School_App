@@ -3,8 +3,10 @@ package com.example.network.service
 import com.example.network.BaseUrl
 import com.example.network.model.cash_account.request.AccountRequestNetwork
 import com.example.network.model.cash_account.response.AccountResponseNetwork
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -29,4 +31,10 @@ interface AccountApiService {
         @Path("id") accountId: Int,
         @Body account: AccountRequestNetwork
     ): Call<AccountResponseNetwork>
+
+    @DELETE("accounts/{id}")
+    fun deleteAccountById(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Path("id") accountId: Int
+    ): Call<ResponseBody>
 }

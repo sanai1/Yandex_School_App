@@ -157,6 +157,64 @@ class AccountRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAccountById(accountId: Int): ResponseTemplate<Unit> {
+        try {
+            var response = networkDeleteAccount(accountId)
+            repeat(3) {
+                if (response.code() == 500) {
+                    delay(2000)
+                    response = networkDeleteAccount(accountId)
+                } else return@repeat
+            }
+            return when (response.code()) {
+                204 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
+                    body = Unit
+                )
+
+                400 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ERROR_CLIENT,
+                    body = null
+                )
+
+                401 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.UNAUTHORIZED,
+                    body = null
+                )
+
+                404 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.NOT_FOUND,
+                    body = null
+                )
+
+                409 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ERROR_CLIENT,
+                    body = Unit
+                )
+
+                500 -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER,
+                    body = null
+                )
+
+                else -> ResponseTemplate(
+                    typeResponse = ResponseTemplate.TypeResponse.ALL_BAD,
+                    body = null
+                )
+            }
+        } catch (_: NoConnectivityException) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.NETWORK_PROBLEM,
+                body = null
+            )
+        } catch (_: Exception) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER,
+                body = null
+            )
+        }
+    }
+
     private fun networkAllCashAccount() = accountApiService.getAllCashAccount().execute()
 
     private fun networkCreateAccount(accountDomain: AccountDomain) =
@@ -169,4 +227,7 @@ class AccountRemoteDataSourceImpl @Inject constructor(
             accountId = accountDomain.id,
             account = accountMapper.toAccountRequest(accountDomain)
         ).execute()
+
+    private fun networkDeleteAccount(accountId: Int) =
+        accountApiService.deleteAccountById(accountId = accountId).execute()
 }
