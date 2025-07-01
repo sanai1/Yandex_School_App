@@ -29,18 +29,19 @@ fun CashAccountScreen(
         ListItem(
             itemModelUI = ListItemModelUI(
                 picture = "\uD83D\uDCB0",
-                title = account.value.getOrNull(0)?.name ?: "Баланс",
-                info = "${
-                    account.value.getOrNull(0)?.balance ?: "0"
-                } ₽",
+                title = viewModel.getSelectedAccount().name,
+                info = viewModel.getSelectedAccount().let {
+                    "${it.balance} ${it.currency.symbol}"
+                },
                 typeListItem = TypeListItem.ARROW
             ),
             modifier = modifier.background(MaterialTheme.colorScheme.surface)
         )
+        account.value
         ListItem(
             itemModelUI = ListItemModelUI(
                 title = "Валюта",
-                info = account.value.getOrNull(0)?.currency,
+                info = viewModel.getSelectedAccount().currency.abbreviation,
                 typeListItem = TypeListItem.ARROW
             ),
             modifier = modifier.background(MaterialTheme.colorScheme.surface)

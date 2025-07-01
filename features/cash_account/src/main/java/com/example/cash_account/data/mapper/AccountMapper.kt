@@ -1,6 +1,7 @@
 package com.example.cash_account.data.mapper
 
 import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.Currency
 import com.example.network.model.cash_account.request.AccountRequestNetwork
 import com.example.network.model.cash_account.response.AccountResponseNetwork
 import javax.inject.Inject
@@ -10,12 +11,12 @@ class AccountMapper @Inject constructor() {
         id = accountNetwork.id.toInt(),
         name = accountNetwork.name,
         balance = accountNetwork.balance,
-        currency = accountNetwork.currency
+        currency = Currency.collectionCurrency.find { it.abbreviation == accountNetwork.currency }!!
     )
 
     fun toAccountRequest(accountDomain: AccountDomain) = AccountRequestNetwork(
         name = accountDomain.name,
         balance = accountDomain.balance,
-        currency = accountDomain.currency
+        currency = accountDomain.currency.abbreviation
     )
 }

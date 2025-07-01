@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import com.example.yandex_school_app.MainActivity
 import com.example.common.presentation.toast.ToastController
 import com.example.common.domain.entity.AccountDomain
-import com.example.cash_account.domain.entity.Currency
+import com.example.common.domain.entity.Currency
 import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,18 +41,24 @@ fun CreateCashAccount(
 ) {
     val name = remember { mutableStateOf("") }
     val balance = remember { mutableStateOf("") }
-    val selectedCurrency = remember { mutableStateOf(Currency.RUB) }
+    val selectedCurrency = remember { mutableStateOf(Currency.collectionCurrency.first()) }
     LaunchedEffect(isAddAccountClicked.value) {
         if (isAddAccountClicked.value) {
-            viewModel.createCashAccount(
-                AccountDomain(
-                    id = 0,
-                    name = name.value,
-                    balance = balance.value,
-                    currency = selectedCurrency.value
+            if (name.value.isEmpty()) {
+                ToastController.showToast("Введите название счета")
+            } else if (balance.value.isEmpty()) {
+                ToastController.showToast("Введите баланс счета")
+            } else {
+                viewModel.createCashAccount(
+                    AccountDomain(
+                        id = 0,
+                        name = name.value,
+                        balance = balance.value,
+                        currency = selectedCurrency.value
+                    )
                 )
-            )
-            navController.popBackStack()
+                navController.popBackStack()
+            }
         }
         callback.invoke()
     }
@@ -99,7 +105,7 @@ fun CreateCashAccount(
                     .menuAnchor()
                     .fillMaxWidth(),
                 readOnly = true,
-                value = selectedCurrency.value,
+                value = selectedCurrency.value.name,
                 onValueChange = {},
                 label = {
                     Text(
@@ -119,9 +125,9 @@ fun CreateCashAccount(
                 expanded = expanded.value,
                 onDismissRequest = { expanded.value = false }
             ) {
-                listOf(Currency.RUB, Currency.USD, Currency.EUR).forEach { currency ->
+                Currency.collectionCurrency.forEach { currency ->
                     DropdownMenuItem(
-                        text = { Text(currency) },
+                        text = { Text(currency.name) },
                         onClick = {
                             selectedCurrency.value = currency
                             expanded.value = false

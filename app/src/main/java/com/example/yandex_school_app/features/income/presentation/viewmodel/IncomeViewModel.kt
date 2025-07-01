@@ -24,7 +24,7 @@ class IncomeViewModel @Inject constructor(
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.getAccounts().firstOrNull()?.id ?: 209
+            accountManager.getAccount().id
         )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _incomeToday.value =
@@ -44,7 +44,7 @@ class IncomeViewModel @Inject constructor(
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.getAccounts().firstOrNull()?.id ?: 209,
+            accountManager.getAccount().id,
             startDate, endDate
         )
         when (response.typeResponse) {

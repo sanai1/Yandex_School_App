@@ -26,7 +26,9 @@ class AccountViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
                 _allAccount.value = response.body!!
-                accountManager.setAccounts(response.body as List<AccountDomain>)
+                if (accountManager.checkAccount().not()) {
+                    accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
+                }
             }
 
             ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
@@ -34,6 +36,8 @@ class AccountViewModel @Inject constructor(
             else -> ToastController.showToast("Неизвестная ошибка")
         }
     }
+
+    fun getSelectedAccount() = accountManager.getAccount()
 
     fun createCashAccount(accountDomain: AccountDomain) = viewModelScope.launch(Dispatchers.IO) {
         val response = accountUseCase.createCashAccount(accountDomain)
