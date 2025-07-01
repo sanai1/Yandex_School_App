@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CategoryViewModel @Inject constructor(
@@ -21,10 +20,8 @@ class CategoryViewModel @Inject constructor(
         MutableStateFlow<VisibleData<List<CategoryDomain>>>(VisibleData.Loading())
     val categories: StateFlow<VisibleData<List<CategoryDomain>>> = _categories.asStateFlow()
 
-    fun updateCategory() = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            categoryUseCase.getCategories()
-        }
+    fun updateCategory() = viewModelScope.launch(Dispatchers.IO) {
+        val response = categoryUseCase.getCategories()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS ->
                 _categories.value = VisibleData.Success(response.body!!.sortedBy { it.name })

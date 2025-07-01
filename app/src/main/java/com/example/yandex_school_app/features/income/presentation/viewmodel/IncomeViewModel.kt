@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
@@ -23,12 +22,10 @@ class IncomeViewModel @Inject constructor(
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
     val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
-    fun updateToday() = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            transactionUseCase.getTransactionsByPeriod(
-                accountManager.getAccounts().firstOrNull()?.id ?: 209
-            )
-        }
+    fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            accountManager.getAccounts().firstOrNull()?.id ?: 209
+        )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _incomeToday.value =
                 VisibleData.Success(response.body!!.filter { it.categoryDomain.isIncome })
@@ -45,13 +42,11 @@ class IncomeViewModel @Inject constructor(
     val incomeByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
         _incomeByPeriod.asStateFlow()
 
-    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            transactionUseCase.getTransactionsByPeriod(
-                accountManager.getAccounts().firstOrNull()?.id ?: 209,
-                startDate, endDate
-            )
-        }
+    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            accountManager.getAccounts().firstOrNull()?.id ?: 209,
+            startDate, endDate
+        )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value = VisibleData.Success(
                 response.body!!.filter { it.categoryDomain.isIncome }

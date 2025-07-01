@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ExpenseViewModel @Inject constructor(
@@ -25,12 +24,10 @@ class ExpenseViewModel @Inject constructor(
     val expensesToday: StateFlow<VisibleData<List<TransactionDomain>>> =
         _expensesToday.asStateFlow()
 
-    fun updateToday() = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            transactionUseCase.getTransactionsByPeriod(
-                accountManager.getAccounts().firstOrNull()?.id ?: 209
-            ).copy(body = Mok.transactionExpense) // TODO: убрать моковые данные
-        }
+    fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            accountManager.getAccounts().firstOrNull()?.id ?: 209
+        ).copy(body = Mok.transactionExpense) // TODO: убрать моковые данные
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _expensesToday.value =
                 VisibleData.Success(response.body!!.filter { it.categoryDomain.isIncome.not() })
@@ -47,13 +44,11 @@ class ExpenseViewModel @Inject constructor(
     val expensesByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
         _expensesByPeriod.asStateFlow()
 
-    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            transactionUseCase.getTransactionsByPeriod(
-                accountManager.getAccounts().firstOrNull()?.id ?: 209,
-                startDate, endDate
-            )
-        }
+    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            accountManager.getAccounts().firstOrNull()?.id ?: 209,
+            startDate, endDate
+        )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _expensesByPeriod.value =
                 VisibleData.Success(response.body!!.filter { it.categoryDomain.isIncome.not() }

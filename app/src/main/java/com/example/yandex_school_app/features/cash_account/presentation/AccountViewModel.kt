@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
@@ -22,10 +21,8 @@ class AccountViewModel @Inject constructor(
     private val _allAccount = MutableStateFlow<List<AccountDomain>>(emptyList())
     val allAccount: StateFlow<List<AccountDomain>> = _allAccount.asStateFlow()
 
-    fun updateAllAccount() = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            accountUseCase.getAllCashAccount()
-        }
+    fun updateAllAccount() = viewModelScope.launch(Dispatchers.IO) {
+        val response = accountUseCase.getAllCashAccount()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
                 _allAccount.value = response.body!!
@@ -38,10 +35,8 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun createCashAccount(accountDomain: AccountDomain) = viewModelScope.launch {
-        val response = withContext(Dispatchers.IO) {
-            accountUseCase.createCashAccount(accountDomain)
-        }
+    fun createCashAccount(accountDomain: AccountDomain) = viewModelScope.launch(Dispatchers.IO) {
+        val response = accountUseCase.createCashAccount(accountDomain)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> updateAllAccount()
             ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
