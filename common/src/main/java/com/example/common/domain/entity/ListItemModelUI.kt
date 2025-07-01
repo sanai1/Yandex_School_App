@@ -10,4 +10,5 @@ data class ListItemModelUI(
     val info: String? = null,
     val infoDescription: String? = null,
     val typeListItem: TypeListItem,
+    val payload: String = ""
 )

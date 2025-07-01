@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity() {
                     val accountViewModel: AccountViewModel = viewModel(
                         factory = (LocalContext.current as MainActivity).viewModelFactory
                     )
-                    accountViewModel.updateAllAccount()
                     SplashScreen {
                         showSplash.value = false
                     }

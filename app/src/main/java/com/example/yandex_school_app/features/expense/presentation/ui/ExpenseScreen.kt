@@ -2,10 +2,12 @@ package com.example.yandex_school_app.features.expense.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.MainActivity
@@ -42,7 +44,9 @@ fun ExpenseScreen(
                     } ₽",
                     typeListItem = TypeListItem.USUAL
                 ),
-                modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                modifier = modifier
+                    .height(56.dp)
+                    .background(MaterialTheme.colorScheme.surface)
             )
             (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.forEach {
                 ListItem(
@@ -53,7 +57,7 @@ fun ExpenseScreen(
                         info = it.amount,
                         typeListItem = TypeListItem.ARROW
                     ),
-                    modifier = modifier
+                    modifier = modifier.height(70.dp)
                 )
             }
         }

@@ -26,7 +26,7 @@ class ExpenseViewModel @Inject constructor(
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.getAccount().id
+            accountManager.selectedAccount.value.id
         ).copy(body = Mok.transactionExpense) // TODO: убрать моковые данные
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> _expensesToday.value =
@@ -46,7 +46,7 @@ class ExpenseViewModel @Inject constructor(
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.getAccount().id,
+            accountManager.selectedAccount.value.id,
             startDate, endDate
         )
         when (response.typeResponse) {

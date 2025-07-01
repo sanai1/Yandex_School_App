@@ -1,7 +1,9 @@
 package com.example.common.presentation.history
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
@@ -16,7 +18,7 @@ fun EndDateItem(endDate: LocalDate, modifier: Modifier, updateDate: (String) -> 
                 .reversed().joinToString("."),
             typeListItem = TypeListItem.USUAL
         ),
-        modifier = modifier,
+        modifier = modifier.height(56.dp),
         onClickDate = { newEndDate ->
             updateDate.invoke(newEndDate)
         }
