@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -100,7 +101,7 @@ fun CashAccountScreen(
                         Currency.collectionCurrency.forEach { currency ->
                             ListItem(
                                 itemModelUI = ListItemModelUI(
-                                    picture = currency.symbol,
+                                    icon = currency.icon,
                                     title = currency.name,
                                     typeListItem = TypeListItem.USUAL
                                 ),
@@ -112,6 +113,17 @@ fun CashAccountScreen(
                                 }
                             )
                         }
+                        ListItem(
+                            itemModelUI = ListItemModelUI(
+                                icon = R.drawable.back,
+                                title = "Отмена",
+                                typeListItem = TypeListItem.USUAL,
+                            ),
+                            modifier = modifier.background(Color.Red).height(70.dp),
+                            onClickContainer = {
+                                visibleBottomSheet = TypeModalBottomSheet.NONE
+                            },
+                        )
                     }
                 }
             }
