@@ -18,6 +18,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var viewModelFactory: DaggerViewModelFactory
 
+    lateinit var accountViewModel: AccountViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as AppMain).appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
             Yandex_School_AppTheme {
                 val showSplash = remember { mutableStateOf(true) }
                 if (showSplash.value) {
-                    val accountViewModel: AccountViewModel = viewModel(
+                    accountViewModel = viewModel(
                         factory = (LocalContext.current as MainActivity).viewModelFactory
                     )
                     SplashScreen {

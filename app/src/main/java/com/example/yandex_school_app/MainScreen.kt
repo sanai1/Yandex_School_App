@@ -83,33 +83,50 @@ fun MainScreen(
                 .padding(innerPadding)
         ) {
             when (selectedItem) {
-                is NavigationCustomItem.Expense -> ExpenseScreen(modifier)
-
-                is NavigationCustomItem.Income -> IncomeScreen(modifier)
-
-                is NavigationCustomItem.CashAccount -> CashAccountScreen(
-                    modifier, viewModel(
-                        factory = (LocalContext.current as MainActivity).viewModelFactory
-                    )
+                is NavigationCustomItem.Expense -> ExpenseScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
                 )
 
-                is NavigationCustomItem.Category -> CategoryScreen(modifier)
+                is NavigationCustomItem.Income -> IncomeScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
+
+                is NavigationCustomItem.CashAccount -> CashAccountScreen(
+                    modifier, (LocalContext.current as MainActivity).accountViewModel
+                )
+
+                is NavigationCustomItem.Category -> CategoryScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
                 is NavigationCustomItem.Settings -> SettingsScreen(modifier)
 
-                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(modifier)
+                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
-                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(modifier)
+                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
                 is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(modifier)
 
                 is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
 
-                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(modifier)
+                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
                     navController,
                     modifier,
+                    viewModel = viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory),
                     isAddAccountClicked = isAddAccountClicked,
                     callback = {
                         isAddAccountClicked.value = false

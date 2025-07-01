@@ -7,12 +7,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.common.domain.entity.CategoryDomain
-import com.example.yandex_school_app.MainActivity
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible
@@ -23,9 +20,7 @@ import com.example.common.presentation.list.TypeListItem
 @Composable
 fun CategoryScreen(
     modifier: Modifier,
-    viewModel: CategoryViewModel = viewModel(
-        factory = (LocalContext.current as MainActivity).viewModelFactory
-    )
+    viewModel: CategoryViewModel
 ) {
     val categories = viewModel.categories.collectAsStateWithLifecycle()
     when (categories.value) {
