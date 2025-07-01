@@ -53,9 +53,14 @@ class CategoryRemoteDataSourceImpl @Inject constructor(
                     body = null
                 )
             }
-        } catch (e: NoConnectivityException) {
+        } catch (_: NoConnectivityException) {
             return ResponseTemplate(
                 typeResponse = ResponseTemplate.TypeResponse.NETWORK_PROBLEM,
+                body = null
+            )
+        } catch (_: Exception) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER,
                 body = null
             )
         }
