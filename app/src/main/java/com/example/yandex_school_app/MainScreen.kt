@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.yandex_school_app.features.cash_account.presentation.ui.CashAccountScreen
-import com.example.yandex_school_app.features.cash_account.presentation.ui.CreateCashAccount
-import com.example.yandex_school_app.features.cash_account.presentation.ui.DetailsCashAccountScreen
-import com.example.yandex_school_app.features.category.presentation.CategoryScreen
+import com.example.cash_account.presentation.ui.CashAccountScreen
+import com.example.cash_account.presentation.ui.CreateCashAccount
+import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
+import com.example.category.presentation.ui.CategoryScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.DetailsExpenseScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.ExpenseScreen
 import com.example.yandex_school_app.features.expense.presentation.ui.HistoryExpenseScreen
@@ -124,10 +123,12 @@ fun MainScreen(
                 )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
-                    navController,
                     modifier,
                     viewModel = viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory),
                     isAddAccountClicked = isAddAccountClicked,
+                    callbackNavController = {
+                        navController.popBackStack()
+                    },
                     callback = {
                         isAddAccountClicked.value = false
                     })

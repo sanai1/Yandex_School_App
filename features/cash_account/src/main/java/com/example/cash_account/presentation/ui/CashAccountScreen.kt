@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation.ui
+package com.example.cash_account.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,11 +22,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.Currency
-import com.example.yandex_school_app.R
+import com.example.cash_account.R
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
-import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
+import com.example.cash_account.presentation.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

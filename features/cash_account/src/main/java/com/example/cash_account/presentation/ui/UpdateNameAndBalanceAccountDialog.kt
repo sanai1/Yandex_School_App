@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation.ui
+package com.example.cash_account.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

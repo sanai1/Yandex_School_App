@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation.ui
+package com.example.cash_account.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,24 +24,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.common.domain.entity.AccountDomain
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
-import com.example.yandex_school_app.MainActivity
-import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
+import com.example.cash_account.presentation.AccountViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsCashAccountScreen(
     modifier: Modifier,
-    viewModel: AccountViewModel = viewModel(
-        factory = (LocalContext.current as MainActivity).viewModelFactory
-    )
+    viewModel: AccountViewModel
 ) {
     val accounts = viewModel.allAccount.collectAsStateWithLifecycle()
     Column(

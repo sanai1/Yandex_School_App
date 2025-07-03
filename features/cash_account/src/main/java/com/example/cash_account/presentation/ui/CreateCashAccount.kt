@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation.ui
+package com.example.cash_account.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,26 +18,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.example.yandex_school_app.MainActivity
 import com.example.common.presentation.toast.ToastController
 import com.example.common.domain.entity.AccountDomain
 import com.example.common.domain.entity.Currency
-import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
+import com.example.cash_account.presentation.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCashAccount(
-    navController: NavController,
     modifier: Modifier,
     isAddAccountClicked: MutableState<Boolean>,
+    callbackNavController: () -> Unit,
     callback: () -> Unit,
-    viewModel: AccountViewModel = viewModel(
-        factory = (LocalContext.current as MainActivity).viewModelFactory
-    )
+    viewModel: AccountViewModel
 ) {
     val name = remember { mutableStateOf("") }
     val balance = remember { mutableStateOf("") }
@@ -57,7 +51,7 @@ fun CreateCashAccount(
                         currency = selectedCurrency.value
                     )
                 )
-                navController.popBackStack()
+                callbackNavController.invoke()
             }
         }
         callback.invoke()

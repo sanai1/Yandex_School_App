@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.cash_account.presentation
+package com.example.cash_account.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -2,8 +2,8 @@ package com.example.yandex_school_app.di.module
 
 import androidx.lifecycle.ViewModel
 import com.example.yandex_school_app.di.ViewModelKey
-import com.example.yandex_school_app.features.cash_account.presentation.AccountViewModel
-import com.example.yandex_school_app.features.category.presentation.CategoryViewModel
+import com.example.cash_account.presentation.AccountViewModel
+import com.example.category.presentation.CategoryViewModel
 import com.example.yandex_school_app.features.expense.presentation.viewmodel.ExpenseViewModel
 import com.example.yandex_school_app.features.income.presentation.viewmodel.IncomeViewModel
 import dagger.Binds

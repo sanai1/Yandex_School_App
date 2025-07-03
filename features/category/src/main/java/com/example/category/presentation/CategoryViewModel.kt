@@ -1,4 +1,4 @@
-package com.example.yandex_school_app.features.category.presentation
+package com.example.category.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
