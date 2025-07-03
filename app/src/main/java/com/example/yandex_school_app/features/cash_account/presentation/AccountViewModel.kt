@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.network.ResponseTemplate
 import com.example.common.presentation.toast.ToastController
-import com.example.common.manager.AccountManager
+import com.example.common.store.AccountStore
 import com.example.common.domain.entity.AccountDomain
 import com.example.cash_account.domain.usecase.AccountUseCase
 import com.example.common.domain.entity.Currency
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val accountUseCase: AccountUseCase,
-    private val accountManager: AccountManager
+    private val accountManager: AccountStore
 ) : ViewModel() {
     init {
         updateAllAccount()
@@ -30,11 +30,16 @@ class AccountViewModel @Inject constructor(
         val response = accountUseCase.getAllCashAccount()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                _allAccount.value = response.body!!.sortedBy { it.name }
+                response.body?.let { it ->
+                    _allAccount.value = it.sortedBy { it.name }
+                }
                 if (accountManager.checkAccount().not()) {
                     accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
                 } else if (accountManager.selectedAccount.value.id in allAccount.value.map { it.id }) {
-                    accountManager.setSelectedAccount(allAccount.value.find { it.id == accountManager.selectedAccount.value.id }!!)
+                    allAccount.value.find { it.id == accountManager.selectedAccount.value.id }
+                        ?.let {
+                            accountManager.setSelectedAccount(it)
+                        }
                 }
             }
 
@@ -93,7 +98,9 @@ class AccountViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
                 updateAllAccount()
-                accountManager.setSelectedAccount(response.body!!)
+                response.body?.let {
+                    accountManager.setSelectedAccount(it)
+                }
             }
 
             ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")

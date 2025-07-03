@@ -1,4 +1,4 @@
-package com.example.common.manager
+package com.example.common.store
 
 import com.example.network.di.ApplicationScope
 import com.example.common.domain.entity.AccountDomain
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @ApplicationScope
-class AccountManager @Inject constructor() {
+class AccountStore @Inject constructor() {
     private val _selectedAccount = MutableStateFlow(accountExample)
     val selectedAccount: StateFlow<AccountDomain> = _selectedAccount.asStateFlow()
 

@@ -13,10 +13,6 @@ class DaggerViewModelFactory @Inject constructor(
             ?: creators.entries.firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
             ?: throw IllegalArgumentException("Unknown ViewModel class $modelClass")
 
-        return try {
-            creator.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        return creator.get() as T
     }
 }

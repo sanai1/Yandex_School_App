@@ -27,9 +27,11 @@ class CategoryViewModel @Inject constructor(
         val response = categoryUseCase.getCategories()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                VisibleData.Success(response.body!!.sortedBy { it.name }).let {
-                    _categories.value = it
-                    allCategories = it.data
+                response.body?.let { it ->
+                    VisibleData.Success(it.sortedBy { it.name }).let {
+                        _categories.value = it
+                        allCategories = it.data
+                    }
                 }
             }
 

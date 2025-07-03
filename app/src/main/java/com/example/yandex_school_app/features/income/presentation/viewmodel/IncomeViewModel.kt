@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.TransactionDomain
 import com.example.common.domain.usecase.TransactionUseCase
-import com.example.common.manager.AccountManager
+import com.example.common.store.AccountStore
 import com.example.common.presentation.base_visible.VisibleData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
-    private val accountManager: AccountManager
+    private val accountManager: AccountStore
 ) : ViewModel() {
     private val _incomeToday =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -27,8 +27,9 @@ class IncomeViewModel @Inject constructor(
             accountManager.selectedAccount.value.id
         )
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _incomeToday.value =
-                VisibleData.Success(response.body!!.filter { it.categoryDomain.isIncome })
+            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
+                _incomeToday.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome })
+            }
 
             ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeToday.value =
                 VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
@@ -50,9 +51,10 @@ class IncomeViewModel @Inject constructor(
             startDate, endDate
         )
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> _incomeByPeriod.value = VisibleData.Success(
-                response.body!!.filter { it.categoryDomain.isIncome }
+            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
+                _incomeByPeriod.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome }
                     .sortedByDescending { it.transactionDate })
+            }
 
             ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeByPeriod.value =
                 VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
