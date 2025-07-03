@@ -1,4 +1,4 @@
-package com.example.network.di
+package com.example.yandex_school_app.di
 
 import javax.inject.Scope
 

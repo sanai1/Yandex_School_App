@@ -62,6 +62,7 @@ dependencies {
 
     implementation(libs.airbnb.android.lottie.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.logging.interceptor)
     implementation(libs.google.dagger.core)
     ksp(libs.google.dagger.compiler)
     implementation(libs.squareup.retrofit2)
