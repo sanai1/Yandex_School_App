@@ -119,12 +119,12 @@ fun MainScreen(
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).accountViewModel
                 )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
                     modifier,
-                    viewModel = viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory),
+                    viewModel = (LocalContext.current as MainActivity).accountViewModel,
                     isAddAccountClicked = isAddAccountClicked,
                     callbackNavController = {
                         navController.popBackStack()

@@ -3,18 +3,19 @@ package com.example.navigation
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -42,18 +43,18 @@ fun TopBarCustom(
 
     @Composable
     fun IconButtonOnTopBar(icon: Int, onClick: () -> Unit) {
-        IconButton(onClick = onClick) {
+        IconButton(onClick = onClick, modifier = modifier.size(48.dp)) {
             Icon(painter = painterResource(icon), contentDescription = "")
         }
     }
 
     @Composable
     fun IconButtonOnTopBar(icon: ImageVector, onClick: () -> Unit) {
-        IconButton(onClick = onClick) {
+        IconButton(onClick = onClick, modifier = modifier.size(48.dp)) {
             Icon(icon, contentDescription = "")
         }
     }
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Row(
                 modifier = modifier.fillMaxWidth(),
@@ -61,19 +62,19 @@ fun TopBarCustom(
             ) {
                 when (selectedItem) {
                     is NavigationCustomItem.Expense -> {
-                        Spacer(modifier = modifier.width(25.dp))
+                        Spacer(modifier = modifier.width(48.dp))
                         TextOnTopBar("Расходы сегодня", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.history) { navController.navigate(ScreenName.HISTORY_EXPENSE) }
                     }
 
                     is NavigationCustomItem.Income -> {
-                        Spacer(modifier = modifier.width(25.dp))
+                        Spacer(modifier = modifier.width(48.dp))
                         TextOnTopBar("Доходы сегодня", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.history) { navController.navigate(ScreenName.HISTORY_INCOME) }
                     }
 
                     is NavigationCustomItem.CashAccount -> {
-                        Spacer(modifier = modifier.width(25.dp))
+                        Spacer(modifier = modifier.width(48.dp))
                         TextOnTopBar("Мой счет", modifier.weight(1f))
                         IconButtonOnTopBar(Icons.Default.Create) {
                             navController.navigate(ScreenName.DETAILS_ACCOUNT)
@@ -101,27 +102,24 @@ fun TopBarCustom(
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
                         IconButtonOnTopBar(R.drawable.analitics) { }
-                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsExpense -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои расходы", modifier.weight(1f))
                         IconButtonOnTopBar(Icons.Default.Done) { }
-                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsIncome -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои доходы", modifier.weight(1f))
                         IconButtonOnTopBar(Icons.Default.Done) { }
-                        Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.DetailsAccount -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мой счет", modifier.weight(1f))
-                        Spacer(modifier = modifier.width(15.dp))
+                        Spacer(modifier = modifier.width(48.dp))
                     }
 
                     is NavigationCustomItem.CrateAccount -> {
@@ -130,7 +128,6 @@ fun TopBarCustom(
                         IconButtonOnTopBar(Icons.Default.Done) {
                             isAddAccountClicked.value = true
                         }
-                        Spacer(modifier = modifier.width(15.dp))
                     }
                 }
             }
