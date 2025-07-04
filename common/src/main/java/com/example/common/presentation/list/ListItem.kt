@@ -1,6 +1,7 @@
 package com.example.common.presentation.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -17,6 +17,7 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,27 +43,35 @@ import java.util.Locale
 fun ListItem(
     itemModelUI: ListItemModelUI,
     modifier: Modifier,
-    onClickDate: ((String) -> Unit)? = null
+    onClickContainer: ((ListItemModelUI) -> Unit)? = null,
+    onClickDate: ((String) -> Unit)? = null,
+    onClickDetails: (() -> Unit)? = null
 ) {
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
                 .fillMaxWidth()
-                .height(65.dp)
+                .clickable {
+                    onClickContainer?.invoke(itemModelUI)
+                }
                 .padding(horizontal = 15.dp)
         ) {
             itemModelUI.picture?.let {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = modifier
+                    modifier = Modifier
                         .size(30.dp)
                         .clip(CircleShape)
                         .background(MaterialTheme.colorScheme.surface)
                 ) {
-                    Text(it, modifier = modifier.size(20.dp))
+                    Text(it, modifier = Modifier.size(20.dp))
                 }
-                Spacer(modifier = modifier.width(15.dp))
+                Spacer(modifier = Modifier.size(15.dp))
+            }
+            itemModelUI.icon?.let {
+                Icon(painter = painterResource(it), contentDescription = "")
+                Spacer(modifier = Modifier.size(15.dp))
             }
             Column {
                 Text(
@@ -78,7 +88,11 @@ fun ListItem(
                     )
                 }
             }
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+            )
             Column(
                 horizontalAlignment = Alignment.End
             ) {
@@ -94,11 +108,15 @@ fun ListItem(
                 }
             }
             when (itemModelUI.typeListItem) {
-                TypeListItem.ARROW -> Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    contentDescription = "",
-                    tint = Color.Gray
-                )
+                TypeListItem.ARROW -> {
+                    IconButton(onClick = { onClickDetails?.invoke() }) {
+                        Icon(
+                            Icons.Default.KeyboardArrowRight,
+                            contentDescription = "",
+                            tint = Color.Gray
+                        )
+                    }
+                }
 
                 TypeListItem.SWITCH -> Switch(
                     checked = false,
@@ -109,7 +127,7 @@ fun ListItem(
             }
         }
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(1.dp)
                 .background(Color.Gray)

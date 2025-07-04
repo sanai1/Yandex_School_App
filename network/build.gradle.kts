@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
 
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -35,8 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.google.dagger.core)
-    ksp(libs.google.dagger.compiler)
+    implementation(libs.logging.interceptor)
     implementation(libs.squareup.retrofit2)
     implementation(libs.squareup.retrofit2.gson)
 

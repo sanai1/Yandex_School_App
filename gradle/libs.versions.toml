@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.8.0"
 composeBom = "2024.09.00"
 
+loggingInterceptor = "4.12.0"
 lottie = "6.3.0"
 navigation = "2.7.7"
 dagger = "2.51.1"
@@ -36,6 +37,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 airbnb-android-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 google-dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 squareup-retrofit2-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodel" }

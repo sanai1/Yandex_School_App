@@ -1,8 +1,10 @@
 package com.example.settings.presentation
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
@@ -30,7 +32,7 @@ fun SettingsScreen(modifier: Modifier) {
                     info = null,
                     typeListItem = if (it == "Тёмная тема") TypeListItem.SWITCH else TypeListItem.ARROW
                 ),
-                modifier = modifier,
+                modifier = modifier.height(56.dp),
             )
         }
     }

@@ -9,12 +9,16 @@ class TransactionUseCase @Inject constructor(
 ) {
     suspend fun getTransactionsByPeriod(
         accountId: Int,
-        start: String = LocalDate.now().let {
-            "${it.year}-${
-                it.monthValue.let {
+        start: String = LocalDate.now().let { localDate ->
+            "${localDate.year}-${
+                localDate.monthValue.let {
                     if (it in 0..9) "0$it" else it
                 }
-            }-${it.dayOfMonth}"
+            }-${
+                localDate.dayOfMonth.let {
+                    if (it in 0..9) "0$it" else it
+                }
+            }"
         },
         finish: String = start
     ) = transactionRepository.getTransactionByPeriod(accountId, start, finish)

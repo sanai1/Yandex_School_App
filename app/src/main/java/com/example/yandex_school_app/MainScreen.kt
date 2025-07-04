@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,17 +16,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.yandex_school_app.features.cash_account.presentation.ui.CashAccountScreen
-import com.example.yandex_school_app.features.cash_account.presentation.ui.CreateCashAccount
-import com.example.yandex_school_app.features.cash_account.presentation.ui.DetailsCashAccountScreen
-import com.example.yandex_school_app.features.category.presentation.CategoryScreen
-import com.example.yandex_school_app.features.expense.presentation.ui.DetailsExpenseScreen
-import com.example.yandex_school_app.features.expense.presentation.ui.ExpenseScreen
-import com.example.yandex_school_app.features.expense.presentation.ui.HistoryExpenseScreen
-import com.example.yandex_school_app.features.income.presentation.ui.DetailsIncomeScreen
-import com.example.yandex_school_app.features.income.presentation.ui.HistoryIncomeScreen
-import com.example.yandex_school_app.features.income.presentation.ui.IncomeScreen
+import com.example.cash_account.presentation.ui.CashAccountScreen
+import com.example.cash_account.presentation.ui.CreateCashAccount
+import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
+import com.example.category.presentation.ui.CategoryScreen
+import com.example.expense.presentation.ui.DetailsExpenseScreen
+import com.example.expense.presentation.ui.ExpenseScreen
+import com.example.expense.presentation.ui.HistoryExpenseScreen
+import com.example.income.presentation.ui.DetailsIncomeScreen
+import com.example.income.presentation.ui.HistoryIncomeScreen
+import com.example.income.presentation.ui.IncomeScreen
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
@@ -45,7 +46,11 @@ fun MainScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBarCustom(navController, selectedItem, isAddAccountClicked = isAddAccountClicked)
+            TopBarCustom(
+                navController,
+                selectedItem,
+                isAddAccountClicked = isAddAccountClicked,
+            )
         },
         floatingActionButton = {
             when (selectedItem) {
@@ -77,30 +82,53 @@ fun MainScreen(
                 .padding(innerPadding)
         ) {
             when (selectedItem) {
-                is NavigationCustomItem.Expense -> ExpenseScreen(modifier)
+                is NavigationCustomItem.Expense -> ExpenseScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
-                is NavigationCustomItem.Income -> IncomeScreen(modifier)
+                is NavigationCustomItem.Income -> IncomeScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
-                is NavigationCustomItem.CashAccount -> CashAccountScreen(modifier)
+                is NavigationCustomItem.CashAccount -> CashAccountScreen(
+                    modifier, (LocalContext.current as MainActivity).accountViewModel
+                )
 
-                is NavigationCustomItem.Category -> CategoryScreen(modifier)
+                is NavigationCustomItem.Category -> CategoryScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
                 is NavigationCustomItem.Settings -> SettingsScreen(modifier)
 
-                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(modifier)
+                is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
-                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(modifier)
+                is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(
+                    modifier,
+                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                )
 
                 is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(modifier)
 
                 is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
 
-                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(modifier)
+                is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
+                    modifier,
+                    (LocalContext.current as MainActivity).accountViewModel
+                )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
-                    navController,
                     modifier,
+                    viewModel = (LocalContext.current as MainActivity).accountViewModel,
                     isAddAccountClicked = isAddAccountClicked,
+                    callbackNavController = {
+                        navController.popBackStack()
+                    },
                     callback = {
                         isAddAccountClicked.value = false
                     })
