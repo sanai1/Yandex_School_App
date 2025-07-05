@@ -28,8 +28,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    api(project(":features:expense"))
+    api(project(":features:income"))
+    api(project(":features:cash_account"))
+    api(project(":features:category"))
+    api(project(":features:settings"))
 }

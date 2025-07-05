@@ -39,13 +39,7 @@ android {
 
 dependencies {
     implementation(project(":navigation"))
-    implementation(project(":common"))
-    implementation(project(":network"))
-    implementation(project(":features:settings"))
-    implementation(project(":features:category"))
-    implementation(project(":features:cash_account"))
-    implementation(project(":features:expense"))
-    implementation(project(":features:income"))
+    implementation(project(":features"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -58,18 +52,6 @@ dependencies {
 
     implementation(libs.airbnb.android.lottie.compose)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.logging.interceptor)
-    implementation(libs.google.dagger.core)
-    ksp(libs.google.dagger.compiler)
-    implementation(libs.squareup.retrofit2)
-    implementation(libs.squareup.retrofit2.gson)
     implementation(libs.androidx.lifecycle.viewmodel)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    ksp(libs.google.dagger.compiler)
 }

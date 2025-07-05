@@ -34,8 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common"))
-    implementation(project(":network"))
+    api(project(":common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -45,12 +44,5 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    implementation(libs.google.dagger.core)
     ksp(libs.google.dagger.compiler)
-    implementation(libs.squareup.retrofit2)
-    implementation(libs.squareup.retrofit2.gson)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
