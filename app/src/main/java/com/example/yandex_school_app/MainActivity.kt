@@ -6,19 +6,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.di.AppMain
 import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.cash_account.presentation.AccountViewModel
+import com.example.category.presentation.CategoryViewModel
+import com.example.expense.presentation.ExpenseViewModel
+import com.example.income.presentation.viewmodel.IncomeViewModel
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var viewModelFactory: DaggerViewModelFactory
-
-    lateinit var accountViewModel: AccountViewModel
+    val mapViewModel = mutableMapOf<KClass<out ViewModel>, ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as AppMain).appComponent.inject(this)
@@ -28,8 +31,17 @@ class MainActivity : ComponentActivity() {
             Yandex_School_AppTheme {
                 val showSplash = remember { mutableStateOf(true) }
                 if (showSplash.value) {
-                    accountViewModel = viewModel(
-                        factory = (LocalContext.current as MainActivity).viewModelFactory
+                    mapViewModel[AccountViewModel::class] = viewModel<AccountViewModel>(
+                        factory = viewModelFactory
+                    )
+                    mapViewModel[CategoryViewModel::class] = viewModel<CategoryViewModel>(
+                        factory = viewModelFactory
+                    )
+                    mapViewModel[ExpenseViewModel::class] = viewModel<ExpenseViewModel>(
+                        factory = viewModelFactory
+                    )
+                    mapViewModel[IncomeViewModel::class] = viewModel<IncomeViewModel>(
+                        factory = viewModelFactory
                     )
                     SplashScreen {
                         showSplash.value = false

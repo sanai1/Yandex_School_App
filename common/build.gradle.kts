@@ -14,16 +14,11 @@ android {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
     }
     compileOptions {
@@ -39,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":network"))
+    api(project(":network"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -53,16 +48,6 @@ dependencies {
     implementation(libs.airbnb.android.lottie.compose)
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.google.dagger.core)
+    api(libs.google.dagger.core)
     ksp(libs.google.dagger.compiler)
-    implementation(libs.squareup.retrofit2)
-    implementation(libs.squareup.retrofit2.gson)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

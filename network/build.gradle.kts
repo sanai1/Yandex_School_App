@@ -12,16 +12,11 @@ android {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
     }
     compileOptions {
@@ -34,12 +29,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.logging.interceptor)
-    implementation(libs.squareup.retrofit2)
-    implementation(libs.squareup.retrofit2.gson)
-
-    implementation(libs.androidx.core.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    api(libs.logging.interceptor)
+    api(libs.squareup.retrofit2)
+    api(libs.squareup.retrofit2.gson)
 }
