@@ -19,16 +19,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.cash_account.presentation.AccountViewModel
 import com.example.cash_account.presentation.ui.CashAccountScreen
 import com.example.cash_account.presentation.ui.CreateCashAccount
 import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
+import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
+import com.example.expense.presentation.ExpenseViewModel
 import com.example.expense.presentation.ui.DetailsExpenseScreen
 import com.example.expense.presentation.ui.ExpenseScreen
 import com.example.expense.presentation.ui.HistoryExpenseScreen
 import com.example.income.presentation.ui.DetailsIncomeScreen
 import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
+import com.example.income.presentation.viewmodel.IncomeViewModel
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
@@ -84,33 +88,34 @@ fun MainScreen(
             when (selectedItem) {
                 is NavigationCustomItem.Expense -> ExpenseScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
                 )
 
                 is NavigationCustomItem.Income -> IncomeScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
                 )
 
                 is NavigationCustomItem.CashAccount -> CashAccountScreen(
-                    modifier, (LocalContext.current as MainActivity).accountViewModel
+                    modifier,
+                    (LocalContext.current as MainActivity).mapViewModel[AccountViewModel::class] as AccountViewModel
                 )
 
                 is NavigationCustomItem.Category -> CategoryScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).mapViewModel[CategoryViewModel::class] as CategoryViewModel
                 )
 
                 is NavigationCustomItem.Settings -> SettingsScreen(modifier)
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
                 )
 
                 is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(
                     modifier,
-                    viewModel(factory = (LocalContext.current as MainActivity).viewModelFactory)
+                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
                 )
 
                 is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(modifier)
@@ -119,12 +124,12 @@ fun MainScreen(
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).accountViewModel
+                    (LocalContext.current as MainActivity).mapViewModel[AccountViewModel::class] as AccountViewModel
                 )
 
                 is NavigationCustomItem.CrateAccount -> CreateCashAccount(
                     modifier,
-                    viewModel = (LocalContext.current as MainActivity).accountViewModel,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[AccountViewModel::class] as AccountViewModel,
                     isAddAccountClicked = isAddAccountClicked,
                     callbackNavController = {
                         navController.popBackStack()
