@@ -1,8 +1,8 @@
-package com.example.network.model.transaction
+package com.example.network.model.transaction.response
 
 import com.example.network.model.category.CategoryNetwork
 
-data class TransactionNetwork(
+data class TransactionResponseNetwork(
     val id: Long,
     val account: Account,
     val category: CategoryNetwork,

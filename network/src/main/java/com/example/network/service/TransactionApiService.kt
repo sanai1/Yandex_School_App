@@ -1,10 +1,16 @@
 package com.example.network.service
 
 import com.example.network.BaseUrl
-import com.example.network.model.transaction.TransactionNetwork
+import com.example.network.model.transaction.request.TransactionRequestNetwork
+import com.example.network.model.transaction.response.TransactionResponseNetwork
+import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -15,5 +21,29 @@ interface TransactionApiService {
         @Path("accountId") accountId: Int,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String
-    ): Call<List<TransactionNetwork>>
+    ): Call<List<TransactionResponseNetwork>>
+
+    @POST("transactions")
+    suspend fun createTransaction(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Body transaction: TransactionRequestNetwork
+    ): TransactionRequestNetwork
+
+    @GET("transactions/{id}")
+    suspend fun getTransactionById(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Path("id") transactionId: Int
+    ): TransactionResponseNetwork
+
+    @PUT("transactions/{id}")
+    suspend fun updateTransactionById(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Body transaction: TransactionRequestNetwork
+    ): TransactionResponseNetwork
+
+    @DELETE("transaction/{id}")
+    suspend fun deleteTransactionById(
+        @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Path("id") transactionId: Int
+    ): ResponseBody
 }
