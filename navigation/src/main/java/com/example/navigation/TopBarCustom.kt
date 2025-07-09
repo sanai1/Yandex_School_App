@@ -35,6 +35,8 @@ fun TopBarCustom(
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
     isAddAccountClicked: MutableState<Boolean>,
+    isExpenseClicked: MutableState<Boolean>,
+    isIncomeClicked: MutableState<Boolean>
 ) {
     @Composable
     fun TextOnTopBar(text: String, modifier: Modifier = Modifier) {
@@ -107,13 +109,17 @@ fun TopBarCustom(
                     is NavigationCustomItem.DetailsExpense -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои расходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        IconButtonOnTopBar(Icons.Default.Done) {
+                            isExpenseClicked.value = true
+                        }
                     }
 
                     is NavigationCustomItem.DetailsIncome -> {
                         IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
                         TextOnTopBar("Мои доходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        IconButtonOnTopBar(Icons.Default.Done) {
+                            isIncomeClicked.value = true
+                        }
                     }
 
                     is NavigationCustomItem.DetailsAccount -> {

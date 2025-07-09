@@ -47,6 +47,8 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
+    val isExpenseClicked = remember { mutableStateOf(false) }
+    val isIncomeClicked = remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -54,6 +56,8 @@ fun MainScreen(
                 navController,
                 selectedItem,
                 isAddAccountClicked = isAddAccountClicked,
+                isExpenseClicked = isExpenseClicked,
+                isIncomeClicked = isIncomeClicked
             )
         },
         floatingActionButton = {
@@ -118,9 +122,23 @@ fun MainScreen(
                     (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
                 )
 
-                is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(modifier)
+                is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(
+                    modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    isExpenseClicked = isExpenseClicked,
+                    callback = {
+                        isExpenseClicked.value = false
+                    }
+                )
 
-                is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
+                is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(
+                    modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    isIncomeClicked = isIncomeClicked,
+                    callback = {
+                        isIncomeClicked.value = false
+                    }
+                )
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
                     modifier,

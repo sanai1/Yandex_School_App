@@ -21,14 +21,14 @@ fun ErrorVisible(
             Text(message)
         } else {
             when (type) {
-                ResponseTemplate.TypeResponse.SUCCESS -> Text("Данные есть, но что-то пошло не так")
-                ResponseTemplate.TypeResponse.UNAUTHORIZED -> Text("Ошибка авторизации")
-                ResponseTemplate.TypeResponse.NOT_FOUND -> Text("Ошибка в данных")
-                ResponseTemplate.TypeResponse.ERROR_SERVER -> Text("Внутренняя ошибка сервера")
-                ResponseTemplate.TypeResponse.ERROR_CLIENT -> Text("Внутренняя ошибка приложения")
-                ResponseTemplate.TypeResponse.MANY_REQUEST -> Text("Слишком много запросов к северу.\nПопробуйте позже")
-                ResponseTemplate.TypeResponse.NETWORK_PROBLEM -> Text("Проблемы с сетью.\nПроверьте подключение к интернету")
-                ResponseTemplate.TypeResponse.ALL_BAD -> Text("Неизвесная ошибка")
+                ResponseTemplate.TypeResponse.SUCCESS -> Text(ResponseTemplate.TypeResponse.SUCCESS.text)
+                ResponseTemplate.TypeResponse.UNAUTHORIZED -> Text(ResponseTemplate.TypeResponse.UNAUTHORIZED.text)
+                ResponseTemplate.TypeResponse.NOT_FOUND -> Text(ResponseTemplate.TypeResponse.NOT_FOUND.text)
+                ResponseTemplate.TypeResponse.ERROR_SERVER -> Text(ResponseTemplate.TypeResponse.ERROR_SERVER.text)
+                ResponseTemplate.TypeResponse.ERROR_CLIENT -> Text(ResponseTemplate.TypeResponse.ERROR_CLIENT.text)
+                ResponseTemplate.TypeResponse.MANY_REQUEST -> Text(ResponseTemplate.TypeResponse.MANY_REQUEST.text)
+                ResponseTemplate.TypeResponse.NETWORK_PROBLEM -> Text(ResponseTemplate.TypeResponse.NETWORK_PROBLEM.text)
+                ResponseTemplate.TypeResponse.ALL_BAD -> Text(ResponseTemplate.TypeResponse.ALL_BAD.text)
             }
         }
     }
