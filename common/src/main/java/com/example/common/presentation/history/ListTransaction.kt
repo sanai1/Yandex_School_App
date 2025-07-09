@@ -7,9 +7,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.Currency
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 

@@ -2,7 +2,7 @@ package com.example.expense.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.usecase.TransactionUseCase
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.store.AccountStore

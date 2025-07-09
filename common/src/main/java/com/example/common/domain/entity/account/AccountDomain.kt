@@ -1,4 +1,4 @@
-package com.example.common.domain.entity
+package com.example.common.domain.entity.account
 
 data class AccountDomain(
     val id: Int,

@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData

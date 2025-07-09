@@ -1,7 +1,7 @@
 package com.example.cash_account.data.datasource.remote.impl
 
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.account.AccountDomain
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.cash_account.data.mapper.AccountMapper
 import com.example.network.check.NoConnectivityException

@@ -2,7 +2,8 @@ package com.example.common.data.repository
 
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.common.domain.repository.TransactionRepository
 import javax.inject.Inject
 
@@ -15,5 +16,24 @@ class TransactionRepositoryImpl @Inject constructor(
         finish: String
     ): ResponseTemplate<List<TransactionDomain>> {
         return transactionRemoteDataSource.getTransactionsByPeriod(accountId, start, finish)
+    }
+
+    override suspend fun createTransaction(transaction: TransactionPartDomain): ResponseTemplate<TransactionPartDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTransactionById(transactionId: Int): ResponseTemplate<TransactionDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTransactionById(
+        id: Int,
+        transaction: TransactionPartDomain
+    ): ResponseTemplate<TransactionDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTransactionById(transactionId: Int): ResponseTemplate<Unit> {
+        TODO("Not yet implemented")
     }
 }

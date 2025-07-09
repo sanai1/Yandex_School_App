@@ -1,7 +1,8 @@
 package com.example.common.domain.repository
 
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionPartDomain
 
 interface TransactionRepository {
     suspend fun getTransactionByPeriod(
@@ -9,4 +10,21 @@ interface TransactionRepository {
         start: String,
         finish: String
     ): ResponseTemplate<List<TransactionDomain>>
+
+    suspend fun createTransaction(
+        transaction: TransactionPartDomain
+    ): ResponseTemplate<TransactionPartDomain>
+
+    suspend fun getTransactionById(
+        transactionId: Int
+    ): ResponseTemplate<TransactionDomain>
+
+    suspend fun updateTransactionById(
+        id: Int,
+        transaction: TransactionPartDomain
+    ): ResponseTemplate<TransactionDomain>
+
+    suspend fun deleteTransactionById(
+        transactionId: Int
+    ): ResponseTemplate<Unit>
 }

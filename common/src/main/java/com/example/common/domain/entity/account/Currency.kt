@@ -1,4 +1,4 @@
-package com.example.common.domain.entity
+package com.example.common.domain.entity.account
 
 import com.example.common.R
 

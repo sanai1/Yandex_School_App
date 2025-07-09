@@ -1,7 +1,7 @@
 package com.example.common.data.mapper
 
 import com.example.network.model.transaction.response.TransactionResponseNetwork
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject

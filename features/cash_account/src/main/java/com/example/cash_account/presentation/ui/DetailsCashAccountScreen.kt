@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem

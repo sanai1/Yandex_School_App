@@ -1,13 +1,13 @@
-package com.example.network.model.transaction.request
+package com.example.common.domain.entity.transaction
 
 import java.time.LocalDateTime
 
-data class TransactionRequestNetwork(
+data class TransactionPartDomain(
     val id: Int?,
     val accountId: Int,
     val categoryId: Int,
     val amount: String,
-    val transactionDate: String,
+    val transactionDate: LocalDateTime,
     val comment: String,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?

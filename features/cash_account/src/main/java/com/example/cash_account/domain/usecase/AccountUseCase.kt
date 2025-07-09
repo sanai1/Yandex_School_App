@@ -1,6 +1,6 @@
 package com.example.cash_account.domain.usecase
 
-import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.account.AccountDomain
 import com.example.cash_account.domain.repository.AccountRepository
 import javax.inject.Inject
 

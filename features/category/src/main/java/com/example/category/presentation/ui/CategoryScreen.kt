@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.category.presentation.CategoryViewModel
-import com.example.common.domain.entity.CategoryDomain
+import com.example.common.domain.entity.category.CategoryDomain
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible

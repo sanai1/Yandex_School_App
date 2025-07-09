@@ -1,7 +1,7 @@
 package com.example.common.store
 
-import com.example.common.domain.entity.AccountDomain
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

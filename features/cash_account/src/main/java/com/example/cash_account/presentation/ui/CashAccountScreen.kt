@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.Currency
 import com.example.cash_account.R
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem

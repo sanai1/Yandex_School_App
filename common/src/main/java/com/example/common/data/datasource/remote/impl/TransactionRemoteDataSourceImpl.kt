@@ -3,7 +3,7 @@ package com.example.common.data.datasource.remote.impl
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.common.data.mapper.TransactionMapper
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.network.check.NoConnectivityException
 import com.example.network.service.TransactionApiService
 import kotlinx.coroutines.delay

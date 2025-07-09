@@ -20,8 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.common.presentation.toast.ToastController
-import com.example.common.domain.entity.AccountDomain
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import com.example.cash_account.presentation.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

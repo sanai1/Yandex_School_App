@@ -1,5 +1,6 @@
-package com.example.common.domain.entity
+package com.example.common.domain.entity.transaction
 
+import com.example.common.domain.entity.category.CategoryDomain
 import java.time.LocalDateTime
 
 data class TransactionDomain(
