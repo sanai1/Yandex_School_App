@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class CategoryMapper @Inject constructor() {
     fun toCategoryDomain(categoryNetwork: CategoryNetwork) = CategoryDomain(
+        id = categoryNetwork.id,
         name = categoryNetwork.name,
         emoji = categoryNetwork.emoji,
         isIncome = categoryNetwork.isIncome
