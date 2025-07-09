@@ -26,6 +26,7 @@ fun ErrorVisible(
                 ResponseTemplate.TypeResponse.NOT_FOUND -> Text("Ошибка в данных")
                 ResponseTemplate.TypeResponse.ERROR_SERVER -> Text("Внутренняя ошибка сервера")
                 ResponseTemplate.TypeResponse.ERROR_CLIENT -> Text("Внутренняя ошибка приложения")
+                ResponseTemplate.TypeResponse.MANY_REQUEST -> Text("Слишком много запросов к северу.\nПопробуйте позже")
                 ResponseTemplate.TypeResponse.NETWORK_PROBLEM -> Text("Проблемы с сетью.\nПроверьте подключение к интернету")
                 ResponseTemplate.TypeResponse.ALL_BAD -> Text("Неизвесная ошибка")
             }

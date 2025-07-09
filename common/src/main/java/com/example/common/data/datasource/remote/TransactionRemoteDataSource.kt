@@ -22,7 +22,7 @@ interface TransactionRemoteDataSource {
     suspend fun updateTransactionById(
         transactionId: Int,
         transaction: TransactionPartDomain
-    ): ResponseTemplate<TransactionPartDomain>
+    ): ResponseTemplate<TransactionDomain>
 
     suspend fun deleteTransactionById(
         transactionId: Int

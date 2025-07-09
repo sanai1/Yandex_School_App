@@ -9,6 +9,7 @@ data class ResponseTemplate<T>(
         UNAUTHORIZED,
         ERROR_CLIENT,
         NOT_FOUND,
+        MANY_REQUEST,
         ERROR_SERVER,
         NETWORK_PROBLEM,
         ALL_BAD

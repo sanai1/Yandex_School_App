@@ -29,7 +29,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun updateTransactionById(
         id: Int,
         transaction: TransactionPartDomain
-    ): ResponseTemplate<TransactionPartDomain> {
+    ): ResponseTemplate<TransactionDomain> {
         return transactionRemoteDataSource.updateTransactionById(id, transaction)
     }
 

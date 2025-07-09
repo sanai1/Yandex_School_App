@@ -5,6 +5,7 @@ import com.example.network.model.transaction.request.TransactionRequestNetwork
 import com.example.network.model.transaction.response.TransactionResponseNetwork
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -27,23 +28,24 @@ interface TransactionApiService {
     suspend fun createTransaction(
         @Header("Authorization") token: String = BaseUrl.getToken(),
         @Body transaction: TransactionRequestNetwork
-    ): TransactionRequestNetwork
+    ): Response<TransactionRequestNetwork>
 
     @GET("transactions/{id}")
     suspend fun getTransactionById(
         @Header("Authorization") token: String = BaseUrl.getToken(),
         @Path("id") transactionId: Int
-    ): TransactionResponseNetwork
+    ): Response<TransactionResponseNetwork>
 
     @PUT("transactions/{id}")
     suspend fun updateTransactionById(
         @Header("Authorization") token: String = BaseUrl.getToken(),
+        @Path("id") transactionId: Int,
         @Body transaction: TransactionRequestNetwork
-    ): TransactionResponseNetwork
+    ): Response<TransactionResponseNetwork>
 
     @DELETE("transaction/{id}")
     suspend fun deleteTransactionById(
         @Header("Authorization") token: String = BaseUrl.getToken(),
         @Path("id") transactionId: Int
-    ): ResponseBody
+    ): Response<ResponseBody>
 }
