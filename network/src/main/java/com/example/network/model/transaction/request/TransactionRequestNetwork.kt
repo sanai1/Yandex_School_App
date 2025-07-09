@@ -1,7 +1,5 @@
 package com.example.network.model.transaction.request
 
-import java.time.LocalDateTime
-
 data class TransactionRequestNetwork(
     val id: Int?,
     val accountId: Int,
@@ -9,6 +7,6 @@ data class TransactionRequestNetwork(
     val amount: String,
     val transactionDate: String,
     val comment: String,
-    val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?
+    val createdAt: String?,
+    val updatedAt: String?
 )

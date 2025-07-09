@@ -19,21 +19,21 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createTransaction(transaction: TransactionPartDomain): ResponseTemplate<TransactionPartDomain> {
-        TODO("Not yet implemented")
+        return transactionRemoteDataSource.createTransaction(transaction)
     }
 
     override suspend fun getTransactionById(transactionId: Int): ResponseTemplate<TransactionDomain> {
-        TODO("Not yet implemented")
+        return transactionRemoteDataSource.getTransactionById(transactionId)
     }
 
     override suspend fun updateTransactionById(
         id: Int,
         transaction: TransactionPartDomain
-    ): ResponseTemplate<TransactionDomain> {
-        TODO("Not yet implemented")
+    ): ResponseTemplate<TransactionPartDomain> {
+        return transactionRemoteDataSource.updateTransactionById(id, transaction)
     }
 
     override suspend fun deleteTransactionById(transactionId: Int): ResponseTemplate<Unit> {
-        TODO("Not yet implemented")
+        return transactionRemoteDataSource.deleteTransactionById(transactionId)
     }
 }

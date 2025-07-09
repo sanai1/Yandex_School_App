@@ -4,6 +4,7 @@ import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.common.data.mapper.TransactionMapper
 import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.transaction.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.network.check.NoConnectivityException
 import com.example.network.service.TransactionApiService
 import kotlinx.coroutines.delay
@@ -27,7 +28,7 @@ class TransactionRemoteDataSourceImpl @Inject constructor(
                 } else return@repeat
             }
             return when (response.code()) {
-                200, 201, 204 -> ResponseTemplate(
+                200 -> ResponseTemplate(
                     typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
                     body = response.body()?.map { transactionMapper.toTransactionDomain(it) }
                 )
@@ -68,6 +69,25 @@ class TransactionRemoteDataSourceImpl @Inject constructor(
                 body = null
             )
         }
+    }
+
+    override suspend fun createTransaction(transaction: TransactionPartDomain): ResponseTemplate<TransactionPartDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTransactionById(transactionId: Int): ResponseTemplate<TransactionDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTransactionById(
+        transactionId: Int,
+        transaction: TransactionPartDomain
+    ): ResponseTemplate<TransactionPartDomain> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTransactionById(transactionId: Int): ResponseTemplate<Unit> {
+        TODO("Not yet implemented")
     }
 
     private fun networkTransactionsByPeriod(

@@ -22,7 +22,7 @@ interface TransactionRepository {
     suspend fun updateTransactionById(
         id: Int,
         transaction: TransactionPartDomain
-    ): ResponseTemplate<TransactionDomain>
+    ): ResponseTemplate<TransactionPartDomain>
 
     suspend fun deleteTransactionById(
         transactionId: Int
