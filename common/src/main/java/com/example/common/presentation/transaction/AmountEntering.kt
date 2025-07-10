@@ -26,7 +26,7 @@ fun AmountEntering(
     currency: Currency,
     updateAmount: (String) -> Unit
 ) {
-    var amount by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf("0") }
     var visibleAmountDialog by remember { mutableStateOf(false) }
     ListItem(
         itemModelUI = ListItemModelUI(
@@ -39,6 +39,7 @@ fun AmountEntering(
             visibleAmountDialog = true
         }
     )
+    updateAmount.invoke(amount)
     if (visibleAmountDialog) {
         var nowAmount by remember { mutableStateOf(amount) }
         var nowAmountError by remember { mutableStateOf(false) }
@@ -46,7 +47,7 @@ fun AmountEntering(
             onDismissRequest = {
                 visibleAmountDialog = false
             },
-            title = { Text("Одновление суммы") },
+            title = { Text("Обновление суммы") },
             text = {
                 OutlinedTextField(
                     value = nowAmount,

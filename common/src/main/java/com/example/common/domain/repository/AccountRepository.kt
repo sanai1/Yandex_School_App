@@ -1,7 +1,7 @@
-package com.example.cash_account.domain.repository
+package com.example.common.domain.repository
 
-import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.account.AccountDomain
+import com.example.network.ResponseTemplate
 
 interface AccountRepository {
     suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>>

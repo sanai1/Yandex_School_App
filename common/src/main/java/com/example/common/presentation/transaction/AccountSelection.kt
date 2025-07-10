@@ -39,6 +39,7 @@ fun AccountSelection(
             visibleBottomSheet = true
         }
     )
+    updateAccount.invoke(selectedAccount)
     if (visibleBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = { visibleBottomSheet = false },

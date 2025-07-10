@@ -1,7 +1,7 @@
-package com.example.cash_account.domain.usecase
+package com.example.common.domain.usecase
 
 import com.example.common.domain.entity.account.AccountDomain
-import com.example.cash_account.domain.repository.AccountRepository
+import com.example.common.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountUseCase @Inject constructor(

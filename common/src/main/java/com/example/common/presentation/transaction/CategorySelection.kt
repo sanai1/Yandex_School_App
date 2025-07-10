@@ -39,6 +39,7 @@ fun CategorySelection(
             visibleBottomSheet = true
         }
     )
+    updateCategory.invoke(selectedCategory)
     if (visibleBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = { visibleBottomSheet = false },

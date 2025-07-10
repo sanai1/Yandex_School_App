@@ -2,9 +2,11 @@ package com.example.expense.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.category.CategoryDomain
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
+import com.example.common.domain.usecase.AccountUseCase
 import com.example.common.domain.usecase.CategoryUseCase
 import com.example.common.domain.usecase.TransactionUseCase
 import com.example.common.presentation.base_visible.VisibleData
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class ExpenseViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val categoryUseCase: CategoryUseCase,
+    private val accountUseCase: AccountUseCase,
     private val accountManager: AccountStore
 ) : ViewModel() {
     private val _expensesToday =
@@ -135,4 +138,20 @@ class ExpenseViewModel @Inject constructor(
             else -> _categoryExpense.value = VisibleData.Error(response.typeResponse)
         }
     }
+
+    private val _accountList =
+        MutableStateFlow<VisibleData<List<AccountDomain>>>(VisibleData.Loading())
+    val accountList: StateFlow<VisibleData<List<AccountDomain>>> = _accountList.asStateFlow()
+
+    fun updateAccounts() = viewModelScope.launch(Dispatchers.IO) {
+        val response = accountUseCase.getAllCashAccount()
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
+                _accountList.value = VisibleData.Success(it)
+            }
+
+            else -> _accountList.value = VisibleData.Error(response.typeResponse)
+        }
+    }
+
 }

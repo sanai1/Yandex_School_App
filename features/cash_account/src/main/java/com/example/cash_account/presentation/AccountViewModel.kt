@@ -6,7 +6,7 @@ import com.example.network.ResponseTemplate
 import com.example.common.presentation.toast.ToastController
 import com.example.common.store.AccountStore
 import com.example.common.domain.entity.account.AccountDomain
-import com.example.cash_account.domain.usecase.AccountUseCase
+import com.example.common.domain.usecase.AccountUseCase
 import com.example.common.domain.entity.account.Currency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
