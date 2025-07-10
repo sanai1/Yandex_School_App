@@ -21,9 +21,12 @@ import com.example.common.presentation.toast.ToastController
 import com.example.common.presentation.transaction.AccountSelection
 import com.example.common.presentation.transaction.AmountEntering
 import com.example.common.presentation.transaction.CategorySelection
+import com.example.common.presentation.transaction.CommentEntering
 import com.example.common.presentation.transaction.DateSelection
+import com.example.common.presentation.transaction.TimeSelection
 import com.example.expense.presentation.ExpenseViewModel
 import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun DetailsExpenseScreen(
@@ -36,7 +39,7 @@ fun DetailsExpenseScreen(
     var category by remember { mutableStateOf<CategoryDomain?>(null) }
     var amount by remember { mutableStateOf("") }
     var date by remember { mutableStateOf(LocalDate.now()) }
-    var time by remember { mutableStateOf("") }
+    var time by remember { mutableStateOf(LocalTime.now()) }
     var comment by remember { mutableStateOf("") }
     LaunchedEffect(isExpenseClicked.value) {
         if (isExpenseClicked.value) {
@@ -94,7 +97,21 @@ fun DetailsExpenseScreen(
                 } else {
                     date = item
                 }
-                println(date)
+            }
+            TimeSelection(
+                modifier = modifier.height(70.dp),
+                time = time
+            ) { item ->
+                if (date == LocalDate.now() && item.isAfter(LocalTime.now())) {
+                    ToastController.showToast("Выберите прошедшее время")
+                } else {
+                    time = item
+                }
+            }
+            CommentEntering(
+                modifier = modifier.height(70.dp)
+            ) { item ->
+                comment = item
             }
         }
     } else {

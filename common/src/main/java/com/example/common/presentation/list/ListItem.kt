@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,10 +24,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +51,7 @@ fun ListItem(
     modifier: Modifier,
     onClickContainer: ((ListItemModelUI) -> Unit)? = null,
     onClickDate: ((String) -> Unit)? = null,
+    onClickTime: ((String) -> Unit)? = null,
     onClickDetails: (() -> Unit)? = null
 ) {
     Column {
@@ -77,7 +84,7 @@ fun ListItem(
                 Text(
                     itemModelUI.title, style = TextStyle(
                         fontSize = 18.sp
-                    )
+                    ), color = if (itemModelUI.isHint) Color.Gray else Color.Black
                 )
                 itemModelUI.description?.let {
                     Text(
@@ -97,10 +104,12 @@ fun ListItem(
                 horizontalAlignment = Alignment.End
             ) {
                 itemModelUI.info?.let {
-                    if (onClickDate == null) {
-                        Text(it)
-                    } else {
+                    if (onClickDate != null) {
                         TextButtonDate(it, onClickDate)
+                    } else if (onClickTime != null) {
+                        TextButtonTime(it, onClickTime)
+                    } else {
+                        Text(it)
                     }
                 }
                 itemModelUI.infoDescription?.let {
@@ -152,7 +161,7 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
         DatePickerDialog(
             onDismissRequest = { showDatePicker.value = false },
             confirmButton = {
-                TextButton(
+                Button(
                     onClick = {
                         datePickerState.selectedDateMillis?.let { millis ->
                             onClickDate?.invoke(dateFormatter.format(Date(millis)))
@@ -165,11 +174,59 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
             },
             dismissButton = {
                 TextButton(onClick = { showDatePicker.value = false }) {
-                    Text("Отмена")
+                    Text("Отмена", color = Color.Red)
                 }
             }
         ) {
             DatePicker(state = datePickerState)
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TextButtonTime(info: String, onClickTime: ((String) -> Unit)?) {
+    var showTimePicker by remember { mutableStateOf(false) }
+    val timeState = rememberTimePickerState(
+        initialHour = 12,
+        initialMinute = 0,
+        is24Hour = true
+    )
+    TextButton(onClick = {
+        onClickTime?.run { showTimePicker = true }
+    }) {
+        Text(info, color = MaterialTheme.colorScheme.onSurface)
+    }
+    if (showTimePicker) {
+        AlertDialog(
+            onDismissRequest = { showTimePicker = false },
+            title = { Text("Выберите время") },
+            text = {
+                TimePicker(state = timeState)
+            },
+            confirmButton = {
+                Button(onClick = {
+                    onClickTime?.invoke(
+                        "${
+                            timeState.hour.let {
+                                if (it in 0..9) "0$it" else it
+                            }
+                        }:${
+                            timeState.minute.let {
+                                if (it in 0..9) "0$it" else it
+                            }
+                        }"
+                    )
+                    showTimePicker = false
+                }) {
+                    Text("ОК")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showTimePicker = false }) {
+                    Text("Отмена", color = Color.Red)
+                }
+            }
+        )
     }
 }
