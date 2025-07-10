@@ -51,7 +51,7 @@ fun AmountEntering(
             title = { Text("Обновление суммы") },
             text = {
                 OutlinedTextField(
-                    value = nowAmount,
+                    value = nowAmount.let { if (it == "0") "" else it },
                     onValueChange = {
                         if (it.isEmpty() || it.matches(Regex("^\\d*\\.?\\d*\$"))) {
                             nowAmount = it

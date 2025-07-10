@@ -32,7 +32,7 @@ import com.example.expense.presentation.ui.HistoryExpenseScreen
 import com.example.income.presentation.ui.DetailsIncomeScreen
 import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
@@ -143,6 +143,9 @@ fun MainScreen(
                     isIncomeClicked = isIncomeClicked,
                     callback = {
                         isIncomeClicked.value = false
+                    },
+                    callbackNavController = {
+                        navController.popBackStack()
                     }
                 )
 

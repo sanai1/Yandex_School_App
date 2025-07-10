@@ -1,4 +1,4 @@
-package com.example.expense.presentation
+package com.example.income.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,95 +21,70 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ExpenseViewModel @Inject constructor(
+class IncomeViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val categoryUseCase: CategoryUseCase,
     private val accountUseCase: AccountUseCase,
     private val transactionStore: TransactionStore
 ) : ViewModel() {
-    private val _expensesToday =
+    private val _incomeToday =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
-    val expensesToday: StateFlow<VisibleData<List<TransactionDomain>>> =
-        _expensesToday.asStateFlow()
+    val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            AccountStore.selectedAccount.value.id
+            AccountStore.Example.selectedAccount.value.id
         )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
-                _expensesToday.value =
-                    VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
-
+                _incomeToday.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome })
             }
 
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _expensesToday.value =
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeToday.value =
                 VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
 
-            else -> _expensesToday.value = VisibleData.Error(response.typeResponse)
+            else -> _incomeToday.value = VisibleData.Error(response.typeResponse)
         }
     }
 
-    fun getSelectedAccount() = AccountStore.selectedAccount
+    fun getSelectedAccount() = AccountStore.Example.selectedAccount
 
-    fun setSelectedTransaction(selectedTransactionDomain: TransactionDomain) {
-        transactionStore.setSelectedTransaction(selectedTransactionDomain)
+    fun setSelectedTransaction(selectionTransactionDomain: TransactionDomain) {
+        transactionStore.setSelectedTransaction(selectionTransactionDomain)
     }
 
-    private val _expensesByPeriod =
+    private val _incomeByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
-    val expensesByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
-        _expensesByPeriod.asStateFlow()
+    val incomeByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
+        _incomeByPeriod.asStateFlow()
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            AccountStore.selectedAccount.value.id,
+            AccountStore.Example.selectedAccount.value.id,
             startDate, endDate
         )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
-                _expensesByPeriod.value =
-                    VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() }
-                        .sortedByDescending { it.transactionDate })
-
+                _incomeByPeriod.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome }
+                    .sortedByDescending { it.transactionDate })
             }
 
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _expensesByPeriod.value =
+            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeByPeriod.value =
                 VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
 
-            else -> _expensesByPeriod.value = VisibleData.Error(response.typeResponse)
+            else -> _incomeByPeriod.value = VisibleData.Error(response.typeResponse)
         }
     }
 
-    fun createTransaction(transactionPartDomain: TransactionPartDomain) =
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = transactionUseCase.createTransaction(transactionPartDomain)
-            when (response.typeResponse) {
-                ResponseTemplate.TypeResponse.SUCCESS -> updateToday()
-                else -> ToastController.showToast(response.typeResponse.text)
-            }
+    fun createTransaction(transactionPartDomain: TransactionPartDomain) = viewModelScope.launch(
+        Dispatchers.IO
+    ) {
+        val response = transactionUseCase.createTransaction(transactionPartDomain)
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> updateToday()
+            else -> ToastController.showToast(response.typeResponse.text)
         }
-
-    /*
-    Функции для получения детальной информации о транзакции
-    Теряет актуальность, так как для нее нужен ID транзакции => его нужно прокинуть
-    Следовательно можно прокинуть и всю транзакцию
-     */
-//    private val _detailsTransaction =
-//        MutableStateFlow<VisibleData<TransactionDomain>>(VisibleData.Loading())
-//    val detailsTransaction: StateFlow<VisibleData<TransactionDomain>> =
-//        _detailsTransaction.asStateFlow()
-//
-//    fun updateTransactionById(transactionId: Int) = viewModelScope.launch(Dispatchers.IO) {
-//        val response = transactionUseCase.getTransactionById(transactionId)
-//        when (response.typeResponse) {
-//            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
-//                _detailsTransaction.value = VisibleData.Success(it)
-//            }
-//
-//            else -> _detailsTransaction.value = VisibleData.Error(response.typeResponse)
-//        }
-//    }
+    }
 
     fun updateTransaction(transactionId: Int, transactionPartDomain: TransactionPartDomain) =
         viewModelScope.launch(
@@ -133,19 +108,18 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    private val _categoryExpense =
+    private val _categoryIncome =
         MutableStateFlow<VisibleData<List<CategoryDomain>>>(VisibleData.Loading())
-    val categoryExpense: StateFlow<VisibleData<List<CategoryDomain>>> =
-        _categoryExpense.asStateFlow()
+    val categoryIncome: StateFlow<VisibleData<List<CategoryDomain>>> = _categoryIncome.asStateFlow()
 
-    fun updateCategoryExpense() = viewModelScope.launch(Dispatchers.IO) {
-        val response = categoryUseCase.getExpenseCategories()
+    fun updateCategoryIncome() = viewModelScope.launch(Dispatchers.IO) {
+        val response = categoryUseCase.getIncomeCategories()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
-                _categoryExpense.value = VisibleData.Success(it)
+                _categoryIncome.value = VisibleData.Success(it)
             }
 
-            else -> _categoryExpense.value = VisibleData.Error(response.typeResponse)
+            else -> _categoryIncome.value = VisibleData.Error(response.typeResponse)
         }
     }
 
@@ -163,5 +137,4 @@ class ExpenseViewModel @Inject constructor(
             else -> _accountList.value = VisibleData.Error(response.typeResponse)
         }
     }
-
 }

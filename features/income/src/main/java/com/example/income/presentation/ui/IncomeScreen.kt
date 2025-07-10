@@ -15,7 +15,7 @@ import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 
 @Composable
 fun IncomeScreen(

@@ -13,7 +13,7 @@ import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.category.presentation.CategoryViewModel
 import com.example.expense.presentation.ExpenseViewModel
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 import javax.inject.Inject
 import kotlin.reflect.KClass

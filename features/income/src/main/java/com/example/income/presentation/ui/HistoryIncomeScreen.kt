@@ -17,7 +17,7 @@ import com.example.common.presentation.history.AmountItem
 import com.example.common.presentation.history.EndDateItem
 import com.example.common.presentation.history.ListTransaction
 import com.example.common.presentation.history.StartDateItem
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

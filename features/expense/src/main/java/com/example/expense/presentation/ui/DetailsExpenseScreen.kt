@@ -1,7 +1,13 @@
 package com.example.expense.presentation.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -104,56 +110,71 @@ fun DetailsExpenseScreen(
                 selectedAccount = account
                     ?: (accountsAll.value as VisibleData.Success<List<AccountDomain>>).data.first(),
                 accountList = (accountsAll.value as VisibleData.Success<List<AccountDomain>>).data
-            ) { item ->
-                account = item
+            ) { newAccount ->
+                account = newAccount
             }
             CategorySelection(
                 modifier = modifier.height(70.dp),
                 selectedCategory = category
                     ?: (categoryExpense.value as VisibleData.Success<List<CategoryDomain>>).data.first(),
                 categoryList = (categoryExpense.value as VisibleData.Success<List<CategoryDomain>>).data
-            ) { item ->
-                category = item
+            ) { newCategory ->
+                category = newCategory
             }
             AmountEntering(
                 modifier = modifier.height(70.dp),
                 enterAmount = amount.let { it.ifEmpty { "0" } },
                 currency = viewModel.getSelectedAccount().value.currency
-            ) { item ->
-                amount = item
+            ) { newAmount ->
+                amount = newAmount
             }
             DateSelection(
                 modifier = modifier.height(70.dp),
                 date = date
-            ) { item ->
-                return@DateSelection if (item.isAfter(LocalDate.now())) {
+            ) { newDate ->
+                return@DateSelection if (newDate.isAfter(LocalDate.now())) {
                     ToastController.showToast("Выберите прошедшую дату")
                     false
                 } else {
-                    date = item
+                    date = newDate
                     true
                 }
             }
             TimeSelection(
                 modifier = modifier.height(70.dp),
                 time = time
-            ) { item ->
-                return@TimeSelection if (date == LocalDate.now() && item.isAfter(LocalTime.now())) {
+            ) { newTime ->
+                return@TimeSelection if (date == LocalDate.now() && newTime.isAfter(LocalTime.now())) {
                     ToastController.showToast("Выберите прошедшее время")
                     false
                 } else {
-                    time = item
+                    time = newTime
                     true
                 }
             }
             CommentEntering(
                 modifier = modifier.height(70.dp),
                 enterComment = comment
-            ) { item ->
-                comment = item
+            ) { newComment ->
+                comment = newComment
+            }
+            if (transactionDomain != null) {
+                Spacer(modifier = Modifier.height(32.dp))
+                Button(
+                    modifier = Modifier
+                        .height(40.dp)
+                        .padding(horizontal = 16.dp)
+                        .background(
+                            MaterialTheme.colorScheme.error
+                        ),
+                    onClick = {
+                        viewModel.deleteTransactionById(transactionDomain.id)
+                    }) {
+                    Text("Удалить расход")
+                }
             }
         }
     } else {
-        ErrorVisible((categoryExpense.value as VisibleData.Error).type)
+        ErrorVisible(if (categoryExpense.value is VisibleData.Error) (categoryExpense.value as VisibleData.Error).type else (accountsAll.value as VisibleData.Error).type)
     }
 }
