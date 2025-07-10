@@ -42,6 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.common.domain.entity.ListItemModelUI
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -154,10 +157,17 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
         Text(info, color = MaterialTheme.colorScheme.onSurface)
     }
     if (showDatePicker.value) {
-        val datePickerState = rememberDatePickerState()
         val dateFormatter = remember {
             SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         }
+        val datePickerState = rememberDatePickerState(
+            initialSelectedDateMillis = if (info == "сегодня") Date().time else LocalDate.parse(
+                info,
+                DateTimeFormatter.ofPattern("dd.MM.yyyy")
+            ).atStartOfDay(
+                ZoneId.systemDefault()
+            ).plusDays(1).toInstant().toEpochMilli()
+        )
         DatePickerDialog(
             onDismissRequest = { showDatePicker.value = false },
             confirmButton = {
@@ -188,8 +198,8 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
 fun TextButtonTime(info: String, onClickTime: ((String) -> Unit)?) {
     var showTimePicker by remember { mutableStateOf(false) }
     val timeState = rememberTimePickerState(
-        initialHour = 12,
-        initialMinute = 0,
+        initialHour = info.substring(0, 2).toInt(),
+        initialMinute = info.substring(3).toInt(),
         is24Hour = true
     )
     TextButton(onClick = {

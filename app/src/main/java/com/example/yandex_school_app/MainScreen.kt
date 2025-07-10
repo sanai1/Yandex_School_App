@@ -128,6 +128,9 @@ fun MainScreen(
                     isExpenseClicked = isExpenseClicked,
                     callback = {
                         isExpenseClicked.value = false
+                    },
+                    callbackNavController = {
+                        navController.popBackStack()
                     }
                 )
 

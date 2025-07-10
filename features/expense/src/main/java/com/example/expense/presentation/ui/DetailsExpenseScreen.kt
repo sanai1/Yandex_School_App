@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.category.CategoryDomain
+import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
@@ -26,6 +27,7 @@ import com.example.common.presentation.transaction.DateSelection
 import com.example.common.presentation.transaction.TimeSelection
 import com.example.expense.presentation.ExpenseViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Composable
@@ -33,6 +35,7 @@ fun DetailsExpenseScreen(
     modifier: Modifier,
     isExpenseClicked: MutableState<Boolean>,
     callback: () -> Unit,
+    callbackNavController: () -> Unit,
     viewModel: ExpenseViewModel,
 ) {
     var account by remember { mutableStateOf<AccountDomain?>(null) }
@@ -49,16 +52,18 @@ fun DetailsExpenseScreen(
                 ToastController.showToast("Выберите категорию")
             } else if (amount.isEmpty() || amount.toDouble() == 0.0) {
                 ToastController.showToast("Введите сумму транзакции")
+            } else {
+                viewModel.createTransaction(
+                    TransactionPartDomain(
+                        accountId = account!!.id,
+                        categoryId = category!!.id,
+                        amount = amount,
+                        transactionDate = LocalDateTime.of(date, time),
+                        comment = comment
+                    )
+                )
+                callbackNavController.invoke()
             }
-//            viewModel.createTransaction(
-//                TransactionPartDomain(
-//                    accountId = viewModel.getSelectedAccount().value.id,
-//                    categoryId = category!!.id,
-//                    amount = amount,
-//                    transactionDate = TODO(),
-//                    comment = comment
-//                )
-//            )
         }
         callback.invoke()
     }
@@ -92,24 +97,28 @@ fun DetailsExpenseScreen(
                 modifier = modifier.height(70.dp),
                 date = date
             ) { item ->
-                if (item.isAfter(LocalDate.now())) {
+                return@DateSelection if (item.isAfter(LocalDate.now())) {
                     ToastController.showToast("Выберите прошедшую дату")
+                    false
                 } else {
                     date = item
+                    true
                 }
             }
             TimeSelection(
                 modifier = modifier.height(70.dp),
                 time = time
             ) { item ->
-                if (date == LocalDate.now() && item.isAfter(LocalTime.now())) {
+                return@TimeSelection if (date == LocalDate.now() && item.isAfter(LocalTime.now())) {
                     ToastController.showToast("Выберите прошедшее время")
+                    false
                 } else {
                     time = item
+                    true
                 }
             }
             CommentEntering(
-                modifier = modifier.height(70.dp)
+                modifier = modifier.height(70.dp),
             ) { item ->
                 comment = item
             }

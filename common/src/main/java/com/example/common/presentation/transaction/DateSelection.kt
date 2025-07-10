@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
 fun DateSelection(
     modifier: Modifier,
     date: LocalDate,
-    updateDate: (LocalDate) -> Unit
+    updateDate: (LocalDate) -> Boolean
 ) {
     var date by remember { mutableStateOf(date) }
     ListItem(
@@ -27,9 +27,12 @@ fun DateSelection(
             typeListItem = TypeListItem.USUAL
         ),
         modifier = modifier,
-        onClickDate = {
-            date = LocalDate.parse(it, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            updateDate.invoke(date)
+        onClickDate = { newDate ->
+            LocalDate.parse(newDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")).let {
+                if (updateDate.invoke(it)) {
+                    date = it
+                }
+            }
         }
     )
 }

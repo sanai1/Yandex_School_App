@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
 fun TimeSelection(
     modifier: Modifier,
     time: LocalTime,
-    updateTime: (LocalTime) -> Unit
+    updateTime: (LocalTime) -> Boolean
 ) {
     var time by remember { mutableStateOf(time) }
     ListItem(
@@ -26,9 +26,12 @@ fun TimeSelection(
             typeListItem = TypeListItem.USUAL,
         ),
         modifier = modifier,
-        onClickTime = {
-            time = LocalTime.parse(it, DateTimeFormatter.ofPattern("HH:MM"))
-            updateTime.invoke(time)
+        onClickTime = { newTime ->
+            LocalTime.parse(newTime, DateTimeFormatter.ofPattern("HH:mm")).let {
+                if (updateTime.invoke(it)) {
+                    time = it
+                }
+            }
         }
     )
 }
