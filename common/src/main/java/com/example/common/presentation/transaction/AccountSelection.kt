@@ -23,10 +23,11 @@ import com.example.common.presentation.list.TypeListItem
 @Composable
 fun AccountSelection(
     modifier: Modifier,
+    selectedAccount: AccountDomain,
     accountList: List<AccountDomain>,
     updateAccount: (AccountDomain) -> Unit
 ) {
-    var selectedAccount by remember { mutableStateOf(accountList.first()) }
+    var selectedAccount by remember { mutableStateOf(selectedAccount) }
     var visibleBottomSheet by remember { mutableStateOf(false) }
     ListItem(
         itemModelUI = ListItemModelUI(

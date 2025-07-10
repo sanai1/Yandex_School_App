@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.category.CategoryDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible
@@ -25,6 +26,7 @@ import com.example.common.presentation.transaction.CategorySelection
 import com.example.common.presentation.transaction.CommentEntering
 import com.example.common.presentation.transaction.DateSelection
 import com.example.common.presentation.transaction.TimeSelection
+import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -38,12 +40,21 @@ fun DetailsExpenseScreen(
     callbackNavController: () -> Unit,
     viewModel: ExpenseViewModel,
 ) {
-    var account by remember { mutableStateOf<AccountDomain?>(null) }
-    var category by remember { mutableStateOf<CategoryDomain?>(null) }
-    var amount by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf(LocalDate.now()) }
-    var time by remember { mutableStateOf(LocalTime.now()) }
-    var comment by remember { mutableStateOf("") }
+    val transactionDomain: TransactionDomain? = TransactionStore.selectedTransaction.value
+    var account by remember { mutableStateOf<AccountDomain?>(transactionDomain?.accountDomain) }
+    var category by remember { mutableStateOf<CategoryDomain?>(transactionDomain?.categoryDomain) }
+    var amount by remember { mutableStateOf(transactionDomain?.amount ?: "") }
+    var date by remember {
+        mutableStateOf(
+            transactionDomain?.transactionDate?.toLocalDate() ?: LocalDate.now()
+        )
+    }
+    var time by remember {
+        mutableStateOf(
+            transactionDomain?.transactionDate?.toLocalTime() ?: LocalTime.now()
+        )
+    }
+    var comment by remember { mutableStateOf(transactionDomain?.comment ?: "") }
     LaunchedEffect(isExpenseClicked.value) {
         if (isExpenseClicked.value) {
             if (account == null) {
@@ -53,15 +64,28 @@ fun DetailsExpenseScreen(
             } else if (amount.isEmpty() || amount.toDouble() == 0.0) {
                 ToastController.showToast("Введите сумму транзакции")
             } else {
-                viewModel.createTransaction(
-                    TransactionPartDomain(
-                        accountId = account!!.id,
-                        categoryId = category!!.id,
-                        amount = amount,
-                        transactionDate = LocalDateTime.of(date, time),
-                        comment = comment
+                if (transactionDomain == null) {
+                    viewModel.createTransaction(
+                        TransactionPartDomain(
+                            accountId = account!!.id,
+                            categoryId = category!!.id,
+                            amount = amount,
+                            transactionDate = LocalDateTime.of(date, time),
+                            comment = comment
+                        )
                     )
-                )
+                } else {
+                    viewModel.updateTransaction(
+                        transactionId = transactionDomain.id,
+                        transactionPartDomain = TransactionPartDomain(
+                            accountId = account!!.id,
+                            categoryId = category!!.id,
+                            amount = amount,
+                            transactionDate = LocalDateTime.of(date, time),
+                            comment = comment,
+                        )
+                    )
+                }
                 callbackNavController.invoke()
             }
         }
@@ -77,18 +101,23 @@ fun DetailsExpenseScreen(
         Column {
             AccountSelection(
                 modifier = modifier.height(70.dp),
+                selectedAccount = account
+                    ?: (accountsAll.value as VisibleData.Success<List<AccountDomain>>).data.first(),
                 accountList = (accountsAll.value as VisibleData.Success<List<AccountDomain>>).data
             ) { item ->
                 account = item
             }
             CategorySelection(
                 modifier = modifier.height(70.dp),
+                selectedCategory = category
+                    ?: (categoryExpense.value as VisibleData.Success<List<CategoryDomain>>).data.first(),
                 categoryList = (categoryExpense.value as VisibleData.Success<List<CategoryDomain>>).data
             ) { item ->
                 category = item
             }
             AmountEntering(
                 modifier = modifier.height(70.dp),
+                enterAmount = amount.let { it.ifEmpty { "0" } },
                 currency = viewModel.getSelectedAccount().value.currency
             ) { item ->
                 amount = item
@@ -119,6 +148,7 @@ fun DetailsExpenseScreen(
             }
             CommentEntering(
                 modifier = modifier.height(70.dp),
+                enterComment = comment
             ) { item ->
                 comment = item
             }

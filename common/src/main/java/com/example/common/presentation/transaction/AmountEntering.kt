@@ -23,10 +23,11 @@ import com.example.common.presentation.list.TypeListItem
 @Composable
 fun AmountEntering(
     modifier: Modifier,
+    enterAmount: String,
     currency: Currency,
     updateAmount: (String) -> Unit
 ) {
-    var amount by remember { mutableStateOf("0") }
+    var amount by remember { mutableStateOf(enterAmount) }
     var visibleAmountDialog by remember { mutableStateOf(false) }
     ListItem(
         itemModelUI = ListItemModelUI(

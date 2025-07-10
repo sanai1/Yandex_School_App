@@ -1,5 +1,7 @@
 package com.example.common.data.mapper
 
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import com.example.network.model.transaction.response.TransactionResponseNetwork
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
@@ -12,6 +14,14 @@ import javax.inject.Inject
 class TransactionMapper @Inject constructor() {
     fun toTransactionDomain(transactionNetwork: TransactionResponseNetwork) = TransactionDomain(
         id = transactionNetwork.id,
+        accountDomain = transactionNetwork.account.let {
+            AccountDomain(
+                id = it.id,
+                name = it.name,
+                balance = it.balance,
+                currency = Currency.collectionCurrency.find { currency -> currency.abbreviation == it.currency }!!
+            )
+        },
         categoryDomain = CategoryMapper().toCategoryDomain(transactionNetwork.category),
         amount = transactionNetwork.amount,
         transactionDate = transactionNetwork.transactionDate.let {

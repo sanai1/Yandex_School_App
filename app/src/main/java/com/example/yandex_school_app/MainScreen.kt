@@ -92,6 +92,9 @@ fun MainScreen(
             when (selectedItem) {
                 is NavigationCustomItem.Expense -> ExpenseScreen(
                     modifier,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    },
                     (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
                 )
 

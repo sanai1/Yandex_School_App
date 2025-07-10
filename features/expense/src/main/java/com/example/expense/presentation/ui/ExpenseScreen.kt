@@ -20,6 +20,7 @@ import com.example.expense.presentation.ExpenseViewModel
 @Composable
 fun ExpenseScreen(
     modifier: Modifier,
+    onClickDetailsTransaction: () -> Unit,
     viewModel: ExpenseViewModel
 ) {
     val transactions = viewModel.expensesToday.collectAsStateWithLifecycle()
@@ -52,7 +53,11 @@ fun ExpenseScreen(
                         info = "${it.amount} ${viewModel.getSelectedAccount().value.currency.symbol}",
                         typeListItem = TypeListItem.ARROW
                     ),
-                    modifier = modifier.height(70.dp)
+                    modifier = modifier.height(70.dp),
+                    onClickDetails = {
+                        viewModel.setSelectedTransaction(it)
+                        onClickDetailsTransaction.invoke()
+                    }
                 )
             }
         }

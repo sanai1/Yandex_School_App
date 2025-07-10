@@ -23,10 +23,11 @@ import com.example.common.presentation.list.TypeListItem
 @Composable
 fun CategorySelection(
     modifier: Modifier,
+    selectedCategory: CategoryDomain,
     categoryList: List<CategoryDomain>,
     updateCategory: (CategoryDomain) -> Unit
 ) {
-    var selectedCategory by remember { mutableStateOf(categoryList.first()) }
+    var selectedCategory by remember { mutableStateOf(selectedCategory) }
     var visibleBottomSheet by remember { mutableStateOf(false) }
     ListItem(
         itemModelUI = ListItemModelUI(

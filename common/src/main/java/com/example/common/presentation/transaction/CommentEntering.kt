@@ -22,10 +22,11 @@ import com.example.common.presentation.list.TypeListItem
 @Composable
 fun CommentEntering(
     modifier: Modifier,
+    enterComment: String,
     updateComment: (String) -> Unit
 ) {
     val hint = "Введите комментарий"
-    var comment by remember { mutableStateOf(hint) }
+    var comment by remember { mutableStateOf(enterComment.let { it.ifEmpty { hint } }) }
     var visibleCommentDialog by remember { mutableStateOf(false) }
     ListItem(
         itemModelUI = ListItemModelUI(

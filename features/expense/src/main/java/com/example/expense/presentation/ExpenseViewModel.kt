@@ -12,6 +12,7 @@ import com.example.common.domain.usecase.TransactionUseCase
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
 import com.example.common.store.AccountStore
+import com.example.common.store.TransactionStore
 import com.example.network.ResponseTemplate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +25,7 @@ class ExpenseViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val categoryUseCase: CategoryUseCase,
     private val accountUseCase: AccountUseCase,
+    private val transactionStore: TransactionStore
 ) : ViewModel() {
     private val _expensesToday =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -50,6 +52,10 @@ class ExpenseViewModel @Inject constructor(
     }
 
     fun getSelectedAccount() = AccountStore.selectedAccount
+
+    fun setSelectedTransaction(selectedTransactionDomain: TransactionDomain) {
+        transactionStore.setSelectedTransaction(selectedTransactionDomain)
+    }
 
     private val _expensesByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
