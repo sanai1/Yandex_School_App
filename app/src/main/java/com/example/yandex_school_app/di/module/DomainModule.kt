@@ -6,7 +6,7 @@ import com.example.yandex_school_app.di.ApplicationScope
 import com.example.cash_account.data.repository.AccountRepositoryImpl
 import com.example.cash_account.domain.repository.AccountRepository
 import com.example.category.data.repository.CategoryRepositoryImpl
-import com.example.category.domain.repository.CategoryRepository
+import com.example.common.domain.repository.CategoryRepository
 import dagger.Binds
 import dagger.Module
 

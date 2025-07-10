@@ -2,8 +2,10 @@ package com.example.expense.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.domain.entity.category.CategoryDomain
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
+import com.example.common.domain.usecase.CategoryUseCase
 import com.example.common.domain.usecase.TransactionUseCase
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
@@ -18,6 +20,7 @@ import javax.inject.Inject
 
 class ExpenseViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
+    private val categoryUseCase: CategoryUseCase,
     private val accountManager: AccountStore
 ) : ViewModel() {
     private val _expensesToday =
@@ -84,7 +87,7 @@ class ExpenseViewModel @Inject constructor(
     val detailsTransaction: StateFlow<VisibleData<TransactionDomain>> =
         _detailsTransaction.asStateFlow()
 
-    fun getTransactionById(transactionId: Int) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateTransactionById(transactionId: Int) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionById(transactionId)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
@@ -114,6 +117,22 @@ class ExpenseViewModel @Inject constructor(
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> updateToday()
             else -> ToastController.showToast(response.typeResponse.text)
+        }
+    }
+
+    private val _categoryExpense =
+        MutableStateFlow<VisibleData<List<CategoryDomain>>>(VisibleData.Loading())
+    val categoryExpense: StateFlow<VisibleData<List<CategoryDomain>>> =
+        _categoryExpense.asStateFlow()
+
+    fun updateCategoryExpense() = viewModelScope.launch(Dispatchers.IO) {
+        val response = categoryUseCase.getExpenseCategories()
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
+                _categoryExpense.value = VisibleData.Success(it)
+            }
+
+            else -> _categoryExpense.value = VisibleData.Error(response.typeResponse)
         }
     }
 }

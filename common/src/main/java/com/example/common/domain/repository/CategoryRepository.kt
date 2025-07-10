@@ -1,9 +1,9 @@
-package com.example.category.data.datasource.remote
+package com.example.common.domain.repository
 
-import com.example.network.ResponseTemplate
 import com.example.common.domain.entity.category.CategoryDomain
+import com.example.network.ResponseTemplate
 
-interface CategoryRemoteDataSource {
+interface CategoryRepository {
     suspend fun getCategories(): ResponseTemplate<List<CategoryDomain>>
     suspend fun getCategoriesByType(isIncome: Boolean): ResponseTemplate<List<CategoryDomain>>
 }

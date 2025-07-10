@@ -1,5 +1,6 @@
 package com.example.expense.presentation.ui
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,10 +10,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.category.CategoryDomain
-import com.example.common.domain.entity.transaction.TransactionPartDomain
+import com.example.common.presentation.base_visible.ErrorVisible
+import com.example.common.presentation.base_visible.LoadingVisible
+import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
+import com.example.common.presentation.transaction.AmountEntering
+import com.example.common.presentation.transaction.CategorySelection
+import com.example.common.presentation.transaction.DateSelection
 import com.example.expense.presentation.ExpenseViewModel
+import java.time.LocalDate
 
 @Composable
 fun DetailsExpenseScreen(
@@ -21,12 +30,14 @@ fun DetailsExpenseScreen(
     callback: () -> Unit,
     viewModel: ExpenseViewModel,
 ) {
-    var amount by remember { mutableStateOf("") }
+    var amount by remember { mutableStateOf("0") }
     var comment by remember { mutableStateOf("") }
     var category by remember { mutableStateOf<CategoryDomain?>(null) }
+    var date by remember { mutableStateOf(LocalDate.now()) }
+    var time by remember { mutableStateOf("") }
     LaunchedEffect(isExpenseClicked.value) {
         if (isExpenseClicked.value) {
-            if (amount.isEmpty()) {
+            if (amount.isEmpty() || amount == "0") {
                 ToastController.showToast("Введите сумму транзакции")
             } else if (category == null) {
                 ToastController.showToast("Выберите категорию")
@@ -42,5 +53,38 @@ fun DetailsExpenseScreen(
 //            )
         }
         callback.invoke()
+    }
+    val categoryExpense = viewModel.categoryExpense.collectAsStateWithLifecycle()
+    viewModel.updateCategoryExpense()
+    if (categoryExpense.value is VisibleData.Loading) {
+        LoadingVisible()
+    } else if (categoryExpense.value is VisibleData.Success) {
+        Column {
+            CategorySelection(
+                modifier = modifier.height(70.dp),
+                categoryList = (categoryExpense.value as VisibleData.Success<List<CategoryDomain>>).data
+            ) { item ->
+                category = item
+            }
+            AmountEntering(
+                modifier = modifier.height(70.dp),
+                currency = viewModel.getSelectedAccount().value.currency
+            ) { item ->
+                amount = item
+            }
+            DateSelection(
+                modifier = modifier.height(70.dp),
+                date = date
+            ) { item ->
+                if (item.isAfter(LocalDate.now())) {
+                    ToastController.showToast("Выберите прошедшую дату")
+                } else {
+                    date = item
+                }
+                println(date)
+            }
+        }
+    } else {
+        ErrorVisible((categoryExpense.value as VisibleData.Error).type)
     }
 }
