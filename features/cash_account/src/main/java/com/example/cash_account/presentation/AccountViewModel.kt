@@ -33,10 +33,10 @@ class AccountViewModel @Inject constructor(
                 response.body?.let { it ->
                     _allAccount.value = it.sortedBy { it.name }
                 }
-                if (accountManager.checkAccount().not()) {
+                if (accountManager.checkAccount()) {
                     accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
-                } else if (accountManager.selectedAccount.value.id in allAccount.value.map { it.id }) {
-                    allAccount.value.find { it.id == accountManager.selectedAccount.value.id }
+                } else if (AccountStore.selectedAccount.value.id in allAccount.value.map { it.id }) {
+                    allAccount.value.find { it.id == AccountStore.selectedAccount.value.id }
                         ?.let {
                             accountManager.setSelectedAccount(it)
                         }
@@ -49,7 +49,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedAccount() = accountManager.selectedAccount
+    fun getSelectedAccount() = AccountStore.selectedAccount
 
     fun setSelectedAccountById(newIdAccount: String) {
         allAccount.value.find { it.id.toString() == newIdAccount }?.let {
@@ -60,13 +60,13 @@ class AccountViewModel @Inject constructor(
     fun updateCurrencyOnSelectedAccount(newCurrency: Currency) =
         viewModelScope.launch(Dispatchers.IO) {
             val response = accountUseCase.updateCashAccount(
-                accountManager.selectedAccount.value.copy(currency = newCurrency)
+                AccountStore.selectedAccount.value.copy(currency = newCurrency)
             )
             when (response.typeResponse) {
                 ResponseTemplate.TypeResponse.SUCCESS -> {
                     updateAllAccount()
                     accountManager.setSelectedAccount(
-                        accountManager.selectedAccount.value.copy(currency = newCurrency)
+                        AccountStore.selectedAccount.value.copy(currency = newCurrency)
                     )
                 }
 
@@ -111,7 +111,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun deleteCashAccount(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        if (accountManager.selectedAccount.value.id == id) {
+        if (AccountStore.selectedAccount.value.id == id) {
             accountManager.setSelectedAccount(allAccount.value.first())
         }
         val response = accountUseCase.deleteCashAccount(id)

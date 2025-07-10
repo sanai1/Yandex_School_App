@@ -8,9 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class AccountStore @Inject constructor() {
-    private val _selectedAccount = MutableStateFlow(accountExample)
-    val selectedAccount: StateFlow<AccountDomain> = _selectedAccount.asStateFlow()
-
     fun checkAccount() = _selectedAccount.value != accountExample
 
     fun setSelectedAccount(selectedAccount: AccountDomain) {
@@ -24,5 +21,7 @@ class AccountStore @Inject constructor() {
             balance = "0",
             currency = Currency.collectionCurrency.first()
         )
+        private val _selectedAccount = MutableStateFlow(accountExample)
+        val selectedAccount: StateFlow<AccountDomain> = _selectedAccount.asStateFlow()
     }
 }

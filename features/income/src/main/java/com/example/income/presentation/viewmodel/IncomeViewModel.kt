@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
-    private val accountManager: AccountStore
 ) : ViewModel() {
     private val _incomeToday =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -24,7 +23,7 @@ class IncomeViewModel @Inject constructor(
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.selectedAccount.value.id
+            AccountStore.selectedAccount.value.id
         )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
@@ -38,7 +37,7 @@ class IncomeViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedAccount() = accountManager.selectedAccount
+    fun getSelectedAccount() = AccountStore.selectedAccount
 
     private val _incomeByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -47,7 +46,7 @@ class IncomeViewModel @Inject constructor(
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.selectedAccount.value.id,
+            AccountStore.selectedAccount.value.id,
             startDate, endDate
         )
         when (response.typeResponse) {

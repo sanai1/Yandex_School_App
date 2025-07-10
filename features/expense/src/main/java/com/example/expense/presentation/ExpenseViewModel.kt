@@ -24,7 +24,6 @@ class ExpenseViewModel @Inject constructor(
     private val transactionUseCase: TransactionUseCase,
     private val categoryUseCase: CategoryUseCase,
     private val accountUseCase: AccountUseCase,
-    private val accountManager: AccountStore
 ) : ViewModel() {
     private val _expensesToday =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -32,8 +31,9 @@ class ExpenseViewModel @Inject constructor(
         _expensesToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
+        println(AccountStore.selectedAccount.value)
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.selectedAccount.value.id
+            AccountStore.selectedAccount.value.id
         )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
@@ -49,7 +49,7 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedAccount() = accountManager.selectedAccount
+    fun getSelectedAccount() = AccountStore.selectedAccount
 
     private val _expensesByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
@@ -58,7 +58,7 @@ class ExpenseViewModel @Inject constructor(
 
     fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
         val response = transactionUseCase.getTransactionsByPeriod(
-            accountManager.selectedAccount.value.id,
+            AccountStore.selectedAccount.value.id,
             startDate, endDate
         )
         when (response.typeResponse) {
