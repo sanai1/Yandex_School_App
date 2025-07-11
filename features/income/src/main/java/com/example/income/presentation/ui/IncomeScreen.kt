@@ -1,5 +1,6 @@
 package com.example.income.presentation.ui
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -9,17 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.base_visible.ErrorVisible
 import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 
 @Composable
 fun IncomeScreen(
-    modifier: Modifier, viewModel: IncomeViewModel
+    modifier: Modifier, onClickDetailsTransaction: () -> Unit, viewModel: IncomeViewModel
 ) {
     val transactions = viewModel.incomeToday.collectAsStateWithLifecycle()
     viewModel.updateToday()
@@ -33,15 +34,18 @@ fun IncomeScreen(
                         title = "Всего",
                         description = null,
                         info = "${
-                            (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
-                                it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
-                            }.toString().reversed().chunked(3).joinToString(" ").reversed()
+                            DecimalFormat("#.00").format((transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
+                                it.amount.toDoubleOrNull() ?: 0.0
+                            }).toString().reversed().let {
+                                it.substring(0, 3) + it.substring(3).chunked(3).joinToString(" ")
+                                    .ifEmpty { "0" }
+                            }.reversed()
                         } ${viewModel.getSelectedAccount().value.currency.symbol}",
                         typeListItem = TypeListItem.USUAL
                     ),
                     modifier = modifier
                         .height(56.dp)
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.secondary)
                 )
                 (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.forEach { item ->
                     ListItem(
@@ -52,7 +56,11 @@ fun IncomeScreen(
                             info = "${item.amount} ${viewModel.getSelectedAccount().value.currency.symbol}",
                             typeListItem = TypeListItem.ARROW
                         ),
-                        modifier = modifier.height(70.dp)
+                        modifier = modifier.height(70.dp),
+                        onClickDetails = {
+                            viewModel.setSelectedTransaction(item)
+                            onClickDetailsTransaction.invoke()
+                        }
                     )
                 }
             }

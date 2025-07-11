@@ -1,11 +1,12 @@
 package com.example.common.data.mapper
 
-import com.example.common.domain.entity.CategoryDomain
+import com.example.common.domain.entity.category.CategoryDomain
 import com.example.network.model.category.CategoryNetwork
 import javax.inject.Inject
 
 class CategoryMapper @Inject constructor() {
     fun toCategoryDomain(categoryNetwork: CategoryNetwork) = CategoryDomain(
+        id = categoryNetwork.id,
         name = categoryNetwork.name,
         emoji = categoryNetwork.emoji,
         isIncome = categoryNetwork.isIncome

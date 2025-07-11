@@ -7,14 +7,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.Currency
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.domain.entity.TransactionDomain
+import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 
 @Composable
-fun ListTransaction(transactions: List<TransactionDomain>, currency: Currency, modifier: Modifier) {
+fun ListTransaction(
+    transactions: List<TransactionDomain>,
+    currency: Currency,
+    modifier: Modifier,
+    onClickDetails: (TransactionDomain) -> Unit
+) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
     ) {
@@ -30,7 +35,10 @@ fun ListTransaction(transactions: List<TransactionDomain>, currency: Currency, m
                     },
                     typeListItem = TypeListItem.ARROW
                 ),
-                modifier = modifier.height(70.dp)
+                modifier = modifier.height(70.dp),
+                onClickDetails = {
+                    onClickDetails.invoke(item)
+                }
             )
         }
     }

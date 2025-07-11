@@ -1,7 +1,7 @@
 package com.example.cash_account.data.datasource.remote
 
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.account.AccountDomain
 
 interface AccountRemoteDataSource {
     suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>>

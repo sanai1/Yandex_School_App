@@ -11,17 +11,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.Currency
 import com.example.cash_account.R
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
@@ -35,9 +33,6 @@ fun CashAccountScreen(
 ) {
     val selectedAccount = viewModel.getSelectedAccount().collectAsStateWithLifecycle()
     val accounts by viewModel.allAccount.collectAsStateWithLifecycle()
-    LaunchedEffect(accounts) {
-        println("Accounts updated: ${accounts.size} items")
-    }
     Column {
         var visibleBottomSheet by remember { mutableStateOf(TypeModalBottomSheet.NONE) }
         ListItem(
@@ -51,7 +46,7 @@ fun CashAccountScreen(
             ),
             modifier = modifier
                 .height(56.dp)
-                .background(MaterialTheme.colorScheme.surface),
+                .background(MaterialTheme.colorScheme.secondary),
             onClickDetails = {
                 visibleBottomSheet = TypeModalBottomSheet.ACCOUNT
             }
@@ -64,7 +59,7 @@ fun CashAccountScreen(
             ),
             modifier = modifier
                 .height(56.dp)
-                .background(MaterialTheme.colorScheme.surface),
+                .background(MaterialTheme.colorScheme.secondary),
             onClickDetails = {
                 visibleBottomSheet = TypeModalBottomSheet.CURRENCY
             }
@@ -100,7 +95,7 @@ fun CashAccountScreen(
                         Currency.collectionCurrency.forEach { currency ->
                             ListItem(
                                 itemModelUI = ListItemModelUI(
-                                    icon = currency.icon,
+                                    icon = currency.icon, // TODO проверить цвет валюты
                                     title = currency.name,
                                     typeListItem = TypeListItem.USUAL
                                 ),
@@ -119,7 +114,7 @@ fun CashAccountScreen(
                                 typeListItem = TypeListItem.USUAL,
                             ),
                             modifier = modifier
-                                .background(Color.Red)
+                                .background(MaterialTheme.colorScheme.surface)
                                 .height(70.dp),
                             onClickContainer = {
                                 visibleBottomSheet = TypeModalBottomSheet.NONE

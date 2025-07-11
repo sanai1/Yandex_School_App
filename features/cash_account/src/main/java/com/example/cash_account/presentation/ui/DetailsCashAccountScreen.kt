@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -26,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.common.domain.entity.AccountDomain
+import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
@@ -105,7 +106,7 @@ private fun SwipeActionsExample(
         state = state,
         backgroundContent = {
             val color = when {
-                showConfirmationDialog || state.dismissDirection == SwipeToDismissBoxValue.EndToStart -> Color.LightGray
+                showConfirmationDialog || state.dismissDirection == SwipeToDismissBoxValue.EndToStart -> MaterialTheme.colorScheme.tertiary
                 else -> Color.Transparent
             }
 

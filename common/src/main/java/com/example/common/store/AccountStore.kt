@@ -1,17 +1,14 @@
 package com.example.common.store
 
-import com.example.common.domain.entity.AccountDomain
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class AccountStore @Inject constructor() {
-    private val _selectedAccount = MutableStateFlow(accountExample)
-    val selectedAccount: StateFlow<AccountDomain> = _selectedAccount.asStateFlow()
-
-    fun checkAccount() = _selectedAccount.value != accountExample
+    fun checkAccount() = _selectedAccount.value == accountExample
 
     fun setSelectedAccount(selectedAccount: AccountDomain) {
         _selectedAccount.value = selectedAccount
@@ -24,5 +21,7 @@ class AccountStore @Inject constructor() {
             balance = "0",
             currency = Currency.collectionCurrency.first()
         )
+        private val _selectedAccount = MutableStateFlow(accountExample)
+        val selectedAccount: StateFlow<AccountDomain> = _selectedAccount.asStateFlow()
     }
 }

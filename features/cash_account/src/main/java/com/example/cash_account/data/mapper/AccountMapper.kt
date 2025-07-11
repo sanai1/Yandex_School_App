@@ -1,7 +1,7 @@
 package com.example.cash_account.data.mapper
 
-import com.example.common.domain.entity.AccountDomain
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import com.example.network.model.cash_account.request.AccountRequestNetwork
 import com.example.network.model.cash_account.response.AccountResponseNetwork
 import javax.inject.Inject

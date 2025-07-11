@@ -7,6 +7,7 @@ data class ListItemModelUI(
     val picture: String? = null,
     val icon: Int? = null,
     val title: String,
+    val isHint: Boolean = false,
     val description: String? = null,
     val info: String? = null,
     val infoDescription: String? = null,

@@ -34,7 +34,10 @@ fun TopBarCustom(
     navController: NavController,
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
+    clearDetails: () -> Unit,
     isAddAccountClicked: MutableState<Boolean>,
+    isExpenseClicked: MutableState<Boolean>,
+    isIncomeClicked: MutableState<Boolean>
 ) {
     @Composable
     fun TextOnTopBar(text: String, modifier: Modifier = Modifier) {
@@ -105,15 +108,25 @@ fun TopBarCustom(
                     }
 
                     is NavigationCustomItem.DetailsExpense -> {
-                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
+                        IconButtonOnTopBar(Icons.Default.Close) {
+                            clearDetails.invoke()
+                            navController.popBackStack()
+                        }
                         TextOnTopBar("Мои расходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        IconButtonOnTopBar(Icons.Default.Done) {
+                            isExpenseClicked.value = true
+                        }
                     }
 
                     is NavigationCustomItem.DetailsIncome -> {
-                        IconButtonOnTopBar(Icons.Default.Close) { navController.popBackStack() }
+                        IconButtonOnTopBar(Icons.Default.Close) {
+                            clearDetails.invoke()
+                            navController.popBackStack()
+                        }
                         TextOnTopBar("Мои доходы", modifier.weight(1f))
-                        IconButtonOnTopBar(Icons.Default.Done) { }
+                        IconButtonOnTopBar(Icons.Default.Done) {
+                            isIncomeClicked.value = true
+                        }
                     }
 
                     is NavigationCustomItem.DetailsAccount -> {
@@ -132,6 +145,9 @@ fun TopBarCustom(
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        )
     )
 }

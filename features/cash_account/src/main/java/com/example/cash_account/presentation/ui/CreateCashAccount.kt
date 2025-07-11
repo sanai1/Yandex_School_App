@@ -20,8 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.common.presentation.toast.ToastController
-import com.example.common.domain.entity.AccountDomain
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.entity.account.Currency
 import com.example.cash_account.presentation.AccountViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,8 +66,10 @@ fun CreateCashAccount(
             placeholder = { Text("Введите название счета") },
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSecondary
             ),
             modifier = modifier.fillMaxWidth()
         )
@@ -81,8 +83,10 @@ fun CreateCashAccount(
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSecondary
             ),
             modifier = modifier.fillMaxWidth()
         )
@@ -92,7 +96,7 @@ fun CreateCashAccount(
             onExpandedChange = { expanded.value = expanded.value.not() },
             modifier = modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.secondary)
         ) {
             TextField(
                 modifier = modifier
@@ -104,12 +108,14 @@ fun CreateCashAccount(
                 label = {
                     Text(
                         "Выберите валюту счета",
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 },
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surface,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+                    focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSecondary
                 ),
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
@@ -121,7 +127,12 @@ fun CreateCashAccount(
             ) {
                 Currency.collectionCurrency.forEach { currency ->
                     DropdownMenuItem(
-                        text = { Text(currency.name) },
+                        text = {
+                            Text(
+                                currency.name,
+                                color = MaterialTheme.colorScheme.onSecondary
+                            )
+                        },
                         onClick = {
                             selectedCurrency.value = currency
                             expanded.value = false

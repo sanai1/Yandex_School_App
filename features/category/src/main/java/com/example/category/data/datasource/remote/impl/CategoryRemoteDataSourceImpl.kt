@@ -3,7 +3,8 @@ package com.example.category.data.datasource.remote.impl
 import com.example.common.data.mapper.CategoryMapper
 import com.example.network.ResponseTemplate
 import com.example.category.data.datasource.remote.CategoryRemoteDataSource
-import com.example.common.domain.entity.CategoryDomain
+import com.example.common.data.mapper.ResponseCodeMapper
+import com.example.common.domain.entity.category.CategoryDomain
 import com.example.network.check.NoConnectivityException
 import com.example.network.service.CategoryApiService
 import kotlinx.coroutines.delay
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 class CategoryRemoteDataSourceImpl @Inject constructor(
     private val categoryMapper: CategoryMapper,
+    private val responseCodeMapper: ResponseCodeMapper,
     private val categoryApiService: CategoryApiService
 ) : CategoryRemoteDataSource {
     override suspend fun getCategories(): ResponseTemplate<List<CategoryDomain>> {
@@ -66,5 +68,33 @@ class CategoryRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCategoriesByType(isIncome: Boolean): ResponseTemplate<List<CategoryDomain>> {
+        try {
+            var response = networkCategoriesByType(isIncome)
+            repeat(3) {
+                if (response.code() == 500) {
+                    response = networkCategoriesByType(isIncome)
+                } else return@repeat
+            }
+            return ResponseTemplate(
+                typeResponse = responseCodeMapper.mapResponseCode(response.code()),
+                body = response.body()?.map { categoryMapper.toCategoryDomain(it) }
+            )
+        } catch (_: NoConnectivityException) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.NETWORK_PROBLEM,
+                body = null
+            )
+        } catch (_: Exception) {
+            return ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.ERROR_SERVER,
+                body = null
+            )
+        }
+    }
+
     private fun networkCategories() = categoryApiService.getCategories().execute()
+
+    private suspend fun networkCategoriesByType(isIncome: Boolean) =
+        categoryApiService.getCategoriesByType(isIncome = isIncome)
 }

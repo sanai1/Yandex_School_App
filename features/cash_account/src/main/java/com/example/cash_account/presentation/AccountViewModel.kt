@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.network.ResponseTemplate
 import com.example.common.presentation.toast.ToastController
 import com.example.common.store.AccountStore
-import com.example.common.domain.entity.AccountDomain
-import com.example.cash_account.domain.usecase.AccountUseCase
-import com.example.common.domain.entity.Currency
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.usecase.AccountUseCase
+import com.example.common.domain.entity.account.Currency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,13 +33,8 @@ class AccountViewModel @Inject constructor(
                 response.body?.let { it ->
                     _allAccount.value = it.sortedBy { it.name }
                 }
-                if (accountManager.checkAccount().not()) {
+                if (accountManager.checkAccount()) {
                     accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
-                } else if (accountManager.selectedAccount.value.id in allAccount.value.map { it.id }) {
-                    allAccount.value.find { it.id == accountManager.selectedAccount.value.id }
-                        ?.let {
-                            accountManager.setSelectedAccount(it)
-                        }
                 }
             }
 
@@ -49,7 +44,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedAccount() = accountManager.selectedAccount
+    fun getSelectedAccount() = AccountStore.selectedAccount
 
     fun setSelectedAccountById(newIdAccount: String) {
         allAccount.value.find { it.id.toString() == newIdAccount }?.let {
@@ -60,14 +55,14 @@ class AccountViewModel @Inject constructor(
     fun updateCurrencyOnSelectedAccount(newCurrency: Currency) =
         viewModelScope.launch(Dispatchers.IO) {
             val response = accountUseCase.updateCashAccount(
-                accountManager.selectedAccount.value.copy(currency = newCurrency)
+                AccountStore.selectedAccount.value.copy(currency = newCurrency)
             )
             when (response.typeResponse) {
                 ResponseTemplate.TypeResponse.SUCCESS -> {
-                    updateAllAccount()
                     accountManager.setSelectedAccount(
-                        accountManager.selectedAccount.value.copy(currency = newCurrency)
+                        AccountStore.selectedAccount.value.copy(currency = newCurrency)
                     )
+                    updateAllAccount()
                 }
 
                 ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")
@@ -111,7 +106,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun deleteCashAccount(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        if (accountManager.selectedAccount.value.id == id) {
+        if (AccountStore.selectedAccount.value.id == id) {
             accountManager.setSelectedAccount(allAccount.value.first())
         }
         val response = accountUseCase.deleteCashAccount(id)

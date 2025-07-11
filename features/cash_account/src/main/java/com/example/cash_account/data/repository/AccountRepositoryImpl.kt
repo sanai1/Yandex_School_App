@@ -2,8 +2,8 @@ package com.example.cash_account.data.repository
 
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.network.ResponseTemplate
-import com.example.common.domain.entity.AccountDomain
-import com.example.cash_account.domain.repository.AccountRepository
+import com.example.common.domain.entity.account.AccountDomain
+import com.example.common.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(

@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.cash_account.presentation.ui.CashAccountScreen
@@ -25,6 +24,7 @@ import com.example.cash_account.presentation.ui.CreateCashAccount
 import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
 import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
+import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.expense.presentation.ui.DetailsExpenseScreen
 import com.example.expense.presentation.ui.ExpenseScreen
@@ -32,7 +32,7 @@ import com.example.expense.presentation.ui.HistoryExpenseScreen
 import com.example.income.presentation.ui.DetailsIncomeScreen
 import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
-import com.example.income.presentation.viewmodel.IncomeViewModel
+import com.example.income.presentation.IncomeViewModel
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
@@ -44,16 +44,24 @@ import com.example.navigation.TopBarCustom
 fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    clickChangeTheme: (Boolean) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
+    val isExpenseClicked = remember { mutableStateOf(false) }
+    val isIncomeClicked = remember { mutableStateOf(false) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBarCustom(
                 navController,
                 selectedItem,
+                clearDetails = {
+                    TransactionStore.clear()
+                },
                 isAddAccountClicked = isAddAccountClicked,
+                isExpenseClicked = isExpenseClicked,
+                isIncomeClicked = isIncomeClicked
             )
         },
         floatingActionButton = {
@@ -88,11 +96,17 @@ fun MainScreen(
             when (selectedItem) {
                 is NavigationCustomItem.Expense -> ExpenseScreen(
                     modifier,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    },
                     (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
                 )
 
                 is NavigationCustomItem.Income -> IncomeScreen(
                     modifier,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    },
                     (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
                 )
 
@@ -106,21 +120,50 @@ fun MainScreen(
                     (LocalContext.current as MainActivity).mapViewModel[CategoryViewModel::class] as CategoryViewModel
                 )
 
-                is NavigationCustomItem.Settings -> SettingsScreen(modifier)
+                is NavigationCustomItem.Settings -> SettingsScreen(
+                    modifier,
+                    clickChangeTheme = clickChangeTheme
+                )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
+                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    }
                 )
 
                 is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
+                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    }
                 )
 
-                is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(modifier)
+                is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(
+                    modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    isExpenseClicked = isExpenseClicked,
+                    callback = {
+                        isExpenseClicked.value = false
+                    },
+                    callbackNavController = {
+                        navController.popBackStack()
+                    }
+                )
 
-                is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(modifier)
+                is NavigationCustomItem.DetailsIncome -> DetailsIncomeScreen(
+                    modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    isIncomeClicked = isIncomeClicked,
+                    callback = {
+                        isIncomeClicked.value = false
+                    },
+                    callbackNavController = {
+                        navController.popBackStack()
+                    }
+                )
 
                 is NavigationCustomItem.DetailsAccount -> DetailsCashAccountScreen(
                     modifier,
