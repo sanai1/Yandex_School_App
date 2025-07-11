@@ -7,6 +7,7 @@ import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.network.model.transaction.request.TransactionRequestNetwork
 import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -62,7 +63,7 @@ class TransactionMapper @Inject constructor() {
             amount = transactionPartDomain.amount,
             transactionDate = DateTimeFormatter.ISO_INSTANT.format(
                 transactionPartDomain.transactionDate.atZone(
-                    ZoneId.systemDefault()
+                    ZoneOffset.UTC
                 ).toInstant()
             ),
             comment = transactionPartDomain.comment,

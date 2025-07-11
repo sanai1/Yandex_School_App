@@ -1,11 +1,12 @@
 package com.example.income.presentation.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -159,12 +160,14 @@ fun DetailsIncomeScreen(
                 Button(
                     modifier = Modifier
                         .height(40.dp)
-                        .padding(horizontal = 16.dp)
-                        .background(
-                            MaterialTheme.colorScheme.error
-                        ),
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    ),
                     onClick = {
                         viewModel.deleteTransactionById(transactionDomain.id)
+                        callbackNavController.invoke()
                     }
                 ) {
                     Text("Удалить доход")

@@ -33,18 +33,20 @@ class ExpenseViewModel @Inject constructor(
         _expensesToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = transactionUseCase.getTransactionsByPeriod(
-            AccountStore.selectedAccount.value.id
-        )
+        val response = accountUseCase.getAllCashAccount()
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                val list = mutableListOf<TransactionDomain>()
+                response.body?.forEach { account ->
+                    transactionUseCase.getTransactionsByPeriod(account.id).let {
+                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
+                            it.body?.forEach { transaction -> list.add(transaction) }
+                        }
+                    }
+                }
                 _expensesToday.value =
-                    VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
-
+                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
-
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _expensesToday.value =
-                VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
 
             else -> _expensesToday.value = VisibleData.Error(response.typeResponse)
         }

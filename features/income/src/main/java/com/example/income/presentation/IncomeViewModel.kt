@@ -32,16 +32,19 @@ class IncomeViewModel @Inject constructor(
     val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = transactionUseCase.getTransactionsByPeriod(
-            AccountStore.Example.selectedAccount.value.id
-        )
+        val response = accountUseCase.getAllCashAccount()
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
-                _incomeToday.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome })
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                val list = mutableListOf<TransactionDomain>()
+                response.body?.forEach { account ->
+                    transactionUseCase.getTransactionsByPeriod(account.id).let {
+                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
+                            it.body?.forEach { transaction -> list.add(transaction) }
+                        }
+                    }
+                }
+                _incomeToday.value = VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
-
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeToday.value =
-                VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
 
             else -> _incomeToday.value = VisibleData.Error(response.typeResponse)
         }

@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.example.common.domain.entity.ListItemModelUI
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -161,12 +161,12 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
             SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         }
         val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = if (info == "сегодня") Date().time else LocalDate.parse(
+            initialSelectedDateMillis = (if (info == "сегодня") LocalDate.now() else LocalDate.parse(
                 info,
                 DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            ).atStartOfDay(
-                ZoneId.systemDefault()
-            ).plusDays(1).toInstant().toEpochMilli()
+            )).atStartOfDay(
+                ZoneOffset.UTC
+            ).toInstant().toEpochMilli()
         )
         DatePickerDialog(
             onDismissRequest = { showDatePicker.value = false },

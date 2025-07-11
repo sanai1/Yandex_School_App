@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.cash_account.presentation.ui.CashAccountScreen
@@ -25,6 +24,7 @@ import com.example.cash_account.presentation.ui.CreateCashAccount
 import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
 import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
+import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.expense.presentation.ui.DetailsExpenseScreen
 import com.example.expense.presentation.ui.ExpenseScreen
@@ -55,6 +55,9 @@ fun MainScreen(
             TopBarCustom(
                 navController,
                 selectedItem,
+                clearDetails = {
+                    TransactionStore.clear()
+                },
                 isAddAccountClicked = isAddAccountClicked,
                 isExpenseClicked = isExpenseClicked,
                 isIncomeClicked = isIncomeClicked
@@ -100,6 +103,9 @@ fun MainScreen(
 
                 is NavigationCustomItem.Income -> IncomeScreen(
                     modifier,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    },
                     (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
                 )
 

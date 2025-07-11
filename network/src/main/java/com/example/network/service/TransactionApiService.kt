@@ -43,7 +43,7 @@ interface TransactionApiService {
         @Body transaction: TransactionRequestNetwork
     ): Response<TransactionResponseNetwork>
 
-    @DELETE("transaction/{id}")
+    @DELETE("transactions/{id}")
     suspend fun deleteTransactionById(
         @Header("Authorization") token: String = BaseUrl.getToken(),
         @Path("id") transactionId: Int

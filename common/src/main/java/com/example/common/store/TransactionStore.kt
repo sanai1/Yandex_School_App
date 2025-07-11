@@ -15,5 +15,9 @@ class TransactionStore @Inject constructor() {
     companion object {
         private val _selectedTransaction = MutableStateFlow<TransactionDomain?>(null)
         val selectedTransaction: StateFlow<TransactionDomain?> = _selectedTransaction.asStateFlow()
+
+        fun clear() {
+            _selectedTransaction.value = null
+        }
     }
 }

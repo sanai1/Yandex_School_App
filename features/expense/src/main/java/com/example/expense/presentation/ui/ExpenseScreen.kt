@@ -1,5 +1,6 @@
 package com.example.expense.presentation.ui
 
+import android.icu.text.DecimalFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -34,9 +35,11 @@ fun ExpenseScreen(
                     title = "Всего",
                     description = null,
                     info = "${
-                        (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
-                            it.amount.replace("[^0-9]".toRegex(), "").toLongOrNull() ?: 0
-                        }.toString().reversed().chunked(3).joinToString(" ").reversed()
+                        DecimalFormat("#.00").format((transactions.value as VisibleData.Success<List<TransactionDomain>>).data.sumOf {
+                            it.amount.toDoubleOrNull() ?: 0.0
+                        }).toString().reversed().let {
+                            it.substring(0, 3) + it.substring(3).chunked(3).joinToString(" ")
+                        }.reversed()
                     } ${viewModel.getSelectedAccount().value.currency.symbol}",
                     typeListItem = TypeListItem.USUAL
                 ),
