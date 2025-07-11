@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,9 +34,6 @@ fun CashAccountScreen(
 ) {
     val selectedAccount = viewModel.getSelectedAccount().collectAsStateWithLifecycle()
     val accounts by viewModel.allAccount.collectAsStateWithLifecycle()
-    LaunchedEffect(accounts) {
-        println("Accounts updated: ${accounts.size} items")
-    }
     Column {
         var visibleBottomSheet by remember { mutableStateOf(TypeModalBottomSheet.NONE) }
         ListItem(

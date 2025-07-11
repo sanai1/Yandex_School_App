@@ -35,11 +35,6 @@ class AccountViewModel @Inject constructor(
                 }
                 if (accountManager.checkAccount()) {
                     accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
-                } else if (AccountStore.selectedAccount.value.id in allAccount.value.map { it.id }) {
-                    allAccount.value.find { it.id == AccountStore.selectedAccount.value.id }
-                        ?.let {
-                            accountManager.setSelectedAccount(it)
-                        }
                 }
             }
 
@@ -64,10 +59,10 @@ class AccountViewModel @Inject constructor(
             )
             when (response.typeResponse) {
                 ResponseTemplate.TypeResponse.SUCCESS -> {
-                    updateAllAccount()
                     accountManager.setSelectedAccount(
                         AccountStore.selectedAccount.value.copy(currency = newCurrency)
                     )
+                    updateAllAccount()
                 }
 
                 ResponseTemplate.TypeResponse.UNAUTHORIZED -> ToastController.showToast("Ошибка авторизации")

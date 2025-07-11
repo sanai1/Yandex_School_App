@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class AccountStore @Inject constructor() {
-    fun checkAccount() = _selectedAccount.value != accountExample
+    fun checkAccount() = _selectedAccount.value == accountExample
 
     fun setSelectedAccount(selectedAccount: AccountDomain) {
         _selectedAccount.value = selectedAccount
