@@ -14,6 +14,7 @@ import com.example.yandex_school_app.di.AppMain
 import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.category.presentation.CategoryViewModel
+import com.example.common.store.ThemeStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.income.presentation.IncomeViewModel
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
@@ -28,9 +29,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as AppMain).appComponent.inject(this)
         super.onCreate(savedInstanceState)
+        ThemeStore.init(this)
         enableEdgeToEdge()
         setContent {
-            Yandex_School_AppTheme {
+            var isDark by remember { mutableStateOf(ThemeStore.isDarkTheme) }
+            Yandex_School_AppTheme(
+                darkTheme = isDark
+            ) {
                 var showSplash by remember { mutableStateOf(savedInstanceState == null) }
                 mapViewModel[AccountViewModel::class] = viewModel<AccountViewModel>(
                     factory = viewModelFactory
@@ -49,7 +54,10 @@ class MainActivity : ComponentActivity() {
                         showSplash = false
                     }
                 } else {
-                    App()
+                    App { it ->
+                        isDark = it
+                        ThemeStore.isDarkTheme = it
+                    }
                 }
             }
         }

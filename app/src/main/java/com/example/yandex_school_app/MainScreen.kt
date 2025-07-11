@@ -44,7 +44,8 @@ import com.example.navigation.TopBarCustom
 fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    clickChangeTheme: (Boolean) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -119,7 +120,10 @@ fun MainScreen(
                     (LocalContext.current as MainActivity).mapViewModel[CategoryViewModel::class] as CategoryViewModel
                 )
 
-                is NavigationCustomItem.Settings -> SettingsScreen(modifier)
+                is NavigationCustomItem.Settings -> SettingsScreen(
+                    modifier,
+                    clickChangeTheme = clickChangeTheme
+                )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
                     modifier,

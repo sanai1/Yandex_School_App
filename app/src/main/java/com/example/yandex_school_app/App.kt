@@ -10,7 +10,9 @@ import com.example.navigation.secondaryItems
 import com.example.common.presentation.toast.ToastMessage
 
 @Composable
-fun App() {
+fun App(
+    clickChangeTheme: (Boolean) -> Unit = {}
+) {
     val navController = rememberNavController()
 
     NavHost(
@@ -30,7 +32,11 @@ fun App() {
             MainScreen(navController, items[ScreenName.CATEGORIES]!!)
         }
         composable(ScreenName.SETTINGS) {
-            MainScreen(navController, items[ScreenName.SETTINGS]!!)
+            MainScreen(
+                navController,
+                items[ScreenName.SETTINGS]!!,
+                clickChangeTheme = clickChangeTheme
+            )
         }
         composable(ScreenName.HISTORY_EXPENSE) {
             MainScreen(navController, secondaryItems[ScreenName.HISTORY_EXPENSE]!!)

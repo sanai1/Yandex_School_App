@@ -11,7 +11,7 @@ import com.example.common.presentation.list.TypeListItem
 
 
 @Composable
-fun SettingsScreen(modifier: Modifier) {
+fun SettingsScreen(modifier: Modifier, clickChangeTheme: (Boolean) -> Unit) {
     val listTitles = listOf(
         "Тёмная тема",
         "Основной цвет",
@@ -33,6 +33,7 @@ fun SettingsScreen(modifier: Modifier) {
                     typeListItem = if (it == "Тёмная тема") TypeListItem.SWITCH else TypeListItem.ARROW
                 ),
                 modifier = modifier.height(56.dp),
+                onClickChangeTheme = clickChangeTheme
             )
         }
     }

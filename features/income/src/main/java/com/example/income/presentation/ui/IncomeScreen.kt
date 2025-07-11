@@ -38,6 +38,7 @@ fun IncomeScreen(
                                 it.amount.toDoubleOrNull() ?: 0.0
                             }).toString().reversed().let {
                                 it.substring(0, 3) + it.substring(3).chunked(3).joinToString(" ")
+                                    .ifEmpty { "0" }
                             }.reversed()
                         } ${viewModel.getSelectedAccount().value.currency.symbol}",
                         typeListItem = TypeListItem.USUAL
