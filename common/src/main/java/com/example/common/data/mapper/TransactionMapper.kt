@@ -6,7 +6,6 @@ import com.example.network.model.transaction.response.TransactionResponseNetwork
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
 import com.example.network.model.transaction.request.TransactionRequestNetwork
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -26,7 +25,7 @@ class TransactionMapper @Inject constructor() {
         categoryDomain = CategoryMapper().toCategoryDomain(transactionNetwork.category),
         amount = transactionNetwork.amount,
         transactionDate = transactionNetwork.transactionDate.let {
-            ZonedDateTime.parse(it).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
+            ZonedDateTime.parse(it).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()
         },
         comment = transactionNetwork.comment
     )
@@ -39,18 +38,18 @@ class TransactionMapper @Inject constructor() {
             amount = transactionNetwork.amount,
             transactionDate = transactionNetwork.transactionDate.let {
                 ZonedDateTime.parse(it).withZoneSameInstant(
-                    ZoneId.systemDefault()
+                    ZoneOffset.UTC
                 ).toLocalDateTime()
             },
             comment = transactionNetwork.comment,
             createdAt = transactionNetwork.createdAt?.let {
                 ZonedDateTime.parse(it).withZoneSameInstant(
-                    ZoneId.systemDefault()
+                    ZoneOffset.UTC
                 ).toLocalDateTime()
             },
             updatedAt = transactionNetwork.updatedAt?.let {
                 ZonedDateTime.parse(it).withZoneSameInstant(
-                    ZoneId.systemDefault()
+                    ZoneOffset.UTC
                 ).toLocalDateTime()
             }
         )

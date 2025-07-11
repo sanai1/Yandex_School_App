@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 class IncomeViewModel @Inject constructor(
@@ -58,22 +59,39 @@ class IncomeViewModel @Inject constructor(
 
     private val _incomeByPeriod =
         MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    private val _startDate = MutableStateFlow(LocalDate.now().withDayOfMonth(1))
+    private val _endDate = MutableStateFlow(LocalDate.now())
     val incomeByPeriod: StateFlow<VisibleData<List<TransactionDomain>>> =
         _incomeByPeriod.asStateFlow()
+    val startDate: StateFlow<LocalDate> = _startDate.asStateFlow()
+    val endDate: StateFlow<LocalDate> = _endDate.asStateFlow()
 
-    fun updateByPeriod(startDate: String, endDate: String) = viewModelScope.launch(Dispatchers.IO) {
-        val response = transactionUseCase.getTransactionsByPeriod(
-            AccountStore.Example.selectedAccount.value.id,
-            startDate, endDate
-        )
+    fun setStartDate(newStartDate: LocalDate) {
+        _startDate.value = newStartDate
+    }
+
+    fun setEndDate(newEndDate: LocalDate) {
+        _endDate.value = newEndDate
+    }
+
+    fun updateByPeriod() = viewModelScope.launch(Dispatchers.IO) {
+        val response = accountUseCase.getAllCashAccount()
         when (response.typeResponse) {
-            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let { it ->
-                _incomeByPeriod.value = VisibleData.Success(it.filter { it.categoryDomain.isIncome }
-                    .sortedByDescending { it.transactionDate })
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                val list = mutableListOf<TransactionDomain>()
+                response.body?.forEach { account ->
+                    transactionUseCase.getTransactionsByPeriod(
+                        account.id,
+                        startDate.value.toString(), endDate.value.toString()
+                    ).let {
+                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
+                            it.body?.forEach { transaction -> list.add(transaction) }
+                        }
+                    }
+                }
+                _incomeByPeriod.value =
+                    VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
-
-            ResponseTemplate.TypeResponse.ERROR_CLIENT -> _incomeByPeriod.value =
-                VisibleData.Error(response.typeResponse, "Неверный формат дат или ID счета")
 
             else -> _incomeByPeriod.value = VisibleData.Error(response.typeResponse)
         }

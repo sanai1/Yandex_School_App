@@ -123,12 +123,18 @@ fun MainScreen(
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel
+                    (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    }
                 )
 
                 is NavigationCustomItem.HistoryIncome -> HistoryIncomeScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel
+                    (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    }
                 )
 
                 is NavigationCustomItem.DetailsExpense -> DetailsExpenseScreen(
