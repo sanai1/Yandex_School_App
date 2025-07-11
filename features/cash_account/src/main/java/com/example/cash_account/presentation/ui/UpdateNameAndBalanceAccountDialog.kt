@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,7 +35,7 @@ fun UpdateNameAndBalanceAccountDialog(
     var amountError by remember { mutableStateOf(false) }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Редактирование счёта") },
+        title = { Text("Редактирование счёта", color = MaterialTheme.colorScheme.onBackground) },
         text = {
             Column(Modifier.padding(top = 8.dp)) {
                 OutlinedTextField(
@@ -46,7 +47,11 @@ fun UpdateNameAndBalanceAccountDialog(
                     label = { Text("Название счёта") },
                     isError = nameError,
                     modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
+                    singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSecondary
+                    )
                 )
                 if (nameError) {
                     Text(
@@ -71,6 +76,10 @@ fun UpdateNameAndBalanceAccountDialog(
                     isError = amountError,
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSecondary
+                    ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 )
                 if (amountError) {
@@ -94,12 +103,12 @@ fun UpdateNameAndBalanceAccountDialog(
                     }
                 }
             ) {
-                Text("Подтвердить")
+                Text("Подтвердить", color = MaterialTheme.colorScheme.onPrimary)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена")
+                Text("Отмена", color = MaterialTheme.colorScheme.surface)
             }
         }
     )

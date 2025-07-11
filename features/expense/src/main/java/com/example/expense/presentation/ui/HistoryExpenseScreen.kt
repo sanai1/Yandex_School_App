@@ -36,7 +36,7 @@ fun HistoryExpenseScreen(
         is VisibleData.Success -> Column {
             StartDateItem(
                 startDate.value,
-                modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                modifier = modifier.background(MaterialTheme.colorScheme.secondary)
             ) { newStartDate ->
                 val newDate =
                     LocalDate.parse(newStartDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
@@ -48,7 +48,7 @@ fun HistoryExpenseScreen(
             }
             EndDateItem(
                 endDate.value,
-                modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                modifier = modifier.background(MaterialTheme.colorScheme.secondary)
             ) { newEndDate ->
                 val newDate = LocalDate.parse(newEndDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                 if (newDate.isAfter(startDate.value) || newDate == startDate.value) {
@@ -66,7 +66,7 @@ fun HistoryExpenseScreen(
                             .ifEmpty { "0" }
                     }.reversed()
                 } ${viewModel.getSelectedAccount().value.currency.symbol}",
-                modifier = modifier.background(MaterialTheme.colorScheme.surface)
+                modifier = modifier.background(MaterialTheme.colorScheme.secondary)
             )
             ListTransaction(
                 (transactions.value as VisibleData.Success<List<TransactionDomain>>).data,

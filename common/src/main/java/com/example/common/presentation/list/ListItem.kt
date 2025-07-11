@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,7 +25,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -73,27 +76,33 @@ fun ListItem(
                     modifier = Modifier
                         .size(30.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface)
+                        .background(MaterialTheme.colorScheme.secondary)
                 ) {
                     Text(it, modifier = Modifier.size(20.dp))
                 }
                 Spacer(modifier = Modifier.size(15.dp))
             }
             itemModelUI.icon?.let {
-                Icon(painter = painterResource(it), contentDescription = "")
+                Icon(
+                    painter = painterResource(it),
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
                 Spacer(modifier = Modifier.size(15.dp))
             }
             Column {
                 Text(
-                    itemModelUI.title, style = TextStyle(
+                    itemModelUI.title,
+                    style = TextStyle(
                         fontSize = 18.sp
-                    ), color = if (itemModelUI.isHint) Color.Gray else Color.Black
+                    ),
+                    color = if (itemModelUI.isHint) Color.LightGray else MaterialTheme.colorScheme.onBackground
                 )
                 itemModelUI.description?.let {
                     Text(
                         it, style = TextStyle(
                             fontSize = 15.sp,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onTertiary
                         )
                     )
                 }
@@ -116,7 +125,7 @@ fun ListItem(
                     }
                 }
                 itemModelUI.infoDescription?.let {
-                    Text(it)
+                    Text(it, color = MaterialTheme.colorScheme.onTertiary)
                 }
             }
             when (itemModelUI.typeListItem) {
@@ -125,7 +134,7 @@ fun ListItem(
                         Icon(
                             Icons.Default.KeyboardArrowRight,
                             contentDescription = "",
-                            tint = Color.Gray
+                            tint = MaterialTheme.colorScheme.onTertiary
                         )
                     }
                 }
@@ -154,7 +163,7 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
     TextButton(onClick = {
         onClickDate?.run { showDatePicker.value = true }
     }) {
-        Text(info, color = MaterialTheme.colorScheme.onSurface)
+        Text(info, color = MaterialTheme.colorScheme.onBackground)
     }
     if (showDatePicker.value) {
         val dateFormatter = remember {
@@ -186,9 +195,31 @@ fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
                 TextButton(onClick = { showDatePicker.value = false }) {
                     Text("Отмена", color = Color.Red)
                 }
-            }
+            },
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+            )
         ) {
-            DatePicker(state = datePickerState)
+            DatePicker(
+                state = datePickerState,
+                colors = DatePickerDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    titleContentColor = MaterialTheme.colorScheme.onSecondary,
+                    headlineContentColor = MaterialTheme.colorScheme.onSecondary,
+                    subheadContentColor = MaterialTheme.colorScheme.onSecondary,
+                    navigationContentColor = MaterialTheme.colorScheme.onSecondary,
+                    weekdayContentColor = MaterialTheme.colorScheme.onSecondary,
+                    dayContentColor = MaterialTheme.colorScheme.onSecondary,
+                    selectedDayContentColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedDayContainerColor = MaterialTheme.colorScheme.primary,
+                    dateTextFieldColors = TextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                        focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.secondary
+                    )
+                )
+            )
         }
     }
 }
@@ -205,14 +236,27 @@ fun TextButtonTime(info: String, onClickTime: ((String) -> Unit)?) {
     TextButton(onClick = {
         onClickTime?.run { showTimePicker = true }
     }) {
-        Text(info, color = MaterialTheme.colorScheme.onSurface)
+        Text(info, color = MaterialTheme.colorScheme.onBackground)
     }
     if (showTimePicker) {
         AlertDialog(
             onDismissRequest = { showTimePicker = false },
             title = { Text("Выберите время") },
             text = {
-                TimePicker(state = timeState)
+                TimePicker(
+                    state = timeState,
+                    colors = TimePickerDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        clockDialColor = MaterialTheme.colorScheme.secondary,
+                        selectorColor = MaterialTheme.colorScheme.primary,
+                        clockDialSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                        clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSecondary,
+                        timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.secondary,
+                        timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                        timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onSecondary,
+                        timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onTertiary
+                    )
+                )
             },
             confirmButton = {
                 Button(onClick = {
@@ -236,7 +280,9 @@ fun TextButtonTime(info: String, onClickTime: ((String) -> Unit)?) {
                 TextButton(onClick = { showTimePicker = false }) {
                     Text("Отмена", color = Color.Red)
                 }
-            }
+            },
+            containerColor = MaterialTheme.colorScheme.background,
+            titleContentColor = MaterialTheme.colorScheme.onBackground
         )
     }
 }

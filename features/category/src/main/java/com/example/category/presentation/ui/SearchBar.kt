@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -44,7 +45,7 @@ fun SearchBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.LightGray),
+            .background(MaterialTheme.colorScheme.tertiary),
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
@@ -53,7 +54,7 @@ fun SearchBar(
             modifier = Modifier
                 .weight(1f)
                 .height(56.dp),
-            placeholder = { Text("Найти статью") },
+            placeholder = { Text("Найти статью", color = MaterialTheme.colorScheme.onTertiary) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(

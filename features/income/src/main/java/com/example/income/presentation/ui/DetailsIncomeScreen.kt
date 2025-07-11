@@ -142,7 +142,7 @@ fun DetailsIncomeScreen(
                 time = time
             ) { newTime ->
                 return@TimeSelection if (date == LocalDate.now() && newTime.isAfter(LocalTime.now())) {
-                    ToastController.showToast("выберите прошедшее время")
+                    ToastController.showToast("Выберите прошедшее время")
                     false
                 } else {
                     time = newTime
@@ -163,14 +163,14 @@ fun DetailsIncomeScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error
+                        containerColor = MaterialTheme.colorScheme.surface
                     ),
                     onClick = {
                         viewModel.deleteTransactionById(transactionDomain.id)
                         callbackNavController.invoke()
                     }
                 ) {
-                    Text("Удалить доход")
+                    Text("Удалить доход", color = MaterialTheme.colorScheme.onSurface)
                 }
             }
         }

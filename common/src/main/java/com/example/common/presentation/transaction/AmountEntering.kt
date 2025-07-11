@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -48,7 +50,7 @@ fun AmountEntering(
             onDismissRequest = {
                 visibleAmountDialog = false
             },
-            title = { Text("Обновление суммы") },
+            title = { Text("Обновление суммы", color = MaterialTheme.colorScheme.onBackground) },
             text = {
                 OutlinedTextField(
                     value = nowAmount.let { if (it == "0") "" else it },
@@ -62,6 +64,10 @@ fun AmountEntering(
                     isError = nowAmountError,
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
             },
@@ -76,12 +82,12 @@ fun AmountEntering(
                         }
                     }
                 ) {
-                    Text("ОК")
+                    Text("ОК", color = MaterialTheme.colorScheme.onPrimary)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { visibleAmountDialog = false }) {
-                    Text("Отмена")
+                    Text("Отмена", color = MaterialTheme.colorScheme.surface)
                 }
             }
         )

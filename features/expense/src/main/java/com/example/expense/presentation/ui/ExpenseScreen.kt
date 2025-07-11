@@ -45,7 +45,7 @@ fun ExpenseScreen(
                 ),
                 modifier = modifier
                     .height(56.dp)
-                    .background(MaterialTheme.colorScheme.surface)
+                    .background(MaterialTheme.colorScheme.secondary)
             )
             (transactions.value as VisibleData.Success<List<TransactionDomain>>).data.forEach {
                 ListItem(

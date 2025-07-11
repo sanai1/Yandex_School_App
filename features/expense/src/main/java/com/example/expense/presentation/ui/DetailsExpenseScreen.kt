@@ -167,13 +167,13 @@ fun DetailsExpenseScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error
+                        containerColor = MaterialTheme.colorScheme.surface
                     ),
                     onClick = {
                         viewModel.deleteTransactionById(transactionDomain.id)
                         callbackNavController.invoke()
                     }) {
-                    Text("Удалить расход")
+                    Text("Удалить расход", color = MaterialTheme.colorScheme.onSurface)
                 }
             }
         }

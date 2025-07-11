@@ -5,7 +5,9 @@ import androidx.compose.runtime.remember
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.yandex_school_app.di.AppMain
@@ -29,22 +31,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Yandex_School_AppTheme {
-                val showSplash = remember { mutableStateOf(true) }
-                if (showSplash.value) {
-                    mapViewModel[AccountViewModel::class] = viewModel<AccountViewModel>(
-                        factory = viewModelFactory
-                    )
-                    mapViewModel[CategoryViewModel::class] = viewModel<CategoryViewModel>(
-                        factory = viewModelFactory
-                    )
-                    mapViewModel[ExpenseViewModel::class] = viewModel<ExpenseViewModel>(
-                        factory = viewModelFactory
-                    )
-                    mapViewModel[IncomeViewModel::class] = viewModel<IncomeViewModel>(
-                        factory = viewModelFactory
-                    )
+                var showSplash by remember { mutableStateOf(savedInstanceState == null) }
+                mapViewModel[AccountViewModel::class] = viewModel<AccountViewModel>(
+                    factory = viewModelFactory
+                )
+                mapViewModel[CategoryViewModel::class] = viewModel<CategoryViewModel>(
+                    factory = viewModelFactory
+                )
+                mapViewModel[ExpenseViewModel::class] = viewModel<ExpenseViewModel>(
+                    factory = viewModelFactory
+                )
+                mapViewModel[IncomeViewModel::class] = viewModel<IncomeViewModel>(
+                    factory = viewModelFactory
+                )
+                if (showSplash) {
                     SplashScreen {
-                        showSplash.value = false
+                        showSplash = false
                     }
                 } else {
                     App()
