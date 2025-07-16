@@ -1,4 +1,4 @@
-package com.example.common.presentation.history
+package com.example.common.presentation.analytics
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -9,7 +9,10 @@ import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 
 @Composable
-fun AmountItem(amount: String, modifier: Modifier) {
+fun AmountAnalyticsItem(
+    amount: String,
+    modifier: Modifier
+) {
     ListItem(
         itemModelUI = ListItemModelUI(
             title = "Сумма",
