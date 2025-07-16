@@ -5,4 +5,5 @@
     <string name="menu_cash_account">Счет</string>
     <string name="menu_category">Статьи</string>
     <string name="menu_settings">Настройки</string>
+    <string name="menu_analytics">Аналитика</string>
 </resources>

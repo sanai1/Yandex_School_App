@@ -26,6 +26,7 @@ import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
 import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
+import com.example.expense.presentation.ui.AnalyticsExpenseScreen
 import com.example.expense.presentation.ui.DetailsExpenseScreen
 import com.example.expense.presentation.ui.ExpenseScreen
 import com.example.expense.presentation.ui.HistoryExpenseScreen
@@ -33,6 +34,7 @@ import com.example.income.presentation.ui.DetailsIncomeScreen
 import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
 import com.example.income.presentation.IncomeViewModel
+import com.example.income.presentation.ui.AnalyticsIncomeScreen
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
@@ -180,6 +182,9 @@ fun MainScreen(
                     callback = {
                         isAddAccountClicked.value = false
                     })
+
+                is NavigationCustomItem.AnalyticsExpense -> AnalyticsExpenseScreen()
+                is NavigationCustomItem.AnalyticsIncome -> AnalyticsIncomeScreen()
             }
         }
     }

@@ -12,4 +12,6 @@ object ScreenName {
     const val DETAILS_INCOME = "details_income"
     const val DETAILS_ACCOUNT = "details_account"
     const val CREATE_ACCOUNT = "create_account"
+    const val ANALYTICS_EXPENSE = "analytics_expense"
+    const val ANALYTICS_INCOME = "analytics_income"
 }

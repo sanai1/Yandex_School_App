@@ -56,6 +56,12 @@ fun App(
         composable(ScreenName.CREATE_ACCOUNT) {
             MainScreen(navController, secondaryItems[ScreenName.CREATE_ACCOUNT]!!)
         }
+        composable(ScreenName.ANALYTICS_EXPENSE) {
+            MainScreen(navController, secondaryItems[ScreenName.ANALYTICS_EXPENSE]!!)
+        }
+        composable(ScreenName.ANALYTICS_INCOME) {
+            MainScreen(navController, secondaryItems[ScreenName.ANALYTICS_INCOME]!!)
+        }
     }
     ToastMessage()
 }
