@@ -26,10 +26,10 @@ fun HistoryExpenseScreen(
     viewModel: ExpenseViewModel,
     onClickDetailsTransaction: () -> Unit,
 ) {
+    viewModel.updateByPeriod()
     val transactions = viewModel.expensesByPeriod.collectAsStateWithLifecycle()
     val startDate = viewModel.startDate.collectAsStateWithLifecycle()
     val endDate = viewModel.endDate.collectAsStateWithLifecycle()
-    viewModel.updateByPeriod()
     when (transactions.value) {
         is VisibleData.Loading -> LoadingVisible()
 

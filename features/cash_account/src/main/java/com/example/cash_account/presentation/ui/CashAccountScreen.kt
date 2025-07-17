@@ -95,7 +95,7 @@ fun CashAccountScreen(
                         Currency.collectionCurrency.forEach { currency ->
                             ListItem(
                                 itemModelUI = ListItemModelUI(
-                                    icon = currency.icon, // TODO проверить цвет валюты
+                                    icon = currency.icon,
                                     title = currency.name,
                                     typeListItem = TypeListItem.USUAL
                                 ),

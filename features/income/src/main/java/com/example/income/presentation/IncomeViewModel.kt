@@ -97,6 +97,49 @@ class IncomeViewModel @Inject constructor(
         }
     }
 
+    private val _incomeAnalytics =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    private val _startDateAnalytics =
+        MutableStateFlow(LocalDate.now().minusMonths(1).withDayOfMonth(1))
+    private val _endDateAnalytics =
+        MutableStateFlow(LocalDate.now().withDayOfMonth(1).plusMonths(1).minusDays(1))
+    val incomeAnalytics: StateFlow<VisibleData<List<TransactionDomain>>> =
+        _incomeAnalytics.asStateFlow()
+    val startDateAnalytics: StateFlow<LocalDate> = _startDateAnalytics.asStateFlow()
+    val endDateAnalytics: StateFlow<LocalDate> = _endDateAnalytics.asStateFlow()
+
+    fun setStartDateAnalytics(newStartDate: LocalDate) {
+        _startDateAnalytics.value = newStartDate.withDayOfMonth(1)
+    }
+
+    fun setEndDateAnalytics(newEndDate: LocalDate) {
+        _endDateAnalytics.value = newEndDate.withDayOfMonth(1).plusMonths(1).minusDays(1)
+    }
+
+    fun updateAnalytics() = viewModelScope.launch(Dispatchers.IO) {
+        val response = accountUseCase.getAllCashAccount()
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                val list = mutableListOf<TransactionDomain>()
+                response.body?.forEach { account ->
+                    transactionUseCase.getTransactionsByPeriod(
+                        account.id,
+                        startDateAnalytics.value.toString(),
+                        endDateAnalytics.value.toString()
+                    ).let {
+                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
+                            it.body?.forEach { transaction -> list.add(transaction) }
+                        }
+                    }
+                }
+                _incomeAnalytics.value =
+                    VisibleData.Success(list.filter { it.categoryDomain.isIncome })
+            }
+
+            else -> _incomeAnalytics.value = VisibleData.Error(response.typeResponse)
+        }
+    }
+
     fun createTransaction(transactionPartDomain: TransactionPartDomain) = viewModelScope.launch(
         Dispatchers.IO
     ) {

@@ -22,6 +22,7 @@ fun StartDateAnalyticsItem(
             typeListItem = TypeListItem.USUAL,
         ),
         modifier = modifier.height(56.dp),
+        isAnalytics = true,
         onClickDate = { newStartDate ->
             updateDate.invoke(newStartDate)
         }

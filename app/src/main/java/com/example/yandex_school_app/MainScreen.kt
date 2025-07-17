@@ -183,8 +183,21 @@ fun MainScreen(
                         isAddAccountClicked.value = false
                     })
 
-                is NavigationCustomItem.AnalyticsExpense -> AnalyticsExpenseScreen()
-                is NavigationCustomItem.AnalyticsIncome -> AnalyticsIncomeScreen()
+                is NavigationCustomItem.AnalyticsExpense -> AnalyticsExpenseScreen(
+                    modifier = modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    }
+                )
+
+                is NavigationCustomItem.AnalyticsIncome -> AnalyticsIncomeScreen(
+                    modifier = modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    }
+                )
             }
         }
     }
