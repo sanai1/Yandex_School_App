@@ -1,5 +1,6 @@
 package com.example.yandex_school_app
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.compose.runtime.remember
 import androidx.activity.ComponentActivity
@@ -24,12 +25,15 @@ import kotlin.reflect.KClass
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var viewModelFactory: DaggerViewModelFactory
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
     val mapViewModel = mutableMapOf<KClass<out ViewModel>, ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as AppMain).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        ThemeStore.init(this)
+        ThemeStore.setSharedPreferences(sharedPreferences)
         enableEdgeToEdge()
         setContent {
             var isDark by remember { mutableStateOf(ThemeStore.isDarkTheme) }

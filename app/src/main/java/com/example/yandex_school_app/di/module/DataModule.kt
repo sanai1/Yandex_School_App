@@ -5,6 +5,8 @@ import com.example.common.data.datasource.remote.impl.TransactionRemoteDataSourc
 import com.example.yandex_school_app.di.ApplicationScope
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
 import com.example.cash_account.data.datasource.remote.impl.AccountRemoteDataSourceImpl
+import com.example.category.data.datasource.local.CategoryLocalDataSource
+import com.example.category.data.datasource.local.impl.CategoryLocalDataSourceImpl
 import com.example.category.data.datasource.remote.CategoryRemoteDataSource
 import com.example.category.data.datasource.remote.impl.CategoryRemoteDataSourceImpl
 import dagger.Binds
@@ -23,4 +25,8 @@ interface DataModule {
     @ApplicationScope
     @Binds
     fun bindAccountRemoteDataSource(impl: AccountRemoteDataSourceImpl): AccountRemoteDataSource
+
+    @ApplicationScope
+    @Binds
+    fun bindCategoryLocalDataSource(impl: CategoryLocalDataSourceImpl): CategoryLocalDataSource
 }
