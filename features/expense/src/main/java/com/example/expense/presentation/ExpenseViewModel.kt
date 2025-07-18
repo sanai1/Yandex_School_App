@@ -34,19 +34,13 @@ class ExpenseViewModel @Inject constructor(
         _expensesToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(account.id).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _expensesToday.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
                 }
-                _expensesToday.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
 
             else -> _expensesToday.value = VisibleData.Error(response.typeResponse)
@@ -77,22 +71,13 @@ class ExpenseViewModel @Inject constructor(
     }
 
     fun updateByPeriod() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(startDate.value, endDate.value)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDate.value.toString(), endDate.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _expensesByPeriod.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
                 }
-                _expensesByPeriod.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
 
             else -> _expensesByPeriod.value = VisibleData.Error(response.typeResponse)
@@ -119,23 +104,16 @@ class ExpenseViewModel @Inject constructor(
     }
 
     fun updateAnalytics() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(
+            startDateAnalytics.value,
+            endDateAnalytics.value
+        )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDateAnalytics.value.toString(),
-                        endDateAnalytics.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _expenseAnalytics.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
                 }
-                _expenseAnalytics.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
 
             else -> _expenseAnalytics.value = VisibleData.Error(response.typeResponse)

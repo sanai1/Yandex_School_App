@@ -1,4 +1,4 @@
-package com.example.cash_account.data.mapper
+package com.example.common.data.mapper
 
 import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.entity.account.Currency
@@ -13,7 +13,7 @@ class AccountMapper @Inject constructor() {
         localId = 0,
         name = accountNetwork.name,
         balance = accountNetwork.balance,
-        currency = Currency.collectionCurrency.find { it.abbreviation == accountNetwork.currency }!!
+        currency = Currency.Example.collectionCurrency.find { it.abbreviation == accountNetwork.currency }!!
     )
 
     fun toAccountDomain(accountModelDB: AccountModelDB) = AccountDomain(
@@ -21,7 +21,7 @@ class AccountMapper @Inject constructor() {
         localId = accountModelDB.id,
         name = accountModelDB.name,
         balance = accountModelDB.balance,
-        currency = Currency.collectionCurrency.first { it.abbreviation == accountModelDB.currency }
+        currency = Currency.Example.collectionCurrency.first { it.abbreviation == accountModelDB.currency }
     )
 
     fun toAccountRequest(accountDomain: AccountDomain) = AccountRequestNetwork(

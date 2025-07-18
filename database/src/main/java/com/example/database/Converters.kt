@@ -7,7 +7,7 @@ import java.time.ZoneOffset
 
 class Converters {
     @TypeConverter
-    fun fromTimestep(value: Long): LocalDateTime? =
+    fun fromTimestep(value: Long): LocalDateTime =
         Instant.ofEpochMilli(value).atZone(ZoneOffset.UTC).toLocalDateTime()
 
     @TypeConverter

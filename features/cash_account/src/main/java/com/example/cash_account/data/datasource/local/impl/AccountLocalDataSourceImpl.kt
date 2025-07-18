@@ -1,7 +1,7 @@
 package com.example.cash_account.data.datasource.local.impl
 
 import com.example.cash_account.data.datasource.local.AccountLocalDataSource
-import com.example.cash_account.data.mapper.AccountMapper
+import com.example.common.data.mapper.AccountMapper
 import com.example.common.domain.entity.account.AccountDomain
 import com.example.database.dao.AccountDao
 import com.example.network.ResponseTemplate

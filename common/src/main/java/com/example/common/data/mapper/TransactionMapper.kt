@@ -5,15 +5,22 @@ import com.example.common.domain.entity.account.Currency
 import com.example.network.model.transaction.response.TransactionResponseNetwork
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.domain.entity.transaction.TransactionPartDomain
+import com.example.database.model.TransactionModelDB
+import com.example.database.model.TransactionWithRelations
 import com.example.network.model.transaction.request.TransactionRequestNetwork
+import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class TransactionMapper @Inject constructor() {
+class TransactionMapper @Inject constructor(
+    private val accountMapper: AccountMapper,
+    private val categoryMapper: CategoryMapper
+) {
     fun toTransactionDomain(transactionNetwork: TransactionResponseNetwork) = TransactionDomain(
         id = transactionNetwork.id,
+        localId = 0,
         accountDomain = transactionNetwork.account.let {
             AccountDomain(
                 id = it.id,
@@ -30,6 +37,28 @@ class TransactionMapper @Inject constructor() {
         },
         comment = transactionNetwork.comment
     )
+
+    fun toTransactionDomain(transactionWithRelations: TransactionWithRelations) = TransactionDomain(
+        id = transactionWithRelations.transactionModelDB.remoteId,
+        localId = transactionWithRelations.transactionModelDB.id,
+        accountDomain = accountMapper.toAccountDomain(transactionWithRelations.accountModelDB),
+        categoryDomain = categoryMapper.toCategoryDomain(transactionWithRelations.categoryModelDB),
+        amount = transactionWithRelations.transactionModelDB.amount,
+        transactionDate = transactionWithRelations.transactionModelDB.transactionDate,
+        comment = transactionWithRelations.transactionModelDB.comment
+    )
+
+    fun toTransactionModelDB(transactionPartDomain: TransactionPartDomain, remoteId: Int) =
+        TransactionModelDB(
+            remoteId = remoteId,
+            amount = transactionPartDomain.amount,
+            transactionDate = transactionPartDomain.transactionDate,
+            comment = transactionPartDomain.comment,
+            createdAt = transactionPartDomain.createdAt ?: LocalDateTime.now(),
+            updatedAt = transactionPartDomain.updatedAt ?: LocalDateTime.now(),
+            categoryId = transactionPartDomain.categoryId.toLong(),
+            accountId = transactionPartDomain.accountId.toLong()
+        )
 
     fun toTransactionPathDomain(transactionNetwork: TransactionRequestNetwork) =
         TransactionPartDomain(

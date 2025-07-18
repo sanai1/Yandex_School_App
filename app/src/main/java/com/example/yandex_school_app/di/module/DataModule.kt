@@ -11,6 +11,8 @@ import com.example.category.data.datasource.local.CategoryLocalDataSource
 import com.example.category.data.datasource.local.impl.CategoryLocalDataSourceImpl
 import com.example.category.data.datasource.remote.CategoryRemoteDataSource
 import com.example.category.data.datasource.remote.impl.CategoryRemoteDataSourceImpl
+import com.example.common.data.datasource.local.TransactionLocalDataSource
+import com.example.common.data.datasource.local.impl.TransactionLocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
 
@@ -35,4 +37,8 @@ interface DataModule {
     @ApplicationScope
     @Binds
     fun binsAccountLocalDataSource(impl: AccountLocalDataSourceImpl): AccountLocalDataSource
+
+    @ApplicationScope
+    @Binds
+    fun bindTransactionLocalDataSource(impl: TransactionLocalDataSourceImpl): TransactionLocalDataSource
 }

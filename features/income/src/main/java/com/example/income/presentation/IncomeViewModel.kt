@@ -33,18 +33,13 @@ class IncomeViewModel @Inject constructor(
     val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(account.id).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _incomeToday.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
                 }
-                _incomeToday.value = VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
 
             else -> _incomeToday.value = VisibleData.Error(response.typeResponse)
@@ -75,22 +70,13 @@ class IncomeViewModel @Inject constructor(
     }
 
     fun updateByPeriod() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(startDate.value, endDate.value)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDate.value.toString(), endDate.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _incomeByPeriod.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
                 }
-                _incomeByPeriod.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
 
             else -> _incomeByPeriod.value = VisibleData.Error(response.typeResponse)
@@ -117,23 +103,16 @@ class IncomeViewModel @Inject constructor(
     }
 
     fun updateAnalytics() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(
+            startDateAnalytics.value,
+            endDateAnalytics.value
+        )
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDateAnalytics.value.toString(),
-                        endDateAnalytics.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _incomeAnalytics.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
                 }
-                _incomeAnalytics.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
 
             else -> _incomeAnalytics.value = VisibleData.Error(response.typeResponse)

@@ -33,6 +33,6 @@ interface TransactionDao {
     @Update
     suspend fun update(transactionModelDB: TransactionModelDB)
 
-    @Query("DELETE FROM transactions WHERE id = :transactionId")
+    @Query("DELETE FROM transactions WHERE remoteId = :transactionId")
     suspend fun delete(transactionId: Long)
 }
