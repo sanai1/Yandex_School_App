@@ -1,5 +1,7 @@
 package com.example.yandex_school_app.di.module
 
+import com.example.cash_account.data.datasource.local.AccountLocalDataSource
+import com.example.cash_account.data.datasource.local.impl.AccountLocalDataSourceImpl
 import com.example.common.data.datasource.remote.TransactionRemoteDataSource
 import com.example.common.data.datasource.remote.impl.TransactionRemoteDataSourceImpl
 import com.example.yandex_school_app.di.ApplicationScope
@@ -29,4 +31,8 @@ interface DataModule {
     @ApplicationScope
     @Binds
     fun bindCategoryLocalDataSource(impl: CategoryLocalDataSourceImpl): CategoryLocalDataSource
+
+    @ApplicationScope
+    @Binds
+    fun binsAccountLocalDataSource(impl: AccountLocalDataSourceImpl): AccountLocalDataSource
 }

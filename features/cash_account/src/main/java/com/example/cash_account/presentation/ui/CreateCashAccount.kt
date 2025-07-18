@@ -46,6 +46,7 @@ fun CreateCashAccount(
                 viewModel.createCashAccount(
                     AccountDomain(
                         id = 0,
+                        localId = 0,
                         name = name.value,
                         balance = balance.value,
                         currency = selectedCurrency.value

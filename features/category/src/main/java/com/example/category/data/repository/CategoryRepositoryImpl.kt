@@ -16,10 +16,13 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            if (categoryLocalDataSource.getCategories().body?.isEmpty() ?: true) {
-                categoryRemoteDataSource.getCategories().body?.forEach { category ->
-                    categoryLocalDataSource.creteCategory(category)
+            try {
+                if (categoryLocalDataSource.getCategories().body?.isEmpty() ?: true) {
+                    categoryRemoteDataSource.getCategories().body?.forEach { category ->
+                        categoryLocalDataSource.creteCategory(category)
+                    }
                 }
+            } finally {
             }
         }
     }

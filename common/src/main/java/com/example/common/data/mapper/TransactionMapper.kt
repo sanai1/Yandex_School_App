@@ -17,6 +17,7 @@ class TransactionMapper @Inject constructor() {
         accountDomain = transactionNetwork.account.let {
             AccountDomain(
                 id = it.id,
+                localId = 0,
                 name = it.name,
                 balance = it.balance,
                 currency = Currency.collectionCurrency.find { currency -> currency.abbreviation == it.currency }!!

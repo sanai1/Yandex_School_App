@@ -17,6 +17,6 @@ interface AccountDao {
     @Update
     suspend fun update(accountModelDB: AccountModelDB)
 
-    @Query("DELETE FROM accounts WHERE id = :accountId")
+    @Query("DELETE FROM accounts WHERE remoteId = :accountId")
     suspend fun delete(accountId: Long)
 }

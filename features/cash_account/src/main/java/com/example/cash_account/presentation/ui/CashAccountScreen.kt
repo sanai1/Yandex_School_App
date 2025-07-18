@@ -33,6 +33,9 @@ fun CashAccountScreen(
 ) {
     val selectedAccount = viewModel.getSelectedAccount().collectAsStateWithLifecycle()
     val accounts by viewModel.allAccount.collectAsStateWithLifecycle()
+    if (accounts.isEmpty()) {
+        viewModel.updateAllAccount()
+    }
     Column {
         var visibleBottomSheet by remember { mutableStateOf(TypeModalBottomSheet.NONE) }
         ListItem(
