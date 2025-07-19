@@ -25,6 +25,14 @@ class AccountLocalDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAccountLocalIdByRemoteId(remoteId: Int): Long {
+        return try {
+            accountDao.getAccountLocalIdByRemoteId(remoteId.toLong())
+        } catch (_: Exception) {
+            0
+        }
+    }
+
     override suspend fun createAccount(accountDomain: AccountDomain): ResponseTemplate<Unit> {
         return try {
             ResponseTemplate(

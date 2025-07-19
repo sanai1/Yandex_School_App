@@ -13,6 +13,9 @@ interface CategoryDao {
     @Query("SELECT * FROM categories")
     suspend fun getAll(): List<CategoryModelDB>
 
+    @Query("SELECT id FROM categories WHERE remoteId = :remoteId")
+    suspend fun getCategoryLocalIdByRemoteId(remoteId: Long): Long
+
     @Query("SELECT * FROM categories WHERE isIncome = :isIncome")
     suspend fun getCategoryByType(isIncome: Boolean): List<CategoryModelDB>
 }

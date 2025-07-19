@@ -14,6 +14,9 @@ interface AccountDao {
     @Query("SELECT * FROM accounts")
     suspend fun getAll(): List<AccountModelDB>
 
+    @Query("SELECT id FROM accounts WHERE remoteId = :remoteId")
+    suspend fun getAccountLocalIdByRemoteId(remoteId: Long): Long
+
     @Update
     suspend fun update(accountModelDB: AccountModelDB)
 

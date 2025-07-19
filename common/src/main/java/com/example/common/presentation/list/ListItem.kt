@@ -44,7 +44,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.store.ThemeStore
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -61,7 +60,8 @@ fun ListItem(
     onClickDate: ((String) -> Unit)? = null,
     onClickTime: ((String) -> Unit)? = null,
     onClickDetails: (() -> Unit)? = null,
-    onClickChangeTheme: (Boolean) -> Unit = {}
+    onClickChangeTheme: (Boolean) -> Unit = {},
+    isDarkTheme: Boolean = false
 ) {
     Column {
         Row(
@@ -144,7 +144,7 @@ fun ListItem(
 
                 TypeListItem.SWITCH -> {
                     Switch(
-                        checked = ThemeStore.isDarkTheme,
+                        checked = isDarkTheme,
                         onCheckedChange = onClickChangeTheme,
                     )
                 }

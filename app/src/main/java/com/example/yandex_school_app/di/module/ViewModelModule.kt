@@ -6,6 +6,7 @@ import com.example.cash_account.presentation.AccountViewModel
 import com.example.category.presentation.CategoryViewModel
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.income.presentation.IncomeViewModel
+import com.example.settings.presentation.SettingsViewmodel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -31,4 +32,9 @@ interface ViewModelModule {
     @ViewModelKey(AccountViewModel::class)
     @Binds
     fun bindAccountViewModel(impl: AccountViewModel): ViewModel
+
+    @IntoMap
+    @ViewModelKey(SettingsViewmodel::class)
+    @Binds
+    fun bindSettingViewModel(impl: SettingsViewmodel): ViewModel
 }

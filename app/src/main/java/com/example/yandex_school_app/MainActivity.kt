@@ -11,14 +11,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.yandex_school_app.di.AppMain
 import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.category.presentation.CategoryViewModel
-import com.example.common.store.ThemeStore
+import com.example.common.store.NamedStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.income.presentation.IncomeViewModel
+import com.example.settings.presentation.SettingsViewmodel
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -28,15 +34,34 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var workManager: WorkManager
     val mapViewModel = mutableMapOf<KClass<out ViewModel>, ViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as AppMain).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        ThemeStore.setSharedPreferences(sharedPreferences)
+        val isFirst = sharedPreferences.getBoolean(NamedStore.IS_FIRST_RUN, true)
+        if (isFirst) {
+            val constraints =
+                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            val workRequest =
+                PeriodicWorkRequestBuilder<SyncWorker>(2, TimeUnit.HOURS).setConstraints(
+                    constraints
+                ).build()
+            workManager.enqueue(workRequest)
+        }
         enableEdgeToEdge()
         setContent {
-            var isDark by remember { mutableStateOf(ThemeStore.isDarkTheme) }
+            var isDark by remember {
+                mutableStateOf(
+                    sharedPreferences.getBoolean(
+                        NamedStore.DARK_THEME,
+                        false
+                    )
+                )
+            }
             Yandex_School_AppTheme(
                 darkTheme = isDark
             ) {
@@ -53,15 +78,15 @@ class MainActivity : ComponentActivity() {
                 mapViewModel[IncomeViewModel::class] = viewModel<IncomeViewModel>(
                     factory = viewModelFactory
                 )
+                mapViewModel[SettingsViewmodel::class] = viewModel<SettingsViewmodel>(
+                    factory = viewModelFactory
+                )
                 if (showSplash) {
                     SplashScreen {
                         showSplash = false
                     }
                 } else {
-                    App { it ->
-                        isDark = it
-                        ThemeStore.isDarkTheme = it
-                    }
+                    App()
                 }
             }
         }

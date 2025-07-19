@@ -40,6 +40,7 @@ import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
 import com.example.navigation.ScreenName
 import com.example.navigation.TopBarCustom
+import com.example.settings.presentation.SettingsViewmodel
 
 
 @Composable
@@ -47,7 +48,6 @@ fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
-    clickChangeTheme: (Boolean) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -124,7 +124,7 @@ fun MainScreen(
 
                 is NavigationCustomItem.Settings -> SettingsScreen(
                     modifier,
-                    clickChangeTheme = clickChangeTheme
+                    (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel
                 )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(

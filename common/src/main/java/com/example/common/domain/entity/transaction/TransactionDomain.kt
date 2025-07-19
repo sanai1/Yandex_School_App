@@ -11,5 +11,7 @@ data class TransactionDomain(
     val categoryDomain: CategoryDomain,
     val amount: String,
     val transactionDate: LocalDateTime,
+    val createDate: LocalDateTime,
+    val updateDate: LocalDateTime,
     val comment: String?
 )

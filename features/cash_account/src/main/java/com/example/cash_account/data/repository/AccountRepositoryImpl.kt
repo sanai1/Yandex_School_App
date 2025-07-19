@@ -18,18 +18,6 @@ class AccountRepositoryImpl @Inject constructor(
     private val accountLocalDateSource: AccountLocalDataSource,
     private val sharedPreferences: SharedPreferences
 ) : AccountRepository {
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                if (accountLocalDateSource.getAllCashAccount().body?.isEmpty() ?: true) {
-                    accountRemoteDataSource.getAllCashAccount().body?.forEach { account ->
-                        accountLocalDateSource.createAccount(account)
-                    }
-                }
-            } finally {
-            }
-        }
-    }
 
     override suspend fun getAllCashAccount(): ResponseTemplate<List<AccountDomain>> {
         return accountLocalDateSource.getAllCashAccount()

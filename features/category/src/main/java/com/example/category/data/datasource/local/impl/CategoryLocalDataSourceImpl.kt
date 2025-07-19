@@ -29,6 +29,14 @@ class CategoryLocalDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCategoryLocalIdByRemoteId(remoteId: Int): Long {
+        return try {
+            categoryDao.getCategoryLocalIdByRemoteId(remoteId.toLong())
+        } catch (_: Exception) {
+            0
+        }
+    }
+
     override suspend fun getCategoriesByType(isIncome: Boolean): ResponseTemplate<List<CategoryDomain>> {
         return try {
             ResponseTemplate(

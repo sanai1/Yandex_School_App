@@ -35,7 +35,13 @@ class TransactionMapper @Inject constructor(
         transactionDate = transactionNetwork.transactionDate.let {
             ZonedDateTime.parse(it).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()
         },
-        comment = transactionNetwork.comment
+        comment = transactionNetwork.comment,
+        createDate = transactionNetwork.createdAt.let {
+            ZonedDateTime.parse(it).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()
+        },
+        updateDate = transactionNetwork.updatedAt.let {
+            ZonedDateTime.parse(it).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()
+        }
     )
 
     fun toTransactionDomain(transactionWithRelations: TransactionWithRelations) = TransactionDomain(
@@ -45,7 +51,9 @@ class TransactionMapper @Inject constructor(
         categoryDomain = categoryMapper.toCategoryDomain(transactionWithRelations.categoryModelDB),
         amount = transactionWithRelations.transactionModelDB.amount,
         transactionDate = transactionWithRelations.transactionModelDB.transactionDate,
-        comment = transactionWithRelations.transactionModelDB.comment
+        comment = transactionWithRelations.transactionModelDB.comment,
+        createDate = transactionWithRelations.transactionModelDB.createdAt,
+        updateDate = transactionWithRelations.transactionModelDB.updatedAt
     )
 
     fun toTransactionModelDB(transactionPartDomain: TransactionPartDomain, remoteId: Int) =
@@ -83,6 +91,21 @@ class TransactionMapper @Inject constructor(
                 ).toLocalDateTime()
             }
         )
+
+    fun toTransactionPathDomain(
+        transactionDomain: TransactionDomain,
+        accountId: Int,
+        categoryId: Int
+    ) = TransactionPartDomain(
+        id = transactionDomain.id,
+        accountId = accountId,
+        categoryId = categoryId,
+        amount = transactionDomain.amount,
+        transactionDate = transactionDomain.transactionDate,
+        comment = transactionDomain.comment ?: "",
+        createdAt = transactionDomain.createDate,
+        updatedAt = transactionDomain.updateDate
+    )
 
     fun toTransactionRequestNetwork(transactionPartDomain: TransactionPartDomain) =
         TransactionRequestNetwork(
