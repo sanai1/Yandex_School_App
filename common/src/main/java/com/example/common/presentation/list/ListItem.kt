@@ -60,7 +60,7 @@ fun ListItem(
     onClickDate: ((String) -> Unit)? = null,
     onClickTime: ((String) -> Unit)? = null,
     onClickDetails: (() -> Unit)? = null,
-    onClickChangeTheme: (Boolean) -> Unit = {},
+    onClickChangeTheme: ((Boolean) -> Unit)? = null,
     isDarkTheme: Boolean = false
 ) {
     Column {

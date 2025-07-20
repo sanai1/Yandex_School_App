@@ -3,6 +3,7 @@ package com.example.settings.presentation
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
+import com.example.common.store.AppTheme
 import com.example.common.store.NamedStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,5 +20,9 @@ class SettingsViewmodel @Inject constructor(
     fun setTheme(isDark: Boolean) {
         _isDarkTheme.value = isDark
         sharedPreferences.edit { putBoolean(NamedStore.DARK_THEME, isDark) }
+    }
+
+    fun setPrimaryColor(newColor: AppTheme.PrimaryColorVariant) {
+        sharedPreferences.edit { putString(NamedStore.PRIMARY_COLOR, newColor.name) }
     }
 }

@@ -7,4 +7,5 @@ object NamedStore {
     const val TRANSACTION_REMOTE = "transaction_remote"
     const val IS_FIRST_RUN = "is_first"
     const val DARK_THEME = "dark_theme"
+    const val PRIMARY_COLOR = "primary_color"
 }

@@ -19,6 +19,7 @@ import com.example.yandex_school_app.di.AppMain
 import com.example.yandex_school_app.di.DaggerViewModelFactory
 import com.example.cash_account.presentation.AccountViewModel
 import com.example.category.presentation.CategoryViewModel
+import com.example.common.store.AppTheme
 import com.example.common.store.NamedStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.income.presentation.IncomeViewModel
@@ -62,8 +63,19 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
+            var primaryColorVariant by remember {
+                mutableStateOf(
+                    AppTheme.PrimaryColorVariant.valueOf(
+                        sharedPreferences.getString(
+                            NamedStore.PRIMARY_COLOR,
+                            "GREEN"
+                        ) ?: "GREEN"
+                    )
+                )
+            }
             Yandex_School_AppTheme(
-                darkTheme = isDark
+                darkTheme = isDark,
+                primaryColorVariant = primaryColorVariant
             ) {
                 var showSplash by remember { mutableStateOf(savedInstanceState == null) }
                 mapViewModel[AccountViewModel::class] = viewModel<AccountViewModel>(
@@ -86,9 +98,14 @@ class MainActivity : ComponentActivity() {
                         showSplash = false
                     }
                 } else {
-                    App { isDarkNew ->
-                        isDark = isDarkNew
-                    }
+                    App(
+                        onChangeTheme = { isDarkNew ->
+                            isDark = isDarkNew
+                        },
+                        onChangePrimaryColor = { variant ->
+                            primaryColorVariant = variant
+                        }
+                    )
                 }
             }
         }

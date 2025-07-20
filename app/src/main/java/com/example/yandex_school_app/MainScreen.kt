@@ -24,6 +24,7 @@ import com.example.cash_account.presentation.ui.CreateCashAccount
 import com.example.cash_account.presentation.ui.DetailsCashAccountScreen
 import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
+import com.example.common.store.AppTheme
 import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.expense.presentation.ui.AnalyticsExpenseScreen
@@ -48,7 +49,8 @@ fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
-    onChangeTheme: (Boolean) -> Unit = {}
+    onChangeTheme: (Boolean) -> Unit = {},
+    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -126,7 +128,8 @@ fun MainScreen(
                 is NavigationCustomItem.Settings -> SettingsScreen(
                     modifier,
                     (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel,
-                    onChangeTheme
+                    onChangeTheme = onChangeTheme,
+                    onChangePrimaryColor = onChangePrimaryColor
                 )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
