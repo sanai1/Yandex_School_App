@@ -48,6 +48,7 @@ fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
+    onChangeTheme: (Boolean) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -124,7 +125,8 @@ fun MainScreen(
 
                 is NavigationCustomItem.Settings -> SettingsScreen(
                     modifier,
-                    (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel
+                    (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel,
+                    onChangeTheme
                 )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(

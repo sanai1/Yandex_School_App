@@ -13,7 +13,11 @@ import com.example.common.presentation.list.TypeListItem
 
 
 @Composable
-fun SettingsScreen(modifier: Modifier, viewmodel: SettingsViewmodel) {
+fun SettingsScreen(
+    modifier: Modifier,
+    viewmodel: SettingsViewmodel,
+    onChangeTheme: (Boolean) -> Unit
+) {
     val listTitles = listOf(
         "Тёмная тема",
         "Основной цвет",
@@ -38,6 +42,7 @@ fun SettingsScreen(modifier: Modifier, viewmodel: SettingsViewmodel) {
                 modifier = modifier.height(56.dp),
                 onClickChangeTheme = { isDark ->
                     viewmodel.setTheme(isDark)
+                    onChangeTheme.invoke(isDark)
                 },
                 isDarkTheme = isDarkTheme
             )

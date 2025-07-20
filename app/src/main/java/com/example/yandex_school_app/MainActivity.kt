@@ -86,7 +86,9 @@ class MainActivity : ComponentActivity() {
                         showSplash = false
                     }
                 } else {
-                    App()
+                    App { isDarkNew ->
+                        isDark = isDarkNew
+                    }
                 }
             }
         }

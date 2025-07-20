@@ -189,7 +189,7 @@ fun TextButtonDate(info: String, isAnalytics: Boolean, onClickDate: ((String) ->
                 onClickDate?.run { showDatePicker.value = true }
             }
         ) {
-            Text(formattingDate.invoke(info), color = MaterialTheme.colorScheme.onBackground)
+            Text(formattingDate.invoke(info), color = MaterialTheme.colorScheme.onPrimary)
         }
     } else {
         TextButton(
