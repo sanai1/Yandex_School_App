@@ -6,9 +6,12 @@ import java.time.LocalDateTime
 
 data class TransactionDomain(
     val id: Int,
+    val localId: Long,
     val accountDomain: AccountDomain,
     val categoryDomain: CategoryDomain,
     val amount: String,
     val transactionDate: LocalDateTime,
+    val createDate: LocalDateTime,
+    val updateDate: LocalDateTime,
     val comment: String?
 )

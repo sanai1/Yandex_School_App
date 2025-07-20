@@ -12,9 +12,7 @@ import com.example.common.presentation.list.TypeListItem
 fun AmountItem(amount: String, modifier: Modifier) {
     ListItem(
         itemModelUI = ListItemModelUI(
-            picture = null,
             title = "Сумма",
-            description = null,
             info = amount,
             typeListItem = TypeListItem.USUAL
         ),

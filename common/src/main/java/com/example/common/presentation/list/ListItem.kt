@@ -44,7 +44,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.common.domain.entity.ListItemModelUI
-import com.example.common.store.ThemeStore
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -56,11 +55,13 @@ import java.util.Locale
 fun ListItem(
     itemModelUI: ListItemModelUI,
     modifier: Modifier,
+    isAnalytics: Boolean = false,
     onClickContainer: ((ListItemModelUI) -> Unit)? = null,
     onClickDate: ((String) -> Unit)? = null,
     onClickTime: ((String) -> Unit)? = null,
     onClickDetails: (() -> Unit)? = null,
-    onClickChangeTheme: (Boolean) -> Unit = {}
+    onClickChangeTheme: (Boolean) -> Unit = {},
+    isDarkTheme: Boolean = false
 ) {
     Column {
         Row(
@@ -119,11 +120,11 @@ fun ListItem(
             ) {
                 itemModelUI.info?.let {
                     if (onClickDate != null) {
-                        TextButtonDate(it, onClickDate)
+                        TextButtonDate(it, isAnalytics, onClickDate)
                     } else if (onClickTime != null) {
                         TextButtonTime(it, onClickTime)
                     } else {
-                        Text(it)
+                        Text(it, color = MaterialTheme.colorScheme.onBackground)
                     }
                 }
                 itemModelUI.infoDescription?.let {
@@ -143,7 +144,7 @@ fun ListItem(
 
                 TypeListItem.SWITCH -> {
                     Switch(
-                        checked = ThemeStore.isDarkTheme,
+                        checked = isDarkTheme,
                         onCheckedChange = onClickChangeTheme,
                     )
                 }
@@ -162,12 +163,42 @@ fun ListItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextButtonDate(info: String, onClickDate: ((String) -> Unit)?) {
+fun TextButtonDate(info: String, isAnalytics: Boolean, onClickDate: ((String) -> Unit)?) {
     val showDatePicker = remember { mutableStateOf(false) }
-    TextButton(onClick = {
-        onClickDate?.run { showDatePicker.value = true }
-    }) {
-        Text(info, color = MaterialTheme.colorScheme.onBackground)
+    if (isAnalytics) {
+        val formattingDate = fun(dateString: String): String {
+            val date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            val mapMonth = mapOf(
+                1 to "январь",
+                2 to "февраль",
+                3 to "март",
+                4 to "апрель",
+                5 to "май",
+                6 to "июнь",
+                7 to "июль",
+                8 to "август",
+                9 to "сентябрь",
+                10 to "октябрь",
+                11 to "ноябрь",
+                12 to "декабрь"
+            )
+            return "${mapMonth[date.monthValue]} ${date.year}"
+        }
+        Button(
+            onClick = {
+                onClickDate?.run { showDatePicker.value = true }
+            }
+        ) {
+            Text(formattingDate.invoke(info), color = MaterialTheme.colorScheme.onBackground)
+        }
+    } else {
+        TextButton(
+            onClick = {
+                onClickDate?.run { showDatePicker.value = true }
+            }
+        ) {
+            Text(info, color = MaterialTheme.colorScheme.onBackground)
+        }
     }
     if (showDatePicker.value) {
         val dateFormatter = remember {

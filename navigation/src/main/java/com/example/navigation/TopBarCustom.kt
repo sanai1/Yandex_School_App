@@ -22,9 +22,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
 
 
@@ -97,14 +99,18 @@ fun TopBarCustom(
                     is NavigationCustomItem.HistoryExpense -> {
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
-                        IconButtonOnTopBar(R.drawable.analitics) { }
+                        IconButtonOnTopBar(R.drawable.analitics) {
+                            navController.navigate(ScreenName.ANALYTICS_EXPENSE)
+                        }
                         Spacer(modifier = modifier.width(15.dp))
                     }
 
                     is NavigationCustomItem.HistoryIncome -> {
                         IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
                         TextOnTopBar("Моя история", modifier.weight(1f))
-                        IconButtonOnTopBar(R.drawable.analitics) { }
+                        IconButtonOnTopBar(R.drawable.analitics) {
+                            navController.navigate(ScreenName.ANALYTICS_INCOME)
+                        }
                     }
 
                     is NavigationCustomItem.DetailsExpense -> {
@@ -141,6 +147,24 @@ fun TopBarCustom(
                         IconButtonOnTopBar(Icons.Default.Done) {
                             isAddAccountClicked.value = true
                         }
+                    }
+
+                    is NavigationCustomItem.AnalyticsExpense -> {
+                        IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
+                        TextOnTopBar(
+                            getString(LocalContext.current, R.string.menu_analytics),
+                            modifier.weight(1f)
+                        )
+                        Spacer(modifier = Modifier.width(48.dp))
+                    }
+
+                    is NavigationCustomItem.AnalyticsIncome -> {
+                        IconButtonOnTopBar(Icons.Default.ArrowBack) { navController.popBackStack() }
+                        TextOnTopBar(
+                            getString(LocalContext.current, R.string.menu_analytics),
+                            modifier.weight(1f)
+                        )
+                        Spacer(modifier = Modifier.width(48.dp))
                     }
                 }
             }

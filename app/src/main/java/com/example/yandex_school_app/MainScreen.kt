@@ -26,6 +26,7 @@ import com.example.category.presentation.CategoryViewModel
 import com.example.category.presentation.ui.CategoryScreen
 import com.example.common.store.TransactionStore
 import com.example.expense.presentation.ExpenseViewModel
+import com.example.expense.presentation.ui.AnalyticsExpenseScreen
 import com.example.expense.presentation.ui.DetailsExpenseScreen
 import com.example.expense.presentation.ui.ExpenseScreen
 import com.example.expense.presentation.ui.HistoryExpenseScreen
@@ -33,11 +34,13 @@ import com.example.income.presentation.ui.DetailsIncomeScreen
 import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
 import com.example.income.presentation.IncomeViewModel
+import com.example.income.presentation.ui.AnalyticsIncomeScreen
 import com.example.settings.presentation.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
 import com.example.navigation.ScreenName
 import com.example.navigation.TopBarCustom
+import com.example.settings.presentation.SettingsViewmodel
 
 
 @Composable
@@ -45,7 +48,6 @@ fun MainScreen(
     navController: NavController,
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
-    clickChangeTheme: (Boolean) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -122,7 +124,7 @@ fun MainScreen(
 
                 is NavigationCustomItem.Settings -> SettingsScreen(
                     modifier,
-                    clickChangeTheme = clickChangeTheme
+                    (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel
                 )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(
@@ -180,6 +182,22 @@ fun MainScreen(
                     callback = {
                         isAddAccountClicked.value = false
                     })
+
+                is NavigationCustomItem.AnalyticsExpense -> AnalyticsExpenseScreen(
+                    modifier = modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[ExpenseViewModel::class] as ExpenseViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_EXPENSE)
+                    }
+                )
+
+                is NavigationCustomItem.AnalyticsIncome -> AnalyticsIncomeScreen(
+                    modifier = modifier,
+                    viewModel = (LocalContext.current as MainActivity).mapViewModel[IncomeViewModel::class] as IncomeViewModel,
+                    onClickDetailsTransaction = {
+                        navController.navigate(ScreenName.DETAILS_INCOME)
+                    }
+                )
             }
         }
     }

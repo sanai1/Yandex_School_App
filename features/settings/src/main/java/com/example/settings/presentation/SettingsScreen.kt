@@ -3,15 +3,17 @@ package com.example.settings.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 
 
 @Composable
-fun SettingsScreen(modifier: Modifier, clickChangeTheme: (Boolean) -> Unit) {
+fun SettingsScreen(modifier: Modifier, viewmodel: SettingsViewmodel) {
     val listTitles = listOf(
         "Тёмная тема",
         "Основной цвет",
@@ -22,6 +24,7 @@ fun SettingsScreen(modifier: Modifier, clickChangeTheme: (Boolean) -> Unit) {
         "Язык",
         "О программе"
     )
+    val isDarkTheme by viewmodel.isDarkTheme.collectAsStateWithLifecycle()
     Column {
         listTitles.forEach {
             ListItem(
@@ -33,7 +36,10 @@ fun SettingsScreen(modifier: Modifier, clickChangeTheme: (Boolean) -> Unit) {
                     typeListItem = if (it == "Тёмная тема") TypeListItem.SWITCH else TypeListItem.ARROW
                 ),
                 modifier = modifier.height(56.dp),
-                onClickChangeTheme = clickChangeTheme
+                onClickChangeTheme = { isDark ->
+                    viewmodel.setTheme(isDark)
+                },
+                isDarkTheme = isDarkTheme
             )
         }
     }

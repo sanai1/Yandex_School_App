@@ -17,6 +17,7 @@ class AccountStore @Inject constructor() {
     companion object Example {
         val accountExample = AccountDomain(
             id = 209,
+            localId = 0,
             name = "Баланс",
             balance = "0",
             currency = Currency.collectionCurrency.first()

@@ -22,6 +22,8 @@ fun BottomNavigationBarCustom(navController: NavController, selectedItem: Naviga
                 secondaryItems[ScreenName.DETAILS_INCOME] -> item == items[ScreenName.INCOME]
                 secondaryItems[ScreenName.DETAILS_ACCOUNT] -> item == items[ScreenName.CASH_ACCOUNT]
                 secondaryItems[ScreenName.CREATE_ACCOUNT] -> item == items[ScreenName.CASH_ACCOUNT]
+                secondaryItems[ScreenName.ANALYTICS_EXPENSE] -> item == items[ScreenName.EXPENSE]
+                secondaryItems[ScreenName.ANALYTICS_INCOME] -> item == items[ScreenName.INCOME]
                 else -> false
             }
         }
@@ -44,6 +46,8 @@ fun BottomNavigationBarCustom(navController: NavController, selectedItem: Naviga
                                 secondaryItems[ScreenName.DETAILS_INCOME] -> if (item == items[ScreenName.INCOME]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onTertiary
                                 secondaryItems[ScreenName.DETAILS_ACCOUNT] -> if (item == items[ScreenName.CASH_ACCOUNT]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onTertiary
                                 secondaryItems[ScreenName.CREATE_ACCOUNT] -> if (item == items[ScreenName.CASH_ACCOUNT]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onTertiary
+                                secondaryItems[ScreenName.ANALYTICS_EXPENSE] -> if (item == items[ScreenName.EXPENSE]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onTertiary
+                                secondaryItems[ScreenName.ANALYTICS_INCOME] -> if (item == items[ScreenName.INCOME]) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onTertiary
                                 else -> MaterialTheme.colorScheme.onTertiary
                             }
                         },

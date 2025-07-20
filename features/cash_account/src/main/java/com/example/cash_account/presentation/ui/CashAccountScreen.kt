@@ -33,6 +33,9 @@ fun CashAccountScreen(
 ) {
     val selectedAccount = viewModel.getSelectedAccount().collectAsStateWithLifecycle()
     val accounts by viewModel.allAccount.collectAsStateWithLifecycle()
+    if (accounts.isEmpty()) {
+        viewModel.updateAllAccount()
+    }
     Column {
         var visibleBottomSheet by remember { mutableStateOf(TypeModalBottomSheet.NONE) }
         ListItem(
@@ -95,7 +98,7 @@ fun CashAccountScreen(
                         Currency.collectionCurrency.forEach { currency ->
                             ListItem(
                                 itemModelUI = ListItemModelUI(
-                                    icon = currency.icon, // TODO проверить цвет валюты
+                                    icon = currency.icon,
                                     title = currency.name,
                                     typeListItem = TypeListItem.USUAL
                                 ),

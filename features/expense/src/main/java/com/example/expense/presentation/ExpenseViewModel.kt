@@ -34,19 +34,13 @@ class ExpenseViewModel @Inject constructor(
         _expensesToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(account.id).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _expensesToday.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
                 }
-                _expensesToday.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
 
             else -> _expensesToday.value = VisibleData.Error(response.typeResponse)
@@ -77,25 +71,52 @@ class ExpenseViewModel @Inject constructor(
     }
 
     fun updateByPeriod() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(startDate.value, endDate.value)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDate.value.toString(), endDate.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _expensesByPeriod.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
                 }
-                _expensesByPeriod.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome.not() })
             }
 
             else -> _expensesByPeriod.value = VisibleData.Error(response.typeResponse)
+        }
+    }
+
+    private val _expenseAnalytics =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    private val _startDateAnalytics =
+        MutableStateFlow(LocalDate.now().minusMonths(1).withDayOfMonth(1))
+    private val _endDateAnalytics =
+        MutableStateFlow(LocalDate.now().withDayOfMonth(1).plusMonths(1).minusDays(1))
+    val expenseAnalytics: StateFlow<VisibleData<List<TransactionDomain>>> =
+        _expenseAnalytics.asStateFlow()
+    val startDateAnalytics: StateFlow<LocalDate> = _startDateAnalytics.asStateFlow()
+    val endDateAnalytics: StateFlow<LocalDate> = _endDateAnalytics.asStateFlow()
+
+    fun setStartDateAnalytics(newStartDate: LocalDate) {
+        _startDateAnalytics.value = newStartDate.withDayOfMonth(1)
+    }
+
+    fun setEndDateAnalytics(newEndDate: LocalDate) {
+        _endDateAnalytics.value = newEndDate.withDayOfMonth(1).plusMonths(1).minusDays(1)
+    }
+
+    fun updateAnalytics() = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            startDateAnalytics.value,
+            endDateAnalytics.value
+        )
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                response.body?.let { it ->
+                    _expenseAnalytics.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome.not() })
+                }
+            }
+
+            else -> _expenseAnalytics.value = VisibleData.Error(response.typeResponse)
         }
     }
 
@@ -107,27 +128,6 @@ class ExpenseViewModel @Inject constructor(
                 else -> ToastController.showToast(response.typeResponse.text)
             }
         }
-
-    /*
-    Функции для получения детальной информации о транзакции
-    Теряет актуальность, так как для нее нужен ID транзакции => его нужно прокинуть
-    Следовательно можно прокинуть и всю транзакцию
-     */
-//    private val _detailsTransaction =
-//        MutableStateFlow<VisibleData<TransactionDomain>>(VisibleData.Loading())
-//    val detailsTransaction: StateFlow<VisibleData<TransactionDomain>> =
-//        _detailsTransaction.asStateFlow()
-//
-//    fun updateTransactionById(transactionId: Int) = viewModelScope.launch(Dispatchers.IO) {
-//        val response = transactionUseCase.getTransactionById(transactionId)
-//        when (response.typeResponse) {
-//            ResponseTemplate.TypeResponse.SUCCESS -> response.body?.let {
-//                _detailsTransaction.value = VisibleData.Success(it)
-//            }
-//
-//            else -> _detailsTransaction.value = VisibleData.Error(response.typeResponse)
-//        }
-//    }
 
     fun updateTransaction(transactionId: Int, transactionPartDomain: TransactionPartDomain) =
         viewModelScope.launch(

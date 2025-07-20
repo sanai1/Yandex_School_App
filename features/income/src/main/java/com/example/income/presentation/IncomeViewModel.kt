@@ -33,18 +33,13 @@ class IncomeViewModel @Inject constructor(
     val incomeToday: StateFlow<VisibleData<List<TransactionDomain>>> = _incomeToday.asStateFlow()
 
     fun updateToday() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod()
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(account.id).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _incomeToday.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
                 }
-                _incomeToday.value = VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
 
             else -> _incomeToday.value = VisibleData.Error(response.typeResponse)
@@ -75,25 +70,52 @@ class IncomeViewModel @Inject constructor(
     }
 
     fun updateByPeriod() = viewModelScope.launch(Dispatchers.IO) {
-        val response = accountUseCase.getAllCashAccount()
+        val response = transactionUseCase.getTransactionsByPeriod(startDate.value, endDate.value)
         when (response.typeResponse) {
             ResponseTemplate.TypeResponse.SUCCESS -> {
-                val list = mutableListOf<TransactionDomain>()
-                response.body?.forEach { account ->
-                    transactionUseCase.getTransactionsByPeriod(
-                        account.id,
-                        startDate.value.toString(), endDate.value.toString()
-                    ).let {
-                        if (it.typeResponse == ResponseTemplate.TypeResponse.SUCCESS) {
-                            it.body?.forEach { transaction -> list.add(transaction) }
-                        }
-                    }
+                response.body?.let { it ->
+                    _incomeByPeriod.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
                 }
-                _incomeByPeriod.value =
-                    VisibleData.Success(list.filter { it.categoryDomain.isIncome })
             }
 
             else -> _incomeByPeriod.value = VisibleData.Error(response.typeResponse)
+        }
+    }
+
+    private val _incomeAnalytics =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
+    private val _startDateAnalytics =
+        MutableStateFlow(LocalDate.now().minusMonths(1).withDayOfMonth(1))
+    private val _endDateAnalytics =
+        MutableStateFlow(LocalDate.now().withDayOfMonth(1).plusMonths(1).minusDays(1))
+    val incomeAnalytics: StateFlow<VisibleData<List<TransactionDomain>>> =
+        _incomeAnalytics.asStateFlow()
+    val startDateAnalytics: StateFlow<LocalDate> = _startDateAnalytics.asStateFlow()
+    val endDateAnalytics: StateFlow<LocalDate> = _endDateAnalytics.asStateFlow()
+
+    fun setStartDateAnalytics(newStartDate: LocalDate) {
+        _startDateAnalytics.value = newStartDate.withDayOfMonth(1)
+    }
+
+    fun setEndDateAnalytics(newEndDate: LocalDate) {
+        _endDateAnalytics.value = newEndDate.withDayOfMonth(1).plusMonths(1).minusDays(1)
+    }
+
+    fun updateAnalytics() = viewModelScope.launch(Dispatchers.IO) {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            startDateAnalytics.value,
+            endDateAnalytics.value
+        )
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS -> {
+                response.body?.let { it ->
+                    _incomeAnalytics.value =
+                        VisibleData.Success(it.filter { it.categoryDomain.isIncome })
+                }
+            }
+
+            else -> _incomeAnalytics.value = VisibleData.Error(response.typeResponse)
         }
     }
 

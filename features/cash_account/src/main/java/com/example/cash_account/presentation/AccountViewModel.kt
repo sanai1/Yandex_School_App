@@ -34,7 +34,9 @@ class AccountViewModel @Inject constructor(
                     _allAccount.value = it.sortedBy { it.name }
                 }
                 if (accountManager.checkAccount()) {
-                    accountManager.setSelectedAccount((response.body as List<AccountDomain>).first())
+                    (response.body as List<AccountDomain>).firstOrNull()?.let {
+                        accountManager.setSelectedAccount(it)
+                    }
                 }
             }
 

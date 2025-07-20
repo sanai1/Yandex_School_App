@@ -74,8 +74,8 @@ fun DetailsExpenseScreen(
                 if (transactionDomain == null) {
                     viewModel.createTransaction(
                         TransactionPartDomain(
-                            accountId = account!!.id,
-                            categoryId = category!!.id,
+                            accountId = account!!.localId.toInt(),
+                            categoryId = category!!.localId.toInt(),
                             amount = amount,
                             transactionDate = LocalDateTime.of(date, time),
                             comment = comment
@@ -85,8 +85,8 @@ fun DetailsExpenseScreen(
                     viewModel.updateTransaction(
                         transactionId = transactionDomain.id,
                         transactionPartDomain = TransactionPartDomain(
-                            accountId = account!!.id,
-                            categoryId = category!!.id,
+                            accountId = account!!.localId.toInt(),
+                            categoryId = category!!.localId.toInt(),
                             amount = amount,
                             transactionDate = LocalDateTime.of(date, time),
                             comment = comment,
