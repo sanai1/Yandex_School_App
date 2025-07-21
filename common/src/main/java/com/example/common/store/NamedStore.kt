@@ -8,4 +8,5 @@ object NamedStore {
     const val IS_FIRST_RUN = "is_first"
     const val DARK_THEME = "dark_theme"
     const val PRIMARY_COLOR = "primary_color"
+    const val PIN_CODE = "pin_code"
 }

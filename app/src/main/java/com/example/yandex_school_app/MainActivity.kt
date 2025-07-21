@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.work.Constraints
@@ -23,6 +24,7 @@ import com.example.common.store.AppTheme
 import com.example.common.store.NamedStore
 import com.example.expense.presentation.ExpenseViewModel
 import com.example.income.presentation.IncomeViewModel
+import com.example.settings.presentation.PinManager
 import com.example.settings.presentation.SettingsViewmodel
 import com.example.yandex_school_app.ui.theme.Yandex_School_AppTheme
 import java.util.concurrent.TimeUnit
@@ -98,14 +100,24 @@ class MainActivity : ComponentActivity() {
                         showSplash = false
                     }
                 } else {
-                    App(
-                        onChangeTheme = { isDarkNew ->
-                            isDark = isDarkNew
-                        },
-                        onChangePrimaryColor = { variant ->
-                            primaryColorVariant = variant
+                    var showApp by remember { mutableStateOf(false) }
+                    if (PinManager(LocalContext.current).pinIsSet()) {
+                        EnterPinScreen {
+                            showApp = true
                         }
-                    )
+                    } else {
+                        showApp = true
+                    }
+                    if (showApp) {
+                        App(
+                            onChangeTheme = { isDarkNew ->
+                                isDark = isDarkNew
+                            },
+                            onChangePrimaryColor = { variant ->
+                                primaryColorVariant = variant
+                            }
+                        )
+                    }
                 }
             }
         }

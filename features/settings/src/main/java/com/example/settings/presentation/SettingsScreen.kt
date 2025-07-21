@@ -19,13 +19,9 @@ fun SettingsScreen(
     onChangeTheme: (Boolean) -> Unit,
     onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit
 ) {
-    val listTitles = listOf(
-        "Вибрация",
-        "Код пароль",
-        "Синхронизация",
-        "Язык"
-    )
-    Column {
+    val showSetPinScreen = remember { mutableStateOf(false) }
+    if (showSetPinScreen.value) SetPinScreen(showSetPinScreen)
+    else Column {
         ListItem(
             itemModelUI = ListItemModelUI(
                 picture = null,
@@ -59,18 +55,49 @@ fun SettingsScreen(
                 showDialogChangePrimaryColor.value = true
             }
         )
-        listTitles.forEach {
-            ListItem(
-                itemModelUI = ListItemModelUI(
-                    picture = null,
-                    title = it,
-                    description = null,
-                    info = null,
-                    typeListItem = TypeListItem.ARROW
-                ),
-                modifier = modifier.height(56.dp)
-            )
-        }
+        ListItem(
+            itemModelUI = ListItemModelUI(
+                picture = null,
+                title = "Вибрация",
+                description = null,
+                info = null,
+                typeListItem = TypeListItem.ARROW
+            ),
+            modifier = modifier.height(56.dp)
+        )
+        ListItem(
+            itemModelUI = ListItemModelUI(
+                picture = null,
+                title = "Код пароль",
+                description = null,
+                info = null,
+                typeListItem = TypeListItem.ARROW
+            ),
+            modifier = modifier.height(56.dp),
+            onClickDetails = {
+                showSetPinScreen.value = true
+            }
+        )
+        ListItem(
+            itemModelUI = ListItemModelUI(
+                picture = null,
+                title = "Синхронизация",
+                description = null,
+                info = null,
+                typeListItem = TypeListItem.ARROW
+            ),
+            modifier = modifier.height(56.dp)
+        )
+        ListItem(
+            itemModelUI = ListItemModelUI(
+                picture = null,
+                title = "Язык",
+                description = null,
+                info = null,
+                typeListItem = TypeListItem.ARROW
+            ),
+            modifier = modifier.height(56.dp)
+        )
         val showDialogBuildConfig = remember { mutableStateOf(false) }
         if (showDialogBuildConfig.value) BuildConfigDialog(showDialogBuildConfig)
         ListItem(
