@@ -35,7 +35,6 @@ dependencies {
     api(project(":common"))
 
     api(libs.androidx.security.crypto)
-    api(libs.androidx.biometric)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
