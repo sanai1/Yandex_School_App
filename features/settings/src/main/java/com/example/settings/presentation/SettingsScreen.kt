@@ -20,12 +20,10 @@ fun SettingsScreen(
     onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit
 ) {
     val listTitles = listOf(
-        "Звуки",
-        "Хаптики",
+        "Вибрация",
         "Код пароль",
         "Синхронизация",
-        "Язык",
-        "О программе"
+        "Язык"
     )
     Column {
         ListItem(
@@ -73,5 +71,20 @@ fun SettingsScreen(
                 modifier = modifier.height(56.dp)
             )
         }
+        val showDialogBuildConfig = remember { mutableStateOf(false) }
+        if (showDialogBuildConfig.value) BuildConfigDialog(showDialogBuildConfig)
+        ListItem(
+            itemModelUI = ListItemModelUI(
+                picture = null,
+                title = "О программе",
+                description = null,
+                info = null,
+                typeListItem = TypeListItem.ARROW
+            ),
+            modifier = modifier.height(56.dp),
+            onClickDetails = {
+                showDialogBuildConfig.value = true
+            }
+        )
     }
 }
