@@ -8,7 +8,8 @@ import com.example.common.store.NamedStore
 import javax.inject.Inject
 
 class SettingsViewmodel @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val pinManager: PinManager
 ) : ViewModel() {
     val isDarkTheme: Boolean
         get() = sharedPreferences.getBoolean(NamedStore.DARK_THEME, false)
@@ -20,4 +21,6 @@ class SettingsViewmodel @Inject constructor(
     fun setPrimaryColor(newColor: AppTheme.PrimaryColorVariant) {
         sharedPreferences.edit { putString(NamedStore.PRIMARY_COLOR, newColor.name) }
     }
+
+    fun getPinManager() = pinManager
 }

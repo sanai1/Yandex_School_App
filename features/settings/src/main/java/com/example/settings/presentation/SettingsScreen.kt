@@ -20,7 +20,10 @@ fun SettingsScreen(
     onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit
 ) {
     val showSetPinScreen = remember { mutableStateOf(false) }
-    if (showSetPinScreen.value) SetPinScreen(showSetPinScreen)
+    if (showSetPinScreen.value) SetPinScreen(
+        pinManager = viewmodel.getPinManager(),
+        showSetPinScreen
+    )
     else Column {
         ListItem(
             itemModelUI = ListItemModelUI(

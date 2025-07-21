@@ -11,7 +11,7 @@ class PinManager @Inject constructor(context: Context) {
 
     private val sharedPreferences = EncryptedSharedPreferences.create(
         context,
-        "secure_pin_prefs",
+        SECURITY,
         MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
         EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
@@ -35,7 +35,6 @@ class PinManager @Inject constructor(context: Context) {
     }
 
     private fun hashPin(pin: String): String {
-        // Простое хеширование для примера, в реальном приложении используйте более надежные методы
         return pin.hashCode().toString()
     }
 

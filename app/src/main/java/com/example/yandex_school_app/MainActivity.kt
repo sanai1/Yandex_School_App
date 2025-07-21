@@ -102,7 +102,9 @@ class MainActivity : ComponentActivity() {
                 } else {
                     var showApp by remember { mutableStateOf(false) }
                     if (PinManager(LocalContext.current).pinIsSet()) {
-                        EnterPinScreen {
+                        EnterPinScreen(
+                            (mapViewModel[SettingsViewmodel::class] as SettingsViewmodel).getPinManager()
+                        ) {
                             showApp = true
                         }
                     } else {

@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -29,9 +28,9 @@ import com.example.settings.presentation.PinManager
 
 @Composable
 fun EnterPinScreen(
+    pinManager: PinManager,
     onPinCorrect: () -> Unit
 ) {
-    val pinManager = PinManager(LocalContext.current)
     var currentPin by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var attempts by remember { mutableIntStateOf(0) }
