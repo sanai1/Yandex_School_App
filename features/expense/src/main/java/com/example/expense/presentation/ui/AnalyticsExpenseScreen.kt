@@ -2,11 +2,17 @@ package com.example.expense.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.analytics.AmountAnalyticsItem
@@ -18,8 +24,8 @@ import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
 import com.example.expense.presentation.ExpenseViewModel
+import com.example.pie.PieChart
 import com.example.pie.PieChartData
-import com.example.pie.PieChartWithLegend
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -36,7 +42,9 @@ fun AnalyticsExpenseScreen(
     val endDate by viewModel.endDateAnalytics.collectAsStateWithLifecycle()
     when (transaction) {
         is VisibleData.Loading -> LoadingVisible()
-        is VisibleData.Success -> Column {
+        is VisibleData.Success -> Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
             StartDateAnalyticsItem(
                 startDate = startDate,
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -72,34 +80,37 @@ fun AnalyticsExpenseScreen(
                 } ${viewModel.getSelectedAccount().value.currency.symbol}",
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
             )
-            PieChartWithLegend(
+            PieChart(
                 data = listOf(
                     PieChartData(
                         value = 45f,
                         color = Color(0xFF4CAF50),
                         name = "Зеленый",
-                        description = "Продукты"
                     ),
                     PieChartData(
                         value = 30f,
                         color = Color(0xFF2196F3),
                         name = "Синий",
-                        description = "Транспорт"
                     ),
                     PieChartData(
                         value = 15f,
                         color = Color(0xFFFFC107),
                         name = "Желтый",
-                        description = "Развлечения"
-                    ),
+
+                        ),
                     PieChartData(
                         value = 10f,
                         color = Color(0xFFF44336),
                         name = "Красный",
-                        description = "Другое"
                     )
                 ),
             )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color.Gray)
+            ) {}
             ListAnalyticsTransaction(
                 transactions = (transaction as VisibleData.Success<List<TransactionDomain>>).data,
                 currency = viewModel.getSelectedAccount().value.currency,
