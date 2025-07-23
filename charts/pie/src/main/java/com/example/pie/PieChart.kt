@@ -1,85 +1,69 @@
 package com.example.pie
 
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun PieChart(
     data: List<PieChartData>,
-    radiusOuter: Float = 90f,
-    chartBarWidth: Float = 30f,
-    animDuration: Int = 1000,
+    modifier: Modifier = Modifier,
+    radius: Dp = 100.dp,
+    animationDuration: Int = 1000
 ) {
-    val total = data.sumOf { it.value.toDouble() }
-    val floatValue = mutableListOf<Float>()
-
-    data.forEachIndexed { index, _ ->
-        floatValue.add(index, 0f)
+    val total = data.sumOf { it.value.toDouble() }.toFloat()
+    val animatables = remember(data) {
+        data.map { Animatable(0f) }
+    }
+    val animatedValues = remember {
+        mutableStateListOf<Float>().apply {
+            addAll(List(data.size) { 0f })
+        }
     }
 
-    var animationPlayed by remember { mutableStateOf(false) }
-    var currentValue = 0f
-    val size = (radiusOuter * 2f).dp
-
-    LaunchedEffect(key1 = true) {
-        animationPlayed = true
-        data.forEachIndexed { index, pieData ->
-            animate(
-                initialValue = 0f,
-                targetValue = (pieData.value / total.toFloat()) * 360f,
-                animationSpec = tween(
-                    durationMillis = animDuration,
-                    delayMillis = index * (animDuration / 3),
-                    easing = LinearOutSlowInEasing
+    LaunchedEffect(data) {
+        data.forEachIndexed { index, item ->
+            launch {
+                animatables[index].animateTo(
+                    targetValue = item.value / total * 360f,
+                    animationSpec = tween(animationDuration)
                 )
-            ) { value, _ ->
-                floatValue[index] = value
-                currentValue = value
+                animatedValues[index] = animatables[index].value
             }
         }
     }
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(size)
+        modifier = modifier
     ) {
-        Canvas(modifier = Modifier.size(size)) {
+        Canvas(
+            modifier = Modifier
+                .size(radius * 2f)
+                .padding(16.dp)
+        ) {
             var startAngle = -90f
 
-            data.forEachIndexed { index, pieData ->
+            for (i in data.indices) {
+                val sweepAngle = animatedValues[i]
                 drawArc(
-                    color = pieData.color,
+                    color = data[i].color,
                     startAngle = startAngle,
-                    sweepAngle = floatValue[index],
-                    useCenter = false,
-                    style = Stroke(
-                        width = chartBarWidth,
-                        cap = StrokeCap.Round,
-                        join = StrokeJoin.Round
-                    ),
-                    size = Size(
-                        width = size.toPx(),
-                        height = size.toPx()
-                    )
+                    sweepAngle = sweepAngle,
+                    useCenter = true,
+                    size = Size(size.width, size.height),
+                    style = Fill
                 )
-                startAngle += floatValue[index]
+                startAngle += sweepAngle
             }
         }
     }

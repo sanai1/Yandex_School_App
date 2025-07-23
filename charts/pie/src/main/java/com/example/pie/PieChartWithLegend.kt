@@ -15,15 +15,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
 
 @Composable
 fun PieChartWithLegend(
     data: List<PieChartData>,
-    radiusOuter: Float = 90f,
-    chartBarWidth: Float = 30f,
-    animDuration: Int = 1000,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    radius: Dp = 100.dp,
+    animationDuration: Int = 1000,
+    legendTextStyle: TextStyle = TextStyle(fontSize = 14.sp)
 ) {
     Column(
         modifier = modifier,
@@ -31,20 +35,20 @@ fun PieChartWithLegend(
     ) {
         PieChart(
             data = data,
-            radiusOuter = radiusOuter,
-            chartBarWidth = chartBarWidth,
-            animDuration = animDuration
+            radius = radius,
+            animationDuration = animationDuration
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Legend(data)
+        Legend(data = data, textStyle = legendTextStyle)
     }
 }
 
 @Composable
 private fun Legend(
-    data: List<PieChartData>
+    data: List<PieChartData>,
+    textStyle: TextStyle
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -60,17 +64,28 @@ private fun Legend(
                         .background(item.color)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "${item.name}: ${item.value}",
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                if (item.description.isNotEmpty()) {
-                    Spacer(modifier = Modifier.width(8.dp))
+                Column {
                     Text(
-                        text = item.description,
+                        text = item.name,
+                        style = textStyle,
                         color = MaterialTheme.colorScheme.onBackground
                     )
+                    if (item.description.isNotEmpty()) {
+                        Text(
+                            text = item.description,
+                            style = textStyle.copy(
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                                fontSize = 12.sp
+                            )
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "${item.value}",
+                    style = textStyle,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
         }
     }
