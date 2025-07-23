@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.analytics.AmountAnalyticsItem
@@ -17,6 +18,8 @@ import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
 import com.example.expense.presentation.ExpenseViewModel
+import com.example.pie.PieChartData
+import com.example.pie.PieChartWithLegend
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -68,6 +71,34 @@ fun AnalyticsExpenseScreen(
                     }.reversed()
                 } ${viewModel.getSelectedAccount().value.currency.symbol}",
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
+            )
+            PieChartWithLegend(
+                data = listOf(
+                    PieChartData(
+                        value = 45f,
+                        color = Color(0xFF4CAF50),
+                        name = "Зеленый",
+                        description = "Продукты"
+                    ),
+                    PieChartData(
+                        value = 30f,
+                        color = Color(0xFF2196F3),
+                        name = "Синий",
+                        description = "Транспорт"
+                    ),
+                    PieChartData(
+                        value = 15f,
+                        color = Color(0xFFFFC107),
+                        name = "Желтый",
+                        description = "Развлечения"
+                    ),
+                    PieChartData(
+                        value = 10f,
+                        color = Color(0xFFF44336),
+                        name = "Красный",
+                        description = "Другое"
+                    )
+                ),
             )
             ListAnalyticsTransaction(
                 transactions = (transaction as VisibleData.Success<List<TransactionDomain>>).data,
