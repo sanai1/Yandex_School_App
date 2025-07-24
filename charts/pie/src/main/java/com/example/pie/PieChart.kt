@@ -17,6 +17,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -76,18 +77,27 @@ fun PieChart(
                 startAngle += sweepAngle
             }
         }
-        Legend(data, colors)
+        Legend(
+            data = data,
+            radius = radius,
+            colors = colors
+        )
     }
 }
 
 @Composable
 private fun Legend(
     data: List<PieChartData>,
+    radius: Dp,
     colors: List<Color>
 ) {
-    Column {
-        data.forEachIndexed { index, item ->
+    Column(
+        modifier = Modifier.height(radius * 1.6f),
+        verticalArrangement = Arrangement.Center
+    ) {
+        data.take(7).forEachIndexed { index, item ->
             Row(
+                modifier = Modifier.width(radius * 1.5f),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -104,10 +114,21 @@ private fun Legend(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = item.name,
-                    color = MaterialTheme.colorScheme.onBackground
+                    text = item.name.take(10).let {
+                        if (item.name.length > 10) "$it..." else it
+                    },
+                    color = MaterialTheme.colorScheme.onBackground,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
                 )
             }
+        }
+        if (data.size > 7) {
+            Text(
+                text = "...",
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+            )
         }
     }
 }

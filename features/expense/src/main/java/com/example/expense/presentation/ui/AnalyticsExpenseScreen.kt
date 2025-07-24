@@ -86,21 +86,29 @@ fun AnalyticsExpenseScreen(
                 data = (transaction as VisibleData.Success<List<TransactionDomain>>).data.groupBy { it.categoryDomain.id }
                     .map { (_, value) ->
                         PieChartData(
-                            value = value.sumOf { it.amount.toDoubleOrNull() ?: 0.0 }.toFloat(),
+                            value = amount.let { it ->
+                                if (it == 0.0) 0.0 else (value.sumOf {
+                                    it.amount.toDoubleOrNull() ?: 0.0
+                                } / amount) * 100
+                            }.toFloat(),
                             name = value[0].categoryDomain.name
                         )
-                    },
+                    }.sortedByDescending { it.value },
                 colors = listOf(
-                    Color(0xFFA2D2FF),
-                    Color(0xFFBDE0FE),
-                    Color(0xFFCDB4DB),
-                    Color(0xFFFFC8DD),
-                    Color(0xFFFFAFCC),
-                    Color(0xFFB5EAD7),
-                    Color(0xFFC7F9CC),
-                    Color(0xFFE2F0CB),
-                    Color(0xFFFFDAC1),
-                    Color(0xFFFFF3B0)
+                    Color(0xFFE63946),
+                    Color(0xFFFF5A5F),
+                    Color(0xFFF94144),
+                    Color(0xFFF3722C),
+                    Color(0xFFF8961E),
+                    Color(0xFFF9844A),
+                    Color(0xFFF9C74F),
+                    Color(0xFFD4A373),
+                    Color(0xFFBC6C25),
+                    Color(0xFFAE2012),
+                    Color(0xFF9B2226),
+                    Color(0xFFB5838D),
+                    Color(0xFF6D6875),
+                    Color(0xFF4A4E69)
                 )
             )
             Row(
