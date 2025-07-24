@@ -29,6 +29,8 @@ import com.example.pie.PieChartData
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @Composable
 fun AnalyticsExpenseScreen(
@@ -81,29 +83,25 @@ fun AnalyticsExpenseScreen(
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
             )
             PieChart(
-                data = listOf(
-                    PieChartData(
-                        value = 45f,
-                        color = Color(0xFF4CAF50),
-                        name = "Зеленый",
-                    ),
-                    PieChartData(
-                        value = 30f,
-                        color = Color(0xFF2196F3),
-                        name = "Синий",
-                    ),
-                    PieChartData(
-                        value = 15f,
-                        color = Color(0xFFFFC107),
-                        name = "Желтый",
-
-                        ),
-                    PieChartData(
-                        value = 10f,
-                        color = Color(0xFFF44336),
-                        name = "Красный",
-                    )
-                ),
+                data = (transaction as VisibleData.Success<List<TransactionDomain>>).data.groupBy { it.categoryDomain.id }
+                    .map { (_, value) ->
+                        PieChartData(
+                            value = value.sumOf { it.amount.toDoubleOrNull() ?: 0.0 }.toFloat(),
+                            name = value[0].categoryDomain.name
+                        )
+                    },
+                colors = listOf(
+                    Color(0xFFA2D2FF),
+                    Color(0xFFBDE0FE),
+                    Color(0xFFCDB4DB),
+                    Color(0xFFFFC8DD),
+                    Color(0xFFFFAFCC),
+                    Color(0xFFB5EAD7),
+                    Color(0xFFC7F9CC),
+                    Color(0xFFE2F0CB),
+                    Color(0xFFFFDAC1),
+                    Color(0xFFFFF3B0)
+                )
             )
             Row(
                 modifier = Modifier
