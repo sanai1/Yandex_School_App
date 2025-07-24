@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -16,9 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.bar.BarChart
+import com.example.bar.BarChartData
 import com.example.common.domain.entity.account.Currency
 import com.example.cash_account.R
 import com.example.common.domain.entity.ListItemModelUI
@@ -65,6 +65,14 @@ fun CashAccountScreen(
                 .background(MaterialTheme.colorScheme.secondary),
             onClickDetails = {
                 visibleBottomSheet = TypeModalBottomSheet.CURRENCY
+            }
+        )
+        BarChart(
+            data = List(30) { index ->
+                BarChartData(
+                    value = (0..1000).random().toFloat(),
+                    isIncome = index % 3 == 0
+                )
             }
         )
         if (visibleBottomSheet != TypeModalBottomSheet.NONE) {
@@ -127,7 +135,6 @@ fun CashAccountScreen(
                 }
             }
         }
-        Icon(painter = painterResource(R.drawable.diagram), contentDescription = "")
     }
 }
 

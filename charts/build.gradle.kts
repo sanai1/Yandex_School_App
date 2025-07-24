@@ -29,5 +29,5 @@ android {
 
 dependencies {
     api(project(":charts:pie"))
-    api(project(":charts:line"))
+    api(project(":charts:bar"))
 }
