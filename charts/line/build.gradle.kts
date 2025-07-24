@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.charts"
+    namespace = "com.example.line"
     compileSdk = 35
 
     defaultConfig {
@@ -28,6 +28,10 @@ android {
 }
 
 dependencies {
-    api(project(":charts:pie"))
-    api(project(":charts:line"))
+    implementation(libs.androidx.core.ktx)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
 }
