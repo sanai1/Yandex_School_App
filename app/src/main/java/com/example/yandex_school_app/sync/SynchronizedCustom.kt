@@ -1,7 +1,6 @@
 package com.example.yandex_school_app.sync
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.core.content.edit
 import com.example.cash_account.data.datasource.local.AccountLocalDataSource
 import com.example.cash_account.data.datasource.remote.AccountRemoteDataSource
@@ -46,7 +45,6 @@ class SynchronizedCustom @Inject constructor(
                 startDate = "1900-01-01",
                 finishDate = "2150-01-01"
             ).body?.forEach { transactionDomain ->
-                Log.i("QQ", transactionDomain.toString())
                 transactionLocalDataSource.createTransaction(
                     transactionMapper.toTransactionPathDomain(
                         transactionDomain = transactionDomain,

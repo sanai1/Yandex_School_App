@@ -19,9 +19,18 @@ class TransactionRepositoryImpl @Inject constructor(
 ) : TransactionRepository {
     override suspend fun getTransactionByPeriod(
         start: LocalDateTime,
-        finish: LocalDateTime
+        finish: LocalDateTime,
+        accountId: Int
     ): ResponseTemplate<List<TransactionDomain>> {
-        return transactionLocalDataSource.getTransactionByPeriod(start, finish)
+        return if (accountId == 0) {
+            transactionLocalDataSource.getTransactionByPeriod(start, finish)
+        } else {
+            transactionLocalDataSource.getTransactionByPeriodWithAccountId(
+                start,
+                finish,
+                accountId
+            )
+        }
     }
 
     override suspend fun createTransaction(transaction: TransactionPartDomain): ResponseTemplate<Unit> {

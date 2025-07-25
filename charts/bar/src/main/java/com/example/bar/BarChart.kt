@@ -28,8 +28,8 @@ fun BarChart(
     modifier: Modifier = Modifier,
     cornerRadius: Float = 8f
 ) {
-    if (data.isEmpty()) {
-        Text("Данные отсутствуют", color = MaterialTheme.colorScheme.onBackground)
+    if (data.size < 30 || data.map { it.value }.toSet() == setOf(1f)) {
+        Text("Недостаточно данных", color = MaterialTheme.colorScheme.onBackground)
         return
     }
 
@@ -76,7 +76,8 @@ fun BarChart(
         ) {
             val nowDate = LocalDate.now()
             Text(
-                nowDate.let { it -> "${it.dayOfMonth.let { if (it in 0..9) "0$it" else it }}.${it.monthValue.let { if (it in 0..9) "0$it" else it }}" },
+                nowDate.minusDays(data.size.toLong())
+                    .let { it -> "${it.dayOfMonth.let { if (it in 0..9) "0$it" else it }}.${it.monthValue.let { if (it in 0..9) "0$it" else it }}" },
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 9.sp
             )
@@ -89,8 +90,7 @@ fun BarChart(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                nowDate.minusDays(data.size.toLong())
-                    .let { it -> "${it.dayOfMonth.let { if (it in 0..9) "0$it" else it }}.${it.monthValue.let { if (it in 0..9) "0$it" else it }}" },
+                nowDate.let { it -> "${it.dayOfMonth.let { if (it in 0..9) "0$it" else it }}.${it.monthValue.let { if (it in 0..9) "0$it" else it }}" },
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 9.sp
             )

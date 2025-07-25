@@ -8,7 +8,8 @@ import java.time.LocalDateTime
 interface TransactionRepository {
     suspend fun getTransactionByPeriod(
         start: LocalDateTime,
-        finish: LocalDateTime
+        finish: LocalDateTime,
+        accountId: Int
     ): ResponseTemplate<List<TransactionDomain>>
 
     suspend fun createTransaction(

@@ -12,10 +12,12 @@ class TransactionUseCase @Inject constructor(
 ) {
     suspend fun getTransactionsByPeriod(
         start: LocalDate = LocalDate.now(),
-        finish: LocalDate = start
+        finish: LocalDate = start,
+        accountId: Int = 0
     ) = transactionRepository.getTransactionByPeriod(
         LocalDateTime.of(start, LocalTime.MIN),
-        LocalDateTime.of(finish, LocalTime.MAX)
+        LocalDateTime.of(finish, LocalTime.MAX),
+        accountId
     )
 
     suspend fun createTransaction(

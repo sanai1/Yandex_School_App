@@ -8,15 +8,20 @@ import com.example.common.store.AccountStore
 import com.example.common.domain.entity.account.AccountDomain
 import com.example.common.domain.usecase.AccountUseCase
 import com.example.common.domain.entity.account.Currency
+import com.example.common.domain.entity.transaction.TransactionDomain
+import com.example.common.domain.usecase.TransactionUseCase
+import com.example.common.presentation.base_visible.VisibleData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
     private val accountUseCase: AccountUseCase,
+    private val transactionUseCase: TransactionUseCase,
     private val accountManager: AccountStore
 ) : ViewModel() {
     init {
@@ -24,7 +29,10 @@ class AccountViewModel @Inject constructor(
     }
 
     private val _allAccount = MutableStateFlow<List<AccountDomain>>(emptyList())
+    private val _transactions =
+        MutableStateFlow<VisibleData<List<TransactionDomain>>>(VisibleData.Loading())
     val allAccount: StateFlow<List<AccountDomain>> = _allAccount.asStateFlow()
+    val transactions: StateFlow<VisibleData<List<TransactionDomain>>> = _transactions.asStateFlow()
 
     fun updateAllAccount() = viewModelScope.launch(Dispatchers.IO) {
         val response = accountUseCase.getAllCashAccount()
@@ -51,6 +59,22 @@ class AccountViewModel @Inject constructor(
     fun setSelectedAccountById(newIdAccount: String) {
         allAccount.value.find { it.id.toString() == newIdAccount }?.let {
             accountManager.setSelectedAccount(it)
+        }
+        updateTransactions()
+    }
+
+    fun updateTransactions() = viewModelScope.launch {
+        val response = transactionUseCase.getTransactionsByPeriod(
+            start = LocalDate.now().minusDays(30),
+            finish = LocalDate.now(),
+            accountId = getSelectedAccount().value.localId.toInt()
+        )
+        when (response.typeResponse) {
+            ResponseTemplate.TypeResponse.SUCCESS ->
+                _transactions.value = response.body?.let { VisibleData.Success(it) }
+                    ?: VisibleData.Success(emptyList())
+
+            else -> _transactions.value = VisibleData.Error(response.typeResponse)
         }
     }
 

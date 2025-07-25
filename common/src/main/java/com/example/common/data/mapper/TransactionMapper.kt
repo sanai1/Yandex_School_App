@@ -64,8 +64,8 @@ class TransactionMapper @Inject constructor(
             comment = transactionPartDomain.comment,
             createdAt = transactionPartDomain.createdAt ?: LocalDateTime.now(),
             updatedAt = transactionPartDomain.updatedAt ?: LocalDateTime.now(),
-            categoryId = transactionPartDomain.categoryId.toLong(),
-            accountId = transactionPartDomain.accountId.toLong()
+            categoryId = transactionPartDomain.categoryLocalId.toLong(),
+            accountId = transactionPartDomain.accountLocalId.toLong()
         )
 
     fun toTransactionPathDomain(transactionNetwork: TransactionRequestNetwork) =
