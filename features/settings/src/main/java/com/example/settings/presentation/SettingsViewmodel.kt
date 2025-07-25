@@ -23,4 +23,6 @@ class SettingsViewmodel @Inject constructor(
     }
 
     fun getPinManager() = pinManager
+
+    fun getTimeSync() = sharedPreferences.getLong(NamedStore.TIME_SYNC_COUNT, 2)
 }

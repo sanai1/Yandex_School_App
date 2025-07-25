@@ -36,7 +36,7 @@ import com.example.income.presentation.ui.HistoryIncomeScreen
 import com.example.income.presentation.ui.IncomeScreen
 import com.example.income.presentation.IncomeViewModel
 import com.example.income.presentation.ui.AnalyticsIncomeScreen
-import com.example.settings.presentation.SettingsScreen
+import com.example.settings.presentation.ui.SettingsScreen
 import com.example.navigation.BottomNavigationBarCustom
 import com.example.navigation.NavigationCustomItem
 import com.example.navigation.ScreenName
@@ -50,7 +50,8 @@ fun MainScreen(
     selectedItem: NavigationCustomItem,
     modifier: Modifier = Modifier,
     onChangeTheme: (Boolean) -> Unit = {},
-    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit = {}
+    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit = {},
+    onChangeTimeSync: (Long) -> Unit = {}
 ) {
     val isAddAccountClicked = remember { mutableStateOf(false) }
     val isExpenseClicked = remember { mutableStateOf(false) }
@@ -129,7 +130,8 @@ fun MainScreen(
                     modifier,
                     (LocalContext.current as MainActivity).mapViewModel[SettingsViewmodel::class] as SettingsViewmodel,
                     onChangeTheme = onChangeTheme,
-                    onChangePrimaryColor = onChangePrimaryColor
+                    onChangePrimaryColor = onChangePrimaryColor,
+                    onChangeTimeSync = onChangeTimeSync
                 )
 
                 is NavigationCustomItem.HistoryExpense -> HistoryExpenseScreen(

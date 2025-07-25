@@ -1,4 +1,4 @@
-package com.example.settings.presentation
+package com.example.settings.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.settings.presentation.PinManager
 
 @Composable
 fun SetPinScreen(

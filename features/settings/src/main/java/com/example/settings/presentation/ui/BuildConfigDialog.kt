@@ -1,6 +1,7 @@
-package com.example.settings.presentation
+package com.example.settings.presentation.ui
 
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -17,7 +18,7 @@ fun BuildConfigDialog(
 ) {
     val context = LocalContext.current
     val packageInfo = try {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.getPackageInfo(
                 context.packageName, PackageManager.PackageInfoFlags.of(0)
             )

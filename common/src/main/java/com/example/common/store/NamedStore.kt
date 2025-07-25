@@ -9,4 +9,5 @@ object NamedStore {
     const val DARK_THEME = "dark_theme"
     const val PRIMARY_COLOR = "primary_color"
     const val PIN_CODE = "pin_code"
+    const val TIME_SYNC_COUNT = "time_sync_count"
 }

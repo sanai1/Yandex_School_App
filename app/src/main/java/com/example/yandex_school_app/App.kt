@@ -13,7 +13,8 @@ import com.example.common.store.AppTheme
 @Composable
 fun App(
     onChangeTheme: (Boolean) -> Unit,
-    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit
+    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit,
+    onChangeTimeSync: (Long) -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -38,7 +39,8 @@ fun App(
                 navController,
                 items[ScreenName.SETTINGS]!!,
                 onChangeTheme = onChangeTheme,
-                onChangePrimaryColor = onChangePrimaryColor
+                onChangePrimaryColor = onChangePrimaryColor,
+                onChangeTimeSync = onChangeTimeSync
             )
         }
         composable(ScreenName.HISTORY_EXPENSE) {

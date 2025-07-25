@@ -1,4 +1,4 @@
-package com.example.settings.presentation
+package com.example.settings.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -11,13 +11,15 @@ import com.example.common.domain.entity.ListItemModelUI
 import com.example.common.presentation.list.ListItem
 import com.example.common.presentation.list.TypeListItem
 import com.example.common.store.AppTheme
+import com.example.settings.presentation.SettingsViewmodel
 
 @Composable
 fun SettingsScreen(
     modifier: Modifier,
     viewmodel: SettingsViewmodel,
     onChangeTheme: (Boolean) -> Unit,
-    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit
+    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit,
+    onChangeTimeSync: (Long) -> Unit
 ) {
     val showSetPinScreen = remember { mutableStateOf(false) }
     if (showSetPinScreen.value) SetPinScreen(
@@ -81,6 +83,12 @@ fun SettingsScreen(
                 showSetPinScreen.value = true
             }
         )
+        val showDialogChangeTimeSync = remember { mutableStateOf(false) }
+        if (showDialogChangeTimeSync.value) ChangeTimeSyncDialog(
+            dialogState = showDialogChangeTimeSync,
+            currentHours = viewmodel.getTimeSync(),
+            onChangeNewHours = onChangeTimeSync
+        )
         ListItem(
             itemModelUI = ListItemModelUI(
                 picture = null,
@@ -89,7 +97,10 @@ fun SettingsScreen(
                 info = null,
                 typeListItem = TypeListItem.ARROW
             ),
-            modifier = modifier.height(56.dp)
+            modifier = modifier.height(56.dp),
+            onClickDetails = {
+                showDialogChangeTimeSync.value = true
+            }
         )
         ListItem(
             itemModelUI = ListItemModelUI(
