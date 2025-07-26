@@ -8,9 +8,14 @@ import com.example.navigation.ScreenName
 import com.example.navigation.items
 import com.example.navigation.secondaryItems
 import com.example.common.presentation.toast.ToastMessage
+import com.example.common.store.AppTheme
 
 @Composable
-fun App() {
+fun App(
+    onChangeTheme: (Boolean) -> Unit,
+    onChangePrimaryColor: (AppTheme.PrimaryColorVariant) -> Unit,
+    onChangeTimeSync: (Long) -> Unit
+) {
     val navController = rememberNavController()
 
     NavHost(
@@ -32,7 +37,10 @@ fun App() {
         composable(ScreenName.SETTINGS) {
             MainScreen(
                 navController,
-                items[ScreenName.SETTINGS]!!
+                items[ScreenName.SETTINGS]!!,
+                onChangeTheme = onChangeTheme,
+                onChangePrimaryColor = onChangePrimaryColor,
+                onChangeTimeSync = onChangeTimeSync
             )
         }
         composable(ScreenName.HISTORY_EXPENSE) {

@@ -60,7 +60,7 @@ fun ListItem(
     onClickDate: ((String) -> Unit)? = null,
     onClickTime: ((String) -> Unit)? = null,
     onClickDetails: (() -> Unit)? = null,
-    onClickChangeTheme: (Boolean) -> Unit = {},
+    onClickChangeTheme: ((Boolean) -> Unit)? = null,
     isDarkTheme: Boolean = false
 ) {
     Column {
@@ -189,7 +189,7 @@ fun TextButtonDate(info: String, isAnalytics: Boolean, onClickDate: ((String) ->
                 onClickDate?.run { showDatePicker.value = true }
             }
         ) {
-            Text(formattingDate.invoke(info), color = MaterialTheme.colorScheme.onBackground)
+            Text(formattingDate.invoke(info), color = MaterialTheme.colorScheme.onPrimary)
         }
     } else {
         TextButton(

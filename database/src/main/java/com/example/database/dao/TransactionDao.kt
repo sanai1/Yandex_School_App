@@ -30,6 +30,19 @@ interface TransactionDao {
         endDate: LocalDateTime,
     ): List<TransactionWithRelations>
 
+    @Query(
+        """
+        SELECT * FROM transactions
+        WHERE (transactionDate BETWEEN :startDate AND :endDate) AND accountId = :accountId
+        ORDER BY transactionDate DESC
+    """
+    )
+    suspend fun getAllByPeriodWithAccountId(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime,
+        accountId: Int
+    ): List<TransactionWithRelations>
+
     @Update
     suspend fun update(transactionModelDB: TransactionModelDB)
 

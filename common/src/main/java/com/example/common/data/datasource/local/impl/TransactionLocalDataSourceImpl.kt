@@ -31,6 +31,27 @@ class TransactionLocalDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTransactionByPeriodWithAccountId(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime,
+        accountId: Int
+    ): ResponseTemplate<List<TransactionDomain>> {
+        return try {
+            ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.SUCCESS,
+                body = transactionDao.getAllByPeriodWithAccountId(startDate, endDate, accountId)
+                    .map {
+                        transactionMapper.toTransactionDomain(it)
+                    }
+            )
+        } catch (_: Exception) {
+            ResponseTemplate(
+                typeResponse = ResponseTemplate.TypeResponse.ERROR_CLIENT,
+                body = null
+            )
+        }
+    }
+
     override suspend fun createTransaction(
         transactionPartDomain: TransactionPartDomain,
         remoteId: Int

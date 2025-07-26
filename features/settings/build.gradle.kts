@@ -34,6 +34,8 @@ android {
 dependencies {
     api(project(":common"))
 
+    api(libs.androidx.security.crypto)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

@@ -2,10 +2,17 @@ package com.example.expense.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.common.domain.entity.transaction.TransactionDomain
 import com.example.common.presentation.analytics.AmountAnalyticsItem
@@ -17,9 +24,13 @@ import com.example.common.presentation.base_visible.LoadingVisible
 import com.example.common.presentation.base_visible.VisibleData
 import com.example.common.presentation.toast.ToastController
 import com.example.expense.presentation.ExpenseViewModel
+import com.example.pie.PieChart
+import com.example.pie.PieChartData
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @Composable
 fun AnalyticsExpenseScreen(
@@ -33,7 +44,9 @@ fun AnalyticsExpenseScreen(
     val endDate by viewModel.endDateAnalytics.collectAsStateWithLifecycle()
     when (transaction) {
         is VisibleData.Loading -> LoadingVisible()
-        is VisibleData.Success -> Column {
+        is VisibleData.Success -> Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
             StartDateAnalyticsItem(
                 startDate = startDate,
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
@@ -69,6 +82,41 @@ fun AnalyticsExpenseScreen(
                 } ${viewModel.getSelectedAccount().value.currency.symbol}",
                 modifier = modifier.background(MaterialTheme.colorScheme.background)
             )
+            PieChart(
+                data = (transaction as VisibleData.Success<List<TransactionDomain>>).data.groupBy { it.categoryDomain.id }
+                    .map { (_, value) ->
+                        PieChartData(
+                            value = amount.let { it ->
+                                if (it == 0.0) 0.0 else (value.sumOf {
+                                    it.amount.toDoubleOrNull() ?: 0.0
+                                } / amount) * 100
+                            }.toFloat(),
+                            name = value[0].categoryDomain.name
+                        )
+                    }.sortedByDescending { it.value },
+                colors = listOf(
+                    Color(0xFFE63946),
+                    Color(0xFFFF5A5F),
+                    Color(0xFFF94144),
+                    Color(0xFFF3722C),
+                    Color(0xFFF8961E),
+                    Color(0xFFF9844A),
+                    Color(0xFFF9C74F),
+                    Color(0xFFD4A373),
+                    Color(0xFFBC6C25),
+                    Color(0xFFAE2012),
+                    Color(0xFF9B2226),
+                    Color(0xFFB5838D),
+                    Color(0xFF6D6875),
+                    Color(0xFF4A4E69)
+                )
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color.Gray)
+            ) {}
             ListAnalyticsTransaction(
                 transactions = (transaction as VisibleData.Success<List<TransactionDomain>>).data,
                 currency = viewModel.getSelectedAccount().value.currency,

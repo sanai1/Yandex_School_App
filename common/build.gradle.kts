@@ -36,6 +36,7 @@ android {
 dependencies {
     api(project(":network"))
     api(project(":database"))
+    api(project(":charts"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

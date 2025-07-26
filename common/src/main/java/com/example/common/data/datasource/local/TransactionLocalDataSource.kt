@@ -11,6 +11,12 @@ interface TransactionLocalDataSource {
         endDate: LocalDateTime
     ): ResponseTemplate<List<TransactionDomain>>
 
+    suspend fun getTransactionByPeriodWithAccountId(
+        startDate: LocalDateTime,
+        endDate: LocalDateTime,
+        accountId: Int
+    ): ResponseTemplate<List<TransactionDomain>>
+
     suspend fun createTransaction(
         transactionPartDomain: TransactionPartDomain,
         remoteId: Int

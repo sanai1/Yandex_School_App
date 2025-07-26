@@ -70,8 +70,10 @@ fun DetailsIncomeScreen(
                 if (transactionDomain == null) {
                     viewModel.createTransaction(
                         TransactionPartDomain(
-                            accountId = account!!.localId.toInt(),
-                            categoryId = category!!.localId.toInt(),
+                            accountId = account!!.id,
+                            accountLocalId = account!!.localId.toInt(),
+                            categoryId = category!!.id,
+                            categoryLocalId = category!!.localId.toInt(),
                             amount = amount,
                             transactionDate = LocalDateTime.of(date, time),
                             comment = comment
@@ -81,8 +83,10 @@ fun DetailsIncomeScreen(
                     viewModel.updateTransaction(
                         transactionId = transactionDomain.id,
                         transactionPartDomain = TransactionPartDomain(
-                            accountId = account!!.localId.toInt(),
-                            categoryId = category!!.localId.toInt(),
+                            accountId = account!!.id,
+                            accountLocalId = account!!.localId.toInt(),
+                            categoryId = category!!.id,
+                            categoryLocalId = category!!.localId.toInt(),
                             amount = amount,
                             transactionDate = LocalDateTime.of(date, time),
                             comment = comment
