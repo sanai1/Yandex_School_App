@@ -99,7 +99,9 @@ class TransactionMapper @Inject constructor(
     ) = TransactionPartDomain(
         id = transactionDomain.id,
         accountId = accountId,
+        accountLocalId = accountId,
         categoryId = categoryId,
+        categoryLocalId = categoryId,
         amount = transactionDomain.amount,
         transactionDate = transactionDomain.transactionDate,
         comment = transactionDomain.comment ?: "",
